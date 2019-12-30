@@ -1,14 +1,14 @@
-## Quick start - BETA v1.3.2
+## QUICK START - BETA v1.4.8
 
-### install dependencies
+### Install dependencies
 
 `npm install`
 
-### serve with hot reload at localhost:8080
+### Serve with hot reload at localhost:8080
 
 `npm run dev`
 
-### build for production with minification
+### Build for production with minification
 
 `npm run build`
 
@@ -18,7 +18,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 The documentation for the Vue Material Dashboard is hosted at our [website](https://demos.creative-tim.com/vue-material-dashboard/documentation).
 
-## File Structure
+## File Structure (Outdated)\*
 
 Within the download you'll find the following directories and files:
 
@@ -82,6 +82,37 @@ vue-material-dashboard
     └── routes
         └── routes.js
 ```
+
+## Change logs:
+
+## [1.4.8] 2019-12-30
+
+### Dependencies Updates
+
+-   Updated all out of date dependencies from `package.json` file
+-   Added customers layout design and create new customer design layout
+-   Added contract design with create contract support
+
+## [1.3.2] 2019-12-28
+
+### Dependencies Updates, Vue Material Update
+
+-   Updated all out of date dependencies from `package.json` file
+-   Added agents pages design and create agent design
+-   Added admin users design and create users design
+
+## [1.2.0] 2019-12-27
+
+### Dependencies Updates and BugFixing
+
+-   Updated all out of date dependencies from `package.json` file
+-   Updated all the npm packages
+-   Scroll issue on mobile devices fixed
+-   Another small bug fixes
+
+## [1.0.0] 2019-12-26
+
+-   Initial Release
 
 ## Browser Support
 

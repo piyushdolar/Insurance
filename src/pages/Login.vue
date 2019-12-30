@@ -16,40 +16,17 @@
 								<div class="md-layout-item md-size-100 md-small-size-100">
 									<md-field :class="getValidationClass('email')">
 										<label for="email">Email</label>
-										<md-input
-											type="email"
-											name="email"
-											id="email"
-											autocomplete="email"
-											v-model="form.email"
-											:disabled="sending"
-										/>
-										<span class="md-error" v-if="!$v.form.email.required"
-											>The email is required</span
-										>
-										<span class="md-error" v-else-if="!$v.form.email.email"
-											>Invalid email</span
-										>
+										<md-input type="email" name="email" id="email" autocomplete="email" v-model="form.email" :disabled="sending" />
+										<span class="md-error" v-if="!$v.form.email.required">The email is required</span>
+										<span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
 									</md-field>
 								</div>
 								<div class="md-layout-item md-size-100 md-small-size-100">
 									<md-field :class="getValidationClass('password')">
 										<label for="password">Password</label>
-										<md-input
-											name="password"
-											id="password"
-											type="password"
-											v-model="form.password"
-											:disabled="sending"
-										/>
-										<span class="md-error" v-if="!$v.form.password.required"
-											>The password is required</span
-										>
-										<span
-											class="md-error"
-											v-else-if="!$v.form.password.minlength"
-											>Invalid password</span
-										>
+										<md-input name="password" id="password" type="password" v-model="form.password" :disabled="sending" />
+										<span class="md-error" v-if="!$v.form.password.required">The password is required</span>
+										<span class="md-error" v-else-if="!$v.form.password.minlength">Invalid password</span>
 									</md-field>
 								</div>
 
@@ -65,9 +42,7 @@
 								</div>
 
 								<div class="md-layout-item md-size-100 md-small-size-100">
-									<md-button type="submit" class="md-primary" :disabled="sending"
-										>Login</md-button
-									>
+									<md-button type="submit" class="md-primary" :disabled="sending">Login</md-button>
 								</div>
 							</div>
 						</form>
@@ -144,6 +119,29 @@ export default {
 				.catch(e => {
 					this.errors.push(e);
 				});
+
+			/* axios
+				.post(`http://119.8.40.98/api/users/login`, {
+					email: this.form.email,
+					password: this.form.password
+				})
+				.then(response => {
+					console.log("Response:", response);
+					this.sending = false;
+					this.clearForm();
+					// this.$session.set("token", "Awesome");
+					// this.$router.push("/dashboard");
+				})
+				.catch(e => {
+					this.sending = false;
+					this.$notify({
+						message: e.response.data.error,
+						icon: "add_alert",
+						verticalAlign: "top",
+						horizontalAlign: "right",
+						type: "danger"
+					});
+				}); */
 		},
 		validateUser() {
 			this.$v.$touch();

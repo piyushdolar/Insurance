@@ -4,7 +4,7 @@
 			<!-- dialog with button -->
 			<div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
 				<md-dialog :md-active.sync="showDialog">
-					<md-dialog-title>CREATE NEW AGENT</md-dialog-title>
+					<md-dialog-title>CREATE NEW USER</md-dialog-title>
 					<form novalidate @submit.prevent="validateUser">
 						<md-dialog-content>
 							<div class="md-layout md-gutter">
@@ -83,20 +83,20 @@
 						</md-dialog-actions>
 					</form>
 				</md-dialog>
-				<md-button class="md-primary pull-right" @click="showDialog = true"><md-icon>add</md-icon> Add Agent</md-button>
+				<md-button class="md-primary pull-right" @click="showDialog = true"><md-icon>add</md-icon> Add User</md-button>
 			</div>
 			<!-- TABLE LISTING OF AGENTS -->
 			<div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
 				<md-card>
 					<md-card-header data-background-color="green">
-						<h4 class="title">Agent's Database</h4>
-						<p class="category">Here you can find and see every agents details</p>
+						<h4 class="title">User's Database</h4>
+						<p class="category">Here you can find and see every user's details</p>
 					</md-card-header>
 					<md-card-content>
 						<md-table v-model="searched" md-sort="name" md-sort-order="asc" md-card md-fixed-header>
 							<md-table-toolbar>
 								<div class="md-toolbar-section-start">
-									<h1 class="md-title">Agents</h1>
+									<h1 class="md-title">Users</h1>
 								</div>
 
 								<md-field md-clearable class="md-toolbar-section-end">
@@ -104,7 +104,7 @@
 								</md-field>
 							</md-table-toolbar>
 
-							<md-table-empty-state md-label="No agent found" :md-description="`No agent found for this '${search}' query. Try a different search term or create a new agent.`">
+							<md-table-empty-state md-label="No users found" :md-description="`No user found for this '${search}' query. Try a different search term or create a new user.`">
 								<md-button class="md-primary md-raised" @click="newUser">Create New User</md-button>
 							</md-table-empty-state>
 
@@ -231,7 +231,7 @@ export default {
 				this.saveUser();
 			}
 		},
-		async fetchAllAgents() {
+		async fetchAllUsers() {
 			let data = await axios.get(`http://jsonplaceholder.typicode.com/users`);
 			for (let i = 0; i < data.data.length; i++) {
 				this.users.push({
@@ -247,7 +247,7 @@ export default {
 	},
 	created() {
 		this.searched = this.users;
-		this.fetchAllAgents();
+		this.fetchAllUsers();
 	}
 };
 </script>

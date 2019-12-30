@@ -8,7 +8,7 @@
 				<md-icon>dashboard</md-icon>
 				<p>Dashboard</p>
 			</sidebar-link>
-			<sidebar-link to="/table">
+			<sidebar-link to="/users">
 				<md-icon>verified_user</md-icon>
 				<p>Admin Users</p>
 			</sidebar-link>
@@ -16,13 +16,13 @@
 				<md-icon>accessibility_new</md-icon>
 				<p>Agents</p>
 			</sidebar-link>
-			<sidebar-link to="/typography">
+			<sidebar-link to="/customers">
 				<md-icon>emoji_people</md-icon>
 				<p>Customers</p>
 			</sidebar-link>
-			<sidebar-link to="/icons">
-				<md-icon>bubble_chart</md-icon>
-				<p>Icons</p>
+			<sidebar-link to="/contracts">
+				<md-icon>assignment</md-icon>
+				<p>Contracts</p>
 			</sidebar-link>
 			<sidebar-link to="/maps">
 				<md-icon>location_on</md-icon>
@@ -49,10 +49,10 @@
 </template>
 <style lang="scss"></style>
 <script>
-import TopNavbar from "./TopNavbar.vue";
-import ContentFooter from "./ContentFooter.vue";
-import DashboardContent from "./Content.vue";
-import MobileMenu from "@/pages/Layout/MobileMenu.vue";
+import TopNavbar from './TopNavbar.vue';
+import ContentFooter from './ContentFooter.vue';
+import DashboardContent from './Content.vue';
+import MobileMenu from '@/pages/Layout/MobileMenu.vue';
 
 export default {
 	components: {
