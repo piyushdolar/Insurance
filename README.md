@@ -1,4 +1,4 @@
-## QUICK START - BETA v1.4.8
+## QUICK START - BETA v1.5.1
 
 ### Install dependencies
 
@@ -23,7 +23,7 @@ The documentation for the Vue Material Dashboard is hosted at our [website](http
 Within the download you'll find the following directories and files:
 
 ```
-vue-material-dashboard
+Insurance
 ├── README.md
 ├── babel.config.js
 ├── package.json
@@ -84,6 +84,14 @@ vue-material-dashboard
 ```
 
 ## Change logs:
+
+## [1.5.1] 2019-01-06
+
+### Dependencies Updates
+
+-   Updated all out of date dependencies from `package.json` file
+-   Added vuetable 2 for datatable feature for multi filter options as a demo usage right now.
+-   Rest api setup with live data changes on datatable.
 
 ## [1.4.8] 2019-12-30
 
