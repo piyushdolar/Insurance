@@ -83,7 +83,7 @@
 						</md-dialog-actions>
 					</form>
 				</md-dialog>
-				<md-button class="md-primary pull-right" @click="showDialog = true"><md-icon>add</md-icon> Add Agent</md-button>
+				<md-button class="md-primary pull-right" @click="showDialog = true"> <md-icon>add</md-icon>Add Agent </md-button>
 			</div>
 			<!-- TABLE LISTING OF AGENTS -->
 			<div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
@@ -110,17 +110,54 @@
 
 							<md-table-row slot="md-table-row" slot-scope="{ item }">
 								<md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
-								<md-table-cell md-label="Full Name" md-sort-by="fullName">{{ item.email }}</md-table-cell>
+								<md-table-cell md-label="Full Name" md-sort-by="fullName">{{ item.fullName }}</md-table-cell>
 								<md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
 
-								<md-table-cell md-label="Gender" md-sort-by="gender" v-if="item.gender == 'Male'"><md-chip class="md-primary">Male</md-chip></md-table-cell>
-								<md-table-cell md-label="Gender" md-sort-by="gender" v-if="item.gender == 'FeMale'"><md-chip class="md-primary">Male</md-chip></md-table-cell>
+								<md-table-cell md-label="Gender" md-sort-by="gender" v-if="item.gender == 'Male'">
+									<md-chip class="md-primary">Male</md-chip>
+								</md-table-cell>
+								<md-table-cell md-label="Gender" md-sort-by="gender" v-if="item.gender == 'FeMale'">
+									<md-chip class="md-info">Male</md-chip>
+								</md-table-cell>
 
 								<md-table-cell md-label="Phone" md-sort-by="phone">{{ item.phone }}</md-table-cell>
 								<md-table-cell md-label="Address" md-sort-by="address">{{ item.address }}</md-table-cell>
 							</md-table-row>
 						</md-table>
 					</md-card-content>
+				</md-card>
+			</div>
+
+			<!-- DataTable -->
+			<div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+				<md-card class="">
+					<div class="filter-bar ui basic segment grid">
+						<div class="ui form">
+							<div class="inline field">
+								<label>Search for:</label>
+								<input type="text" v-model="filterText" class="three wide column" @keyup.enter="doFilter" placeholder="name, nickname, or email" />
+								<button class="ui primary button" @click="doFilter">Go</button>
+								<button class="ui button" @click="resetFilter">Reset</button>
+							</div>
+						</div>
+					</div>
+					<vuetable
+						ref="vuetable"
+						api-url="https://vuetable.ratiw.net/api/users"
+						:fields="fields"
+						pagination-path=""
+						@vuetable:pagination-data="onPaginationData"
+						:multi-sort="true"
+						multi-sort-key="ctrl"
+						:sort-order="sortOrder"
+						:append-params="moreParams"
+					></vuetable>
+					<vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
+					<vuetable-pagination id="vPage" ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
+					<!-- <vuetable
+						:api-mode="false"
+						:data="localData"
+					></vuetable> -->
 				</md-card>
 			</div>
 		</div>
@@ -131,7 +168,12 @@
 import { validationMixin } from 'vuelidate';
 import { required, email, minLength, maxLength } from 'vuelidate/lib/validators';
 import axios from 'axios';
-
+import Vuetable from 'vuetable-2/src/components/Vuetable';
+import VuetablePagination from 'vuetable-2/src/components/VuetablePagination';
+import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo';
+import Vue from 'vue';
+import VueEvents from 'vue-events';
+Vue.use(VueEvents);
 const toLower = text => {
 	return text.toString().toLowerCase();
 };
@@ -148,7 +190,7 @@ export default {
 		showDialog: false,
 		search: null,
 		searched: [],
-		users: [],
+		// users: [],
 		form: {
 			fname: null,
 			lname: null,
@@ -159,7 +201,51 @@ export default {
 		},
 		userSaved: false,
 		sending: false,
-		lastUser: null
+		lastUser: null,
+		sortOrder: [
+			{
+				field: 'email',
+				sortField: 'email',
+				direction: 'asc'
+			}
+		],
+		fields: [
+			{
+				name: 'name',
+				sortField: 'name'
+			},
+			{
+				name: 'email',
+				sortField: 'email'
+			},
+			{
+				name: 'birthdate',
+				sortField: 'birthdate',
+				titleClass: 'text-center',
+				dataClass: 'text-center'
+			},
+			{
+				name: 'nickname',
+				sortField: 'nickname',
+				callBack: 'allcap'
+			},
+			{
+				name: 'gender',
+				sortField: 'gender',
+				titleClass: 'text-center',
+				dataClass: 'text-center',
+				callBack: 'genderLabel'
+			},
+			{
+				name: 'salary',
+				sortField: 'salary',
+				titleClass: 'text-center',
+				dataClass: 'right aligned',
+				callBack: 'formatNumber'
+			}
+		],
+		filterText: '',
+		moreParams: {}
 	}),
 	validations: {
 		form: {
@@ -189,6 +275,40 @@ export default {
 		}
 	},
 	methods: {
+		allcap: function(value) {
+			return value.toUpperCase();
+		},
+		genderLabel(value) {
+			return value == 'M' ? '<md-chip class="md-primary">Male</md-chip>' : '<md-chip class="md-primary">Female</md-chip>';
+		},
+		onPaginationData(paginationData) {
+			this.$refs.pagination.setPaginationData(paginationData);
+			this.$refs.paginationInfo.setPaginationData(paginationData);
+		},
+		onChangePage(page) {
+			this.$refs.vuetable.changePage(page);
+		},
+		formatNumber(value) {
+			return accounting.formatNumber(value, 2);
+		},
+		doFilter() {
+			this.$events.fire('filter-set', this.filterText);
+		},
+		resetFilter() {
+			this.filterText = ''; // clear the text in text input
+			this.$events.fire('filter-reset');
+		},
+		onFilterSet(filterText) {
+			this.moreParams = {
+				filter: filterText
+			};
+			Vue.nextTick(() => this.$refs.vuetable.refresh());
+		},
+		onFilterReset() {
+			this.moreParams = {};
+			Vue.nextTick(() => this.$refs.vuetable.refresh());
+		},
+		// Other
 		newUser() {
 			window.alert('Noop');
 		},
@@ -216,22 +336,42 @@ export default {
 		},
 		saveUser() {
 			this.sending = true;
-
-			// Instead of this timeout, here you can call your API
-			window.setTimeout(() => {
-				this.lastUser = `${this.form.firstName} ${this.form.lastName}`;
-				this.userSaved = true;
-				this.sending = false;
-				this.clearForm();
-			}, 1500);
+			this.form.userId = this.$session.get('userProfile').userId;
+			this.$store
+				.dispatch('addAgent', {
+					userData: this.form
+				})
+				.then(response => {
+					this.userSaved = true;
+					this.sending = false;
+					this.clearForm();
+					this.showDialog = false;
+					this.$notify({
+						message: response,
+						icon: 'add_alert',
+						verticalAlign: 'top',
+						horizontalAlign: 'right',
+						type: 'success'
+					});
+				})
+				.catch(error => {
+					this.sending = false;
+					this.$notify({
+						message: error.data.message + ': ' + error.data.error,
+						icon: 'add_alert',
+						verticalAlign: 'top',
+						horizontalAlign: 'right',
+						type: 'danger'
+					});
+				});
 		},
 		validateUser() {
 			this.$v.$touch();
 			if (!this.$v.$invalid) {
 				this.saveUser();
 			}
-		},
-		async fetchAllAgents() {
+		}
+		/* async fetchAllAgents() {
 			let data = await axios.get(`http://jsonplaceholder.typicode.com/users`);
 			for (let i = 0; i < data.data.length; i++) {
 				this.users.push({
@@ -243,11 +383,26 @@ export default {
 					address: data.data[i].address.street + ',' + data.data[i].address.city
 				});
 			}
-		}
+		} */
 	},
 	created() {
 		this.searched = this.users;
-		this.fetchAllAgents();
+		// this.fetchAllAgents();
+	},
+	mounted() {
+		this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
+		this.$events.$on('filter-reset', e => this.onFilterReset());
+		this.$store.dispatch('getAgents');
+	},
+	computed: {
+		users() {
+			return this.$store.state.agents;
+		}
+	},
+	components: {
+		Vuetable,
+		VuetablePagination,
+		VuetablePaginationInfo
 	}
 };
 </script>
@@ -260,5 +415,12 @@ export default {
 	top: 0;
 	right: 0;
 	left: 0;
+}
+.vuetable-pagination-info {
+	float: left;
+	padding: 1rem;
+}
+.ui.right.floated.menu {
+	margin: 0.5rem;
 }
 </style>

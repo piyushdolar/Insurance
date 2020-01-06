@@ -53,6 +53,23 @@
 
 							<div class="md-layout md-gutter">
 								<div class="md-layout-item md-small-size-100">
+									<md-field :class="getValidationClass('password')">
+										<label for="password">Password</label>
+										<md-input type="password" id="password" name="password" autocomplete="password" v-model="form.password" :disabled="sending" />
+										<span class="md-error" v-if="!$v.form.password.minLength">The password minimum length is 4 character long.</span>
+									</md-field>
+								</div>
+								<div class="md-layout-item md-small-size-100">
+									<md-field :class="getValidationClass('repeatPassword')">
+										<label for="repeatPassword">Repeat Password</label>
+										<md-input type="password" id="repeatPassword" name="repeatPassword" autocomplete="repeatPassword" v-model="form.repeatPassword" :disabled="sending" />
+										<span class="md-error" v-if="!$v.form.repeatPassword.sameAs">The password dosen't match.</span>
+									</md-field>
+								</div>
+							</div>
+
+							<div class="md-layout md-gutter">
+								<div class="md-layout-item md-small-size-100">
 									<md-field :class="getValidationClass('email')">
 										<label for="email">Email</label>
 										<md-input type="email" name="email" id="email" autocomplete="email" v-model="form.email" :disabled="sending" />
@@ -83,7 +100,7 @@
 						</md-dialog-actions>
 					</form>
 				</md-dialog>
-				<md-button class="md-primary pull-right" @click="showDialog = true"><md-icon>add</md-icon> Add User</md-button>
+				<md-button class="md-primary pull-right" @click="showDialog = true"> <md-icon>add</md-icon>Add User </md-button>
 			</div>
 			<!-- TABLE LISTING OF AGENTS -->
 			<div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
@@ -110,14 +127,21 @@
 
 							<md-table-row slot="md-table-row" slot-scope="{ item }">
 								<md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
-								<md-table-cell md-label="Full Name" md-sort-by="fullName">{{ item.email }}</md-table-cell>
+								<md-table-cell md-label="Full Name" md-sort-by="fullName">{{ item.fullName }}</md-table-cell>
 								<md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
 
-								<md-table-cell md-label="Gender" md-sort-by="gender" v-if="item.gender == 'Male'"><md-chip class="md-primary">Male</md-chip></md-table-cell>
-								<md-table-cell md-label="Gender" md-sort-by="gender" v-if="item.gender == 'FeMale'"><md-chip class="md-primary">Male</md-chip></md-table-cell>
+								<md-table-cell md-label="Gender" md-sort-by="gender" v-if="item.gender == 1">
+									<md-chip class="md-primary">Male</md-chip>
+								</md-table-cell>
+								<md-table-cell md-label="Gender" md-sort-by="gender" v-if="item.gender == 2">
+									<md-chip class="md-primary">Female</md-chip>
+								</md-table-cell>
+								<md-table-cell md-label="Gender" md-sort-by="gender" v-if="item.gender == 3">
+									<md-chip class="md-primary">Other</md-chip>
+								</md-table-cell>
 
-								<md-table-cell md-label="Phone" md-sort-by="phone">{{ item.phone }}</md-table-cell>
-								<md-table-cell md-label="Address" md-sort-by="address">{{ item.address }}</md-table-cell>
+								<md-table-cell md-label="Created At" md-sort-by="createdAt">{{ item.createdAt }}</md-table-cell>
+								<md-table-cell md-label="Updated At" md-sort-by="UpdatedAt">{{ item.updatedAt }}</md-table-cell>
 							</md-table-row>
 						</md-table>
 					</md-card-content>
@@ -129,8 +153,9 @@
 
 <script>
 import { validationMixin } from 'vuelidate';
-import { required, email, minLength, maxLength } from 'vuelidate/lib/validators';
+import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators';
 import axios from 'axios';
+import { mapActions, mapState, mapGetters } from 'vuex';
 
 const toLower = text => {
 	return text.toString().toLowerCase();
@@ -148,14 +173,15 @@ export default {
 		showDialog: false,
 		search: null,
 		searched: [],
-		users: [],
+		// users: [],
 		form: {
 			fname: null,
 			lname: null,
 			gender: null,
 			phone: null,
 			email: null,
-			address: null
+			address: null,
+			password: null
 		},
 		userSaved: false,
 		sending: false,
@@ -185,12 +211,19 @@ export default {
 			address: {
 				required,
 				minLength: minLength(4)
+			},
+			password: {
+				required,
+				minLength: minLength(4)
+			},
+			repeatPassword: {
+				sameAsPassword: sameAs('password')
 			}
 		}
 	},
 	methods: {
 		newUser() {
-			window.alert('Noop');
+			this.showDialog = true;
 		},
 		searchOnTable() {
 			this.searched = searchByName(this.users, this.search);
@@ -213,17 +246,8 @@ export default {
 			this.form.gender = null;
 			this.form.email = null;
 			this.form.address = null;
-		},
-		saveUser() {
-			this.sending = true;
-
-			// Instead of this timeout, here you can call your API
-			window.setTimeout(() => {
-				this.lastUser = `${this.form.firstName} ${this.form.lastName}`;
-				this.userSaved = true;
-				this.sending = false;
-				this.clearForm();
-			}, 1500);
+			this.form.password = null;
+			this.form.repeatPassword = null;
 		},
 		validateUser() {
 			this.$v.$touch();
@@ -231,23 +255,47 @@ export default {
 				this.saveUser();
 			}
 		},
-		async fetchAllUsers() {
-			let data = await axios.get(`http://jsonplaceholder.typicode.com/users`);
-			for (let i = 0; i < data.data.length; i++) {
-				this.users.push({
-					id: data.data[i].id,
-					fullName: data.data[i].name,
-					email: data.data[i].email,
-					gender: 'Male',
-					phone: data.data[i].phone,
-					address: data.data[i].address.street + ',' + data.data[i].address.city
+		saveUser() {
+			this.sending = true;
+			this.$store
+				.dispatch('addAdminUser', {
+					userData: this.form
+				})
+				.then(response => {
+					this.userSaved = true;
+					this.sending = false;
+					this.clearForm();
+					this.showDialog = false;
+					this.$notify({
+						message: response,
+						icon: 'add_alert',
+						verticalAlign: 'top',
+						horizontalAlign: 'right',
+						type: 'success'
+					});
+				})
+				.catch(error => {
+					this.sending = false;
+					this.$notify({
+						message: error.data.message + ': ' + error.data.error,
+						icon: 'add_alert',
+						verticalAlign: 'top',
+						horizontalAlign: 'right',
+						type: 'danger'
+					});
 				});
-			}
 		}
 	},
 	created() {
 		this.searched = this.users;
-		this.fetchAllUsers();
+	},
+	mounted() {
+		this.$store.dispatch('getAdminUsers');
+	},
+	computed: {
+		users() {
+			return this.$store.state.adminUsers;
+		}
 	}
 };
 </script>

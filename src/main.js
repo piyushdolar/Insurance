@@ -1,35 +1,36 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import App from "./App";
-import VueSession from "vue-session";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import App from './App';
+import VueSession from 'vue-session';
+import store from './store';
 
 // router setup
-import routes from "./routes/routes";
+import routes from './routes/routes';
 
 // Plugins
-import GlobalComponents from "./globalComponents";
-import GlobalDirectives from "./globalDirectives";
-import Notifications from "./components/NotificationPlugin";
+import GlobalComponents from './globalComponents';
+import GlobalDirectives from './globalDirectives';
+import Notifications from './components/NotificationPlugin';
 
 // MaterialDashboard plugin
-import MaterialDashboard from "./material-dashboard";
+import MaterialDashboard from './material-dashboard';
 
-import Chartist from "chartist";
+import Chartist from 'chartist';
 
 // configure router
 const router = new VueRouter({
 	routes, // short for routes: routes
-	mode: "history",
-	linkExactActiveClass: "nav-item active"
+	mode: 'history',
+	linkExactActiveClass: 'nav-item active'
 });
 router.beforeEach((to, from, next) => {
 	// redirect to login page if not logged in and trying to access a restricted page
-	const publicPages = ["/login"];
+	const publicPages = ['/login'];
 	const authRequired = !publicPages.includes(to.path);
-	const token = router.app.$session.exists();
+	const token = router.app.$session.exists('userProfile');
 	if (authRequired && !token) {
 		return next({
-			path: "/login",
+			path: '/login',
 			query: { returnUrl: to.path }
 		});
 	}
@@ -42,13 +43,15 @@ Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
-Vue.use(VueSession);
+Vue.use(localStorage);
+Vue.use(VueSession, { persist: true });
 
 /* eslint-disable no-new */
 new Vue({
-	el: "#app",
+	el: '#app',
 	render: h => h(App),
 	router,
+	store,
 	data: {
 		Chartist: Chartist
 	}

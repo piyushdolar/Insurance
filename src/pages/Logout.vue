@@ -11,15 +11,9 @@
 					</md-card-header>
 
 					<md-card-content>
-						<h3>
-							<md-icon class="material-icons md-size-2x"> done </md-icon
-							>{{ logoutText }}
-						</h3>
+						<h3><md-icon class="material-icons md-size-2x"> done </md-icon>{{ logoutText }}</h3>
 						<a href="/login">
-							<h4>
-								<md-icon class="material-icons md-size-2x"> rotate_left </md-icon>Go
-								To Login
-							</h4>
+							<h4><md-icon class="material-icons md-size-2x"> rotate_left </md-icon>Go To Login</h4>
 						</a>
 					</md-card-content>
 				</md-card>
@@ -30,10 +24,10 @@
 
 <script>
 export default {
-	name: "Logout",
+	name: 'Logout',
 	data() {
 		return {
-			logoutText: "Logging out..."
+			logoutText: 'Logging out...'
 		};
 	},
 	mounted() {
@@ -41,8 +35,8 @@ export default {
 	},
 	methods: {
 		logout() {
-			this.$session.destroy();
-			this.logoutText = "Successfully logged out.";
+			localStorage.removeItem('refreshToken');
+			this.logoutText = 'Successfully logged out.';
 		}
 	}
 };
