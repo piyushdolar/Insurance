@@ -85,9 +85,9 @@ Insurance
 
 ## Change logs:
 
-## [1.5.1] 2019-01-06
+## [1.6.0] 2019-01-07
 
-### Dependencies Updates
+### Dependencies Updates, Design enhancement.
 
 -   Updated all out of date dependencies from `package.json` file
 -   Updated dashboard which we discussed yesterday.
