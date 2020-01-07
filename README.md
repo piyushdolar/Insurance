@@ -1,4 +1,4 @@
-## QUICK START - BETA v1.5.1
+## QUICK START - BETA v1.6.0
 
 ### Install dependencies
 
@@ -84,6 +84,14 @@ Insurance
 ```
 
 ## Change logs:
+
+## [1.5.1] 2019-01-06
+
+### Dependencies Updates
+
+-   Updated all out of date dependencies from `package.json` file
+-   Updated dashboard which we discussed yesterday.
+-   Users datatable with filter design updated.
 
 ## [1.5.1] 2019-01-06
 
