@@ -6,6 +6,11 @@ let options = {
 	}
 };
 
+// SET LOGIN
+export const SET_LOGIN = (state, userData) => {
+	state.userLogin = userData.data;
+};
+
 // USERS:
 export const SET_ADMIN_USERS = (state, users) => {
 	for (let i = 0; i < users.data.length; i++) {

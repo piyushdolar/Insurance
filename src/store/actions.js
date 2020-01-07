@@ -7,13 +7,31 @@ axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getI
 	}
 }; */
 
+// LOGINS:
+export const checkLogin = ({ commit }, { userData }) => {
+	return axios
+		.post(`/users/login`, {
+			email: userData.email,
+			password: userData.password
+		})
+		.then(response => {
+			commit('SET_LOGIN', response.data);
+			return response.data;
+		})
+		.catch(error => {
+			throw error.response.data.error;
+		});
+};
+
 // USERS:
 // Get all admin user
 export const getAdminUsers = ({ commit }) => {
 	axios
 		.get('/users')
 		.then(response => {
-			commit('SET_ADMIN_USERS', response.data);
+			localStorage.setItem('refreshToken', response.headers.token);
+			axios.defaults.headers.common.Authorization = `Bearer ${response.headers.token}`;
+			commit('SET_ADMIN_USERS', response.data.data);
 		})
 		.catch(error => {
 			console.log('Error-vuex-actions: ', error);

@@ -3,6 +3,7 @@
 	"version": "1.5.1",
 	"description": "Live server at this domain 119.8.40.98",
 	"private": true,
+	"start": "HOST='0.0.0.0' PORT=3002 npm run dev",
 	"scripts": {
 		"serve": "vue-cli-service serve --open --port 3002",
 		"dev": "npm run serve",

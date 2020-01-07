@@ -147,6 +147,39 @@
 					</md-card-content>
 				</md-card>
 			</div>
+
+			<!-- vuetable -->
+			<div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+				<md-card class="">
+					<div class="filter-bar ui basic segment grid">
+						<div class="ui form">
+							<div class="inline field">
+								<label>Search for:</label>
+								<input type="text" v-model="filterText" class="three wide column" @keyup.enter="doFilter" placeholder="name, nickname, or email" />
+								<button class="ui primary button" @click="doFilter">Go</button>
+								<button class="ui button" @click="resetFilter">Reset</button>
+							</div>
+						</div>
+					</div>
+					<vuetable
+						ref="vuetable"
+						api-url="https://vuetable.ratiw.net/api/users"
+						:fields="fields"
+						pagination-path=""
+						@vuetable:pagination-data="onPaginationData"
+						:multi-sort="true"
+						multi-sort-key="ctrl"
+						:sort-order="sortOrder"
+						:append-params="moreParams"
+					></vuetable>
+					<vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
+					<vuetable-pagination id="vPage" ref="pagination" @vuetable-pagination:change-page="onChangePage"></vuetable-pagination>
+					<!-- <vuetable
+						:api-mode="false"
+						:data="localData"
+					></vuetable> -->
+				</md-card>
+			</div>
 		</div>
 	</div>
 </template>
@@ -156,6 +189,14 @@ import { validationMixin } from 'vuelidate';
 import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators';
 import axios from 'axios';
 import { mapActions, mapState, mapGetters } from 'vuex';
+
+// vuetable2
+import Vuetable from 'vuetable-2/src/components/Vuetable';
+import VuetablePagination from 'vuetable-2/src/components/VuetablePagination';
+import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo';
+import Vue from 'vue';
+import VueEvents from 'vue-events';
+Vue.use(VueEvents);
 
 const toLower = text => {
 	return text.toString().toLowerCase();
@@ -185,7 +226,53 @@ export default {
 		},
 		userSaved: false,
 		sending: false,
-		lastUser: null
+		lastUser: null,
+
+		// vuetable
+		sortOrder: [
+			{
+				field: 'email',
+				sortField: 'email',
+				direction: 'asc'
+			}
+		],
+		fields: [
+			{
+				name: 'name',
+				sortField: 'name'
+			},
+			{
+				name: 'email',
+				sortField: 'email'
+			},
+			{
+				name: 'birthdate',
+				sortField: 'birthdate',
+				titleClass: 'text-center',
+				dataClass: 'text-center'
+			},
+			{
+				name: 'nickname',
+				sortField: 'nickname',
+				callBack: 'allcap'
+			},
+			{
+				name: 'gender',
+				sortField: 'gender',
+				titleClass: 'text-center',
+				dataClass: 'text-center',
+				callBack: 'genderLabel'
+			},
+			{
+				name: 'salary',
+				sortField: 'salary',
+				titleClass: 'text-center',
+				dataClass: 'right aligned',
+				callBack: 'formatNumber'
+			}
+		],
+		filterText: '',
+		moreParams: {}
 	}),
 	validations: {
 		form: {
@@ -222,6 +309,42 @@ export default {
 		}
 	},
 	methods: {
+		// vuetable
+		allcap: function(value) {
+			return value.toUpperCase();
+		},
+		genderLabel(value) {
+			return value == 'M' ? '<md-chip class="md-primary">Male</md-chip>' : '<md-chip class="md-primary">Female</md-chip>';
+		},
+		onPaginationData(paginationData) {
+			this.$refs.pagination.setPaginationData(paginationData);
+			this.$refs.paginationInfo.setPaginationData(paginationData);
+		},
+		onChangePage(page) {
+			this.$refs.vuetable.changePage(page);
+		},
+		formatNumber(value) {
+			return accounting.formatNumber(value, 2);
+		},
+		doFilter() {
+			this.$events.fire('filter-set', this.filterText);
+		},
+		resetFilter() {
+			this.filterText = ''; // clear the text in text input
+			this.$events.fire('filter-reset');
+		},
+		onFilterSet(filterText) {
+			this.moreParams = {
+				filter: filterText
+			};
+			Vue.nextTick(() => this.$refs.vuetable.refresh());
+		},
+		onFilterReset() {
+			this.moreParams = {};
+			Vue.nextTick(() => this.$refs.vuetable.refresh());
+		},
+
+		// other
 		newUser() {
 			this.showDialog = true;
 		},
@@ -291,11 +414,20 @@ export default {
 	},
 	mounted() {
 		this.$store.dispatch('getAdminUsers');
+
+		// vuetable
+		this.$events.$on('filter-set', eventData => this.onFilterSet(eventData));
+		this.$events.$on('filter-reset', e => this.onFilterReset());
 	},
 	computed: {
 		users() {
 			return this.$store.state.adminUsers;
 		}
+	},
+	components: {
+		Vuetable,
+		VuetablePagination,
+		VuetablePaginationInfo
 	}
 };
 </script>
