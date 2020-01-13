@@ -85,6 +85,13 @@ Insurance
 
 ## Change logs:
 
+## [1.7.0] 2019-01-
+
+### Changes
+
+-   Datatable Searchbar, Pagination, Per-page dropdown with REST APIs sync added.
+-   Dashboard sidebar naming change.
+
 ## [1.6.0] 2019-01-07
 
 ### Dependencies Updates, Design enhancement.

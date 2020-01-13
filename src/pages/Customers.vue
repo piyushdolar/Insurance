@@ -130,7 +130,7 @@
       <!-- TABLE LISTING OF Customers -->
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <md-card>
-          <md-card-header data-background-color="green">
+          <md-card-header data-background-color="purple">
             <h4 class="title">Customer's Database</h4>
             <p class="category">Here you can find and see every customer's details</p>
           </md-card-header>

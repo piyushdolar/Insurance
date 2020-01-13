@@ -7,7 +7,7 @@ import Agents from '@/pages/Agents.vue';
 import Customers from '@/pages/Customers.vue';
 import Contracts from '@/pages/Contracts.vue';
 import Maps from '@/pages/Maps.vue';
-import Notifications from '@/pages/Notifications.vue';
+import Changelogs from '@/pages/Changelogs.vue';
 import Login from '@/pages/Login.vue';
 import Logout from '@/pages/Logout.vue';
 
@@ -56,9 +56,9 @@ const routes = [
 				component: Maps
 			},
 			{
-				path: 'notifications',
-				name: 'Notifications',
-				component: Notifications
+				path: '/changelogs',
+				name: 'changelogs',
+				component: Changelogs
 			},
 			{
 				path: 'login',

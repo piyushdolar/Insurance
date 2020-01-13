@@ -1,5 +1,5 @@
 export default {
 	userLogin: null,
-	adminUsers: [],
-	agents: []
+	agents: [],
+	adminUsers: []
 };

@@ -13,7 +13,8 @@ import GlobalDirectives from './globalDirectives';
 import Notifications from './components/NotificationPlugin';
 
 // MaterialDashboard plugin
-import MaterialDashboard from './material-dashboard';
+import MaterialDashboard from './material';
+import VMdDateRangePicker from 'v-md-date-range-picker';
 
 import Chartist from 'chartist';
 
@@ -45,6 +46,7 @@ Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 Vue.use(localStorage);
 Vue.use(VueSession, { persist: true });
+Vue.use(VMdDateRangePicker);
 
 /* eslint-disable no-new */
 new Vue({

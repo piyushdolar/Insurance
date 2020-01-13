@@ -85,7 +85,7 @@ export default {
     }
   },
   mounted() {
-    GoogleMapsLoader.KEY = "API_KEY";
+    GoogleMapsLoader.KEY = "AIzaSyAgdY2hH9Zjnj0Z2GOMH-Ky5IlbMrfsULE";
     GoogleMapsLoader.load(google => {
       this.initMap(google);
     });
