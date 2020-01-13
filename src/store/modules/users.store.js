@@ -1,4 +1,4 @@
-import axios from '../../api/config';
+import axios from '../../Api/config';
 import moment from 'moment';
 
 axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('refreshToken')}`;
