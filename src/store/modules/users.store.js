@@ -1,4 +1,4 @@
-import axios from '../../Api/config';
+import axios from '../../api/config';
 import moment from 'moment';
 
 axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('refreshToken')}`;
@@ -13,8 +13,6 @@ const actions = {
 		axios
 			.get('/users')
 			.then(response => {
-				localStorage.setItem('refreshToken', response.headers.token);
-				axios.defaults.headers.common.Authorization = `Bearer ${response.headers.token}`;
 				commit('SET_ADMIN_USERS', response.data.data);
 			})
 			.catch(error => {
@@ -39,20 +37,24 @@ const actions = {
 			data: rowData
 		})
 			.then(response => {
-				let formData = new FormData();
-				formData.append('avatar', userData.image);
-				return axios
-					.post('users/avatar/' + response.data.data.id, formData, {
-						headers: {
-							'Content-Type': 'multipart/form-data'
-						}
-					})
-					.then(function(data) {
-						return 'User has been successfully created.';
-					})
-					.catch(function() {
-						return '[CODE:USER] Something gone wrong.';
-					});
+				if (userData.image != null) {
+					let formData = new FormData();
+					formData.append('avatar', userData.image);
+					return axios
+						.post('users/avatar/' + response.data.data.id, formData, {
+							headers: {
+								'Content-Type': 'multipart/form-data'
+							}
+						})
+						.then(function(data) {
+							return 'User has been successfully created.';
+						})
+						.catch(function() {
+							throw '[CODE:USER] Something gone wrong.';
+						});
+				} else {
+					return 'User has been successfully created.';
+				}
 			})
 			.catch(error => {
 				throw error.response;
@@ -85,7 +87,7 @@ const actions = {
 							}
 						})
 						.then(function(data) {
-							return response.data.message + ': ' + 'A User successfully updated to database.';
+							return 'A User successfully updated to database.';
 						})
 						.catch(function() {
 							throw '[CODE:USER] Something gone wrong.';

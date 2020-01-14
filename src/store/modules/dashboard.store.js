@@ -1,4 +1,4 @@
-import axios from '../../Api/config';
+import axios from '../../api/config';
 
 axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('refreshToken')}`;
 
@@ -16,16 +16,16 @@ const state = {
 		policies: []
 	},
 	charts: {
-		daily_sales: null,
-		policy_holders: null
+		daily_sales: [],
+		policy_holders: []
 	}
 };
 
 const actions = {
 	// Get all users
-	fetchDashboard: ({ state }) => {
-		axios
-			.get('/dashboard')
+	fetchDashboard: async ({ state }) => {
+		return await axios
+			.get('/dashboard', { headers: { Authorization: `Bearer ${window.localStorage.getItem('refreshToken')}` } })
 			.then(response => {
 				state.total.users = response.data.data.total.usersCount;
 				state.total.agents = response.data.data.total.agentsCount;

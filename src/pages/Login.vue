@@ -53,6 +53,7 @@
 import { validationMixin } from 'vuelidate';
 import { required, email, minLength, maxLength } from 'vuelidate/lib/validators';
 import axios from 'axios';
+import moment from 'moment';
 
 export default {
 	name: 'FormValidation',
@@ -83,6 +84,15 @@ export default {
 		if (localStorage.getItem('refreshToken')) {
 			this.$router.push('/Dashboard');
 		}
+		if (this.$session.flash.get('sessionExpired')) {
+			this.$notify({
+				message: 'Session Expired, Please login again.',
+				icon: 'add_alert',
+				verticalAlign: 'top',
+				horizontalAlign: 'right',
+				type: 'danger'
+			});
+		}
 	},
 	methods: {
 		getValidationClass(fieldName) {
@@ -110,7 +120,13 @@ export default {
 					this.clearForm();
 					this.$session.start();
 					this.$session.set('userProfile', response.data);
-					this.$router.push('/dashboard');
+					this.$session.set('_timeout', {
+						date: new Date(),
+						limit: '15'
+					});
+					this.$router.push({
+						path: '/dashboard'
+					});
 					this.$notify({
 						message: response.message,
 						icon: 'add_alert',

@@ -1,4 +1,4 @@
-## QUICK START - BETA v1.6.0
+## QUICK START - BETA Version
 
 ### Install dependencies
 
@@ -85,7 +85,15 @@ Insurance
 
 ## Change logs:
 
-## [1.7.0] 2019-01-
+## [1.8.0] 2019-01-14
+
+### Changes/Fixes
+
+-   Login page notification added.
+-   Users table bugs fixed for email API as well profile picture.
+-   After login dashboard API was not able to fetch the instance token.
+
+## [1.7.0] 2019-01-10
 
 ### Changes
 

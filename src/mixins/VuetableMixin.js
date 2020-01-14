@@ -49,10 +49,10 @@ export const VuetableMixin = {
 		doFilter() {
 			this.$events.fire('filter-set', this.filter);
 		},
-		onFilterSet(filterItem) {
+		onFilterSet(filter) {
 			this.moreParams = {
-				filter: filterItem.searchText,
-				filter_date: filterItem.searchDate
+				filter: filter.searchText,
+				filter_date: filter.searchDate
 			};
 			Vue.nextTick(() => this.$refs.vuetable.refresh());
 		},
@@ -62,7 +62,12 @@ export const VuetableMixin = {
 			this.filter.searchDate = '';
 			this.filter.startDate = this.defaultDate;
 			this.filter.endDate = this.defaultDate;
-			this.$events.fire('filter-reset');
+			// this.$events.fire('filter-reset');
+			// this.$router.go();
+			// this.$router.go(this.$router.currentRoute);
+			var location = this.$route.fullPath;
+			this.$router.replace('/');
+			this.$nextTick(() => this.$router.replace(location));
 		},
 		onFilterReset() {
 			this.moreParams = {};

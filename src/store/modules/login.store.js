@@ -1,4 +1,4 @@
-import axios from '../../Api/config';
+import axios from '../../api/config';
 
 const state = {
 	userLogin: null
@@ -12,7 +12,7 @@ const actions = {
 				password: userData.password
 			})
 			.then(response => {
-				localStorage.setItem('refreshToken', response.headers.token);
+				window.localStorage.setItem('refreshToken', response.headers.token);
 				commit('SET_LOGIN', response.data);
 				return response.data;
 			})

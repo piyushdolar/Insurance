@@ -17,6 +17,7 @@ import MaterialDashboard from './material';
 import VMdDateRangePicker from 'v-md-date-range-picker';
 
 import Chartist from 'chartist';
+import moment from 'moment';
 
 // configure router
 const router = new VueRouter({
@@ -25,17 +26,38 @@ const router = new VueRouter({
 	linkExactActiveClass: 'nav-item active'
 });
 router.beforeEach((to, from, next) => {
-	// redirect to login page if not logged in and trying to access a restricted page
-	const publicPages = ['/login'];
+	/* const publicPages = ['/login'];
 	const authRequired = !publicPages.includes(to.path);
 	const token = router.app.$session.exists('userProfile');
+
+	var timeBefore = moment(router.app.$session.get('_timeout').date);
+	var timeNow = moment(new Date());
+	var timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
+
+	console.log(timeDiff);
+	router.app.$session.remove('userProfile');
+	console.log(router.app.$session.get('userProfile'));
+
 	if (authRequired && !token) {
 		return next({
 			path: '/login',
 			query: { returnUrl: to.path }
 		});
 	}
-	next();
+	next(); */
+	if (to.matched.some(record => record.meta.requiresAuth)) {
+		let timeBefore = moment(router.app.$session.get('_timeout').date);
+		let timeNow = moment(new Date());
+		let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
+		if (timeDiff > router.app.$session.get('_timeout').limit) {
+			router.app.$session.flash.set('sessionExpired', 'Session expired please login again.');
+			next({ path: '/login' });
+		} else {
+			next();
+		}
+	} else {
+		next();
+	}
 });
 Vue.prototype.$Chartist = Chartist;
 

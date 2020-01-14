@@ -1,4 +1,5 @@
 import axios from '../../api/config';
+import moment from 'moment';
 
 axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('refreshToken')}`;
 
@@ -7,27 +8,28 @@ const state = {
 };
 
 const actions = {
+	// Get all agents
 	getAgents: ({ commit }) => {
 		axios
 			.get('/agents')
 			.then(response => {
-				commit('SET_AGENTS', response.data);
+				commit('SET_AGENTS', response.data.data);
 			})
 			.catch(error => {
 				console.log('Error-vuex-actions: ', error);
 			});
 	},
-
+	// Create Agents user
 	addAgent: ({ commit }, { userData }) => {
 		let rowData = {
 			firstName: userData.fname,
 			lastName: userData.lname,
 			gender: userData.gender,
-			address: userData.address,
-			phone: userData.phone,
 			email: userData.email,
-			createdBy: userData.userId,
-			status: 2
+			phone: userData.phone,
+			password: userData.repeatPassword,
+			address: userData.address,
+			userType: 2
 		};
 		return axios({
 			method: 'post',
@@ -35,7 +37,78 @@ const actions = {
 			data: rowData
 		})
 			.then(response => {
-				return 'User has been added.';
+				if (userData.image != null) {
+					let formData = new FormData();
+					formData.append('avatar', userData.image);
+					return axios
+						.post('agents/avatar/' + response.data.data.id, formData, {
+							headers: {
+								'Content-Type': 'multipart/form-data'
+							}
+						})
+						.then(function(data) {
+							return 'User has been successfully created.';
+						})
+						.catch(function() {
+							throw '[CODE:USER] Something gone wrong.';
+						});
+				} else {
+					return 'User has been successfully created.';
+				}
+			})
+			.catch(error => {
+				throw error.response;
+			});
+	},
+
+	// Edit Agents user
+	editAgent: ({ commit }, { userData }) => {
+		let rowData = {
+			firstName: userData.fname,
+			lastName: userData.lname,
+			gender: userData.gender,
+			email: userData.email,
+			phone: userData.phone,
+			address: userData.address
+		};
+		return axios({
+			method: 'put',
+			url: 'agents/' + userData.id,
+			data: rowData
+		})
+			.then(response => {
+				if (userData.image != null) {
+					let formData = new FormData();
+					formData.append('avatar', userData.image);
+					return axios
+						.post('agents/avatar/' + userData.id, formData, {
+							headers: {
+								'Content-Type': 'multipart/form-data'
+							}
+						})
+						.then(function(data) {
+							return 'A User successfully updated to database.';
+						})
+						.catch(function() {
+							throw '[CODE:USER] Something gone wrong.';
+						});
+				} else {
+					return response.data.message + ': ' + 'A User successfully updated to database.';
+				}
+			})
+			.catch(error => {
+				throw error.response;
+			});
+	},
+
+	// Delete Agents user
+	deleteAgent: ({ commit }, { userId }) => {
+		return axios({
+			method: 'delete',
+			url: 'agents/' + userId
+		})
+			.then(response => {
+				return response.data.message + ': ' + 'A User successfully removed from the database.';
 			})
 			.catch(error => {
 				throw error.response;
@@ -44,28 +117,49 @@ const actions = {
 };
 
 const mutations = {
-	SET_AGENTS: (state, agents) => {
-		for (let i = 0; i < agents.data.length; i++) {
-			let userAvailable = state.agents.find(agent => {
-				return agent.email === agents.data[i].email;
+	SET_AGENTS: (state, users) => {
+		for (let i = 0; i < users.data.length; i++) {
+			let userAvailable = state.agents.find(user => {
+				return user.email === users.data[i].email;
 			});
 			if (!userAvailable) {
 				state.agents.push({
 					id: i + 1,
-					fullName: agents.data[i].firstName + ' ' + agents.data[i].lastName,
-					email: agents.data[i].email,
-					gender: agents.data[i].gender,
-					address: agents.data[i].address,
-					phone: agents.data[i].phone,
-					createdAt: moment(String(agents.data[i].createdAt)).format('DD/MM/YYYY hh:mm A'),
-					updatedAt: moment(String(agents.data[i].updatedAt)).format('DD/MM/YYYY hh:mm A')
+					fullName: users.data[i].firstName + ' ' + users.data[i].lastName,
+					email: users.data[i].email,
+					gender: users.data[i].gender,
+					createdAt: moment(String(users.data[i].createdAt)).format('DD/MM/YYYY hh:mm A'),
+					updatedAt: moment(String(users.data[i].updatedAt)).format('DD/MM/YYYY hh:mm A')
 				});
 			}
 		}
 	}
 };
 
-const getters = {};
+const getters = {
+	getAgents: ({ commit }) => {
+		return [
+			{
+				id: 1,
+				name: "Noelia O'Kon",
+				nickname: 'asperiores',
+				email: 'otho.smitham@example.com',
+				birthdate: '1978-06-28 00:00:00',
+				gender: 'F',
+				salary: '13098.00',
+				group_id: 2,
+				created_at: '2017-01-01 07:21:10',
+				updated_at: '2017-01-01 07:21:10',
+				age: 41,
+				group: {
+					id: 2,
+					name: 'Exec',
+					description: 'Executives'
+				}
+			}
+		];
+	}
+};
 
 export default {
 	state,

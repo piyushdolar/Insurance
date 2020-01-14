@@ -20,46 +20,70 @@ const routes = [
 			{
 				path: 'dashboard',
 				name: 'Dashboard',
+				meta: {
+					requiresAuth: true
+				},
 				component: Dashboard
 			},
 			{
 				path: 'my-profile',
 				name: 'User Profile',
+				meta: {
+					requiresAuth: true
+				},
 				component: UserProfile
 			},
 			{
 				path: 'users',
 				name: 'Admin Users',
+				meta: {
+					requiresAuth: true
+				},
 				component: Users
 			},
 			{
 				path: 'agents',
 				name: 'Agents List',
+				meta: {
+					requiresAuth: true
+				},
 				component: Agents
 			},
 			{
 				path: 'customers',
 				name: 'Customers',
+				meta: {
+					requiresAuth: true
+				},
 				component: Customers
 			},
 			{
 				path: 'contracts',
 				name: 'Contracts',
+				meta: {
+					requiresAuth: true
+				},
 				component: Contracts
 			},
 			{
 				path: 'maps',
 				name: 'Maps',
 				meta: {
-					hideFooter: true
+					hideFooter: true,
+					requiresAuth: true
 				},
 				component: Maps
 			},
 			{
 				path: '/changelogs',
 				name: 'changelogs',
+				meta: {
+					requiresAuth: true
+				},
 				component: Changelogs
 			},
+
+			// LOGIN / LOGOUT SECTION
 			{
 				path: 'login',
 				name: 'Login',
