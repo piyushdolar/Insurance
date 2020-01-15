@@ -244,7 +244,7 @@
                   :src="require('../assets/img/avatars/users/' + props.rowData.picture)"
                   alt="profile-image"
                 />
-                <img v-else :src="require('@/assets/img/avatars/default.png')" alt="profile-image" />
+                <img v-else :src="require('../assets/img/avatars/default.png')" alt="profile-image" />
               </template>
               <template slot="actions" scope="props">
                 <div class="custom-actions">
@@ -308,7 +308,7 @@ export default {
       password: null,
       repeatPassword: null,
       image: null,
-      imagePreview: require("@/assets/img/avatars/default.png")
+      imagePreview: require("../assets/img/avatars/default.png")
     },
     formModal: {
       title: "CREATE NEW USER",
@@ -446,7 +446,7 @@ export default {
         this.form.email = data.email;
         this.form.address = data.address;
         if (data.picture != null) {
-          this.form.imagePreview = require("@/assets/img/avatars/users/" +
+          this.form.imagePreview = require("../assets/img/avatars/users/" +
             data.picture);
         }
         this.formModal.title = "EDIT USER DATA";
@@ -495,7 +495,7 @@ export default {
       this.showDialog = true;
       this.formModal.btn = "CREATE";
       this.formModal.isEdit = false;
-      this.form.imagePreview = require("@/assets/img/avatars/default.png");
+      this.form.imagePreview = require("../assets/img/avatars/default.png");
       this.clearForm();
     },
     clearForm() {
