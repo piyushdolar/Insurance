@@ -4,23 +4,23 @@ import moment from 'moment';
 axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('refreshToken')}`;
 
 const state = {
-	agents: []
+	policyHolders: []
 };
 
 const actions = {
 	// Get all agents
-	getAgents: ({ commit }) => {
+	getPolicyHolders: ({ commit }) => {
 		axios
-			.get('/agents')
+			.get('/customers')
 			.then(response => {
-				commit('SET_AGENTS', response.data.data);
+				commit('SET_POLICY_HOLDERS', response.data.data);
 			})
 			.catch(error => {
 				console.log('Error-vuex-actions: ', error);
 			});
 	},
 	// Create Agents user
-	addAgent: ({ commit }, { userData }) => {
+	addPolicyHolder: ({ commit }, { userData }) => {
 		let rowData = {
 			firstName: userData.fname,
 			lastName: userData.lname,
@@ -33,7 +33,7 @@ const actions = {
 		};
 		return axios({
 			method: 'post',
-			url: 'agents',
+			url: 'customers',
 			data: rowData
 		})
 			.then(response => {
@@ -41,19 +41,19 @@ const actions = {
 					let formData = new FormData();
 					formData.append('avatar', userData.image);
 					return axios
-						.post('agents/avatar/' + response.data.data.id, formData, {
+						.post('customers/avatar/' + response.data.data.id, formData, {
 							headers: {
 								'Content-Type': 'multipart/form-data'
 							}
 						})
 						.then(function(data) {
-							return 'Agent has been successfully created.';
+							return 'Policy Holder has been successfully created.';
 						})
 						.catch(function() {
 							throw error;
 						});
 				} else {
-					return 'Agent has been successfully created.';
+					return 'Policy Holder has been successfully created.';
 				}
 			})
 			.catch(error => {
@@ -62,7 +62,7 @@ const actions = {
 	},
 
 	// Edit Agents user
-	editAgent: ({ commit }, { userData }) => {
+	editPolicyHolder: ({ commit }, { userData }) => {
 		let rowData = {
 			firstName: userData.fname,
 			lastName: userData.lname,
@@ -74,7 +74,7 @@ const actions = {
 		};
 		return axios({
 			method: 'put',
-			url: 'agents/' + userData.id,
+			url: 'customers/' + userData.id,
 			data: rowData
 		})
 			.then(response => {
@@ -82,19 +82,19 @@ const actions = {
 					let formData = new FormData();
 					formData.append('avatar', userData.image);
 					return axios
-						.post('agents/avatar/' + userData.id, formData, {
+						.post('customers/avatar/' + userData.id, formData, {
 							headers: {
 								'Content-Type': 'multipart/form-data'
 							}
 						})
 						.then(function(data) {
-							return 'A Agent successfully updated to database.';
+							return 'A Policy Holder successfully updated to database.';
 						})
 						.catch(function() {
 							throw error;
 						});
 				} else {
-					return 'A Agent successfully updated to database.';
+					return 'A Policy Holder successfully updated to database.';
 				}
 			})
 			.catch(error => {
@@ -103,13 +103,13 @@ const actions = {
 	},
 
 	// Delete Agents user
-	deleteAgent: ({ commit }, { userId }) => {
+	deletePolicyHolder: ({ commit }, { userId }) => {
 		return axios({
 			method: 'delete',
-			url: 'agents/' + userId
+			url: 'customers/' + userId
 		})
 			.then(response => {
-				return response.data.message + ': ' + 'A Agent successfully removed from the database.';
+				return response.data.message + ': ' + 'A Policy Holder successfully removed from the database.';
 			})
 			.catch(error => {
 				throw error.response;
@@ -138,7 +138,7 @@ const mutations = {
 };
 
 const getters = {
-	getAgent: ({ state }) => {
+	getAgents: ({ state }) => {
 		return state.agents;
 	}
 };

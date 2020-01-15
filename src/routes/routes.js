@@ -4,8 +4,8 @@ import Dashboard from '@/pages/Dashboard.vue';
 import UserProfile from '@/pages/UserProfile.vue';
 import Users from '@/pages/Users.vue';
 import Agents from '@/pages/Agents.vue';
-import Customers from '@/pages/Customers.vue';
-import Contracts from '@/pages/Contracts.vue';
+import PolicyHolders from '@/pages/PolicyHolders.vue';
+import Policies from '@/pages/Policies.vue';
 import Maps from '@/pages/Maps.vue';
 import Changelogs from '@/pages/Changelogs.vue';
 import Login from '@/pages/Login.vue';
@@ -50,20 +50,20 @@ const routes = [
 				component: Agents
 			},
 			{
-				path: 'customers',
-				name: 'Customers',
+				path: 'policy-holders',
+				name: 'Policy Holders',
 				meta: {
 					requiresAuth: true
 				},
-				component: Customers
+				component: PolicyHolders
 			},
 			{
-				path: 'contracts',
-				name: 'Contracts',
+				path: 'policies',
+				name: 'Policies',
 				meta: {
 					requiresAuth: true
 				},
-				component: Contracts
+				component: Policies
 			},
 			{
 				path: 'maps',

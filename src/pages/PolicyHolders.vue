@@ -3,7 +3,7 @@
     <div class="md-layout">
       <!-- dialog with button -->
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-        <!-- CREATE USER MODAL -->
+        <!-- CREATE AGENT MODAL -->
         <md-dialog :md-active.sync="showDialog">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
           <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
@@ -79,41 +79,6 @@
                 </div>
               </div>
 
-              <div class="md-layout md-gutter" v-if="!formModal.isEdit">
-                <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('password')">
-                    <label for="password">Password</label>
-                    <md-input
-                      type="password"
-                      id="password"
-                      name="password"
-                      v-model="form.password"
-                      :disabled="sending"
-                    />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.password.minLength"
-                    >The password minimum length is 4 character long.</span>
-                  </md-field>
-                </div>
-                <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('repeatPassword')">
-                    <label for="repeatPassword">Repeat Password</label>
-                    <md-input
-                      type="password"
-                      id="repeatPassword"
-                      name="repeatPassword"
-                      v-model="form.repeatPassword"
-                      :disabled="sending"
-                    />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.repeatPassword.sameAs"
-                    >The password dosen't match.</span>
-                  </md-field>
-                </div>
-              </div>
-
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('email')">
@@ -156,10 +121,6 @@
               </div>
 
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
-
-              <!-- <md-snackbar
-                :md-active.sync="userSaved"
-              >The user {{ lastUser }} was saved with success!</md-snackbar>-->
             </md-dialog-content>
             <md-dialog-actions>
               <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
@@ -169,7 +130,7 @@
         </md-dialog>
 
         <md-button class="md-primary pull-right" @click="openDialog">
-          <md-icon>add</md-icon>Add User
+          <md-icon>add</md-icon>ADD Policy Holder
         </md-button>
       </div>
 
@@ -177,8 +138,8 @@
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable">
         <md-card class>
           <md-card-header data-background-color="purple">
-            <h4 class="title">User's Database</h4>
-            <p class="category">Here you can find and see every user's details</p>
+            <h4 class="title">Policy Holder's Database</h4>
+            <p class="category">Here you can find and see every policy holder's details</p>
           </md-card-header>
           <md-card-content>
             <div class="md-layout">
@@ -226,7 +187,7 @@
             :data="tableData"-->
             <vuetable
               ref="vuetable"
-              api-url="http://119.8.40.98/api/users"
+              api-url="http://119.8.40.98/api/customers"
               :fields="fields"
               :http-options="{ headers: { Authorization: accessToken } }"
               pagination-path
@@ -241,7 +202,7 @@
               <template slot="picture" scope="props">
                 <img
                   v-if="props.rowData.picture != null"
-                  :src="require('@/assets/img/avatars/users/' + props.rowData.picture)"
+                  :src="require('@/assets/img/avatars/customers/' + props.rowData.picture)"
                   alt="profile-image"
                 />
                 <img v-else :src="require('@/assets/img/avatars/default.png')" alt="profile-image" />
@@ -293,11 +254,10 @@ import moment from "moment";
 import Vue from "vue";
 
 export default {
-  name: "UsersComponent",
+  name: "PolicyHolderComponent",
   mixins: [validationMixin, VuetableMixin],
   data: () => ({
     showDialog: false,
-    // users: [],
     form: {
       fname: null,
       lname: null,
@@ -305,13 +265,11 @@ export default {
       phone: null,
       email: null,
       address: null,
-      password: null,
-      repeatPassword: null,
       image: null,
       imagePreview: require("@/assets/img/avatars/default.png")
     },
     formModal: {
-      title: "CREATE NEW USER",
+      title: "CREATE NEW CUSTOMER",
       btn: "CREATE",
       isEdit: false
     },
@@ -329,7 +287,7 @@ export default {
     fields: [
       {
         name: "id",
-        title: "User ID"
+        title: "Customer ID"
       },
       {
         name: "__slot:picture",
@@ -363,8 +321,8 @@ export default {
         title: "Email"
       },
       {
-        name: "userStatus",
-        sortField: "userStatus",
+        name: "status",
+        sortField: "status",
         title: "Status",
         callback: function(v) {
           return v == 1 ? "Active" : "Blocked";
@@ -412,7 +370,7 @@ export default {
       phone: {
         required,
         maxLength: maxLength(10),
-        minLength: minLength(10)
+        minLength: maxLength(10)
       },
       email: {
         email
@@ -420,14 +378,6 @@ export default {
       address: {
         required,
         minLength: minLength(4)
-      },
-      password: {
-        required,
-        minLength: minLength(4),
-        maxLength: maxLength(20)
-      },
-      repeatPassword: {
-        sameAsPassword: sameAs("password")
       }
     }
   },
@@ -437,6 +387,7 @@ export default {
       this.form.imagePreview = URL.createObjectURL(this.form.image);
     },
     onAction(action, data, index) {
+      console.log(data);
       if (action == "edit") {
         this.form.id = data.id;
         this.form.fname = data.firstName;
@@ -446,17 +397,17 @@ export default {
         this.form.email = data.email;
         this.form.address = data.address;
         if (data.picture != null) {
-          this.form.imagePreview = require("@/assets/img/avatars/users/" +
+          this.form.imagePreview = require("@/assets/img/avatars/customers/" +
             data.picture);
         }
-        this.formModal.title = "EDIT USER DATA";
+        this.formModal.title = "EDIT CUSTOMER DATA";
         this.formModal.btn = "UPDATE";
         this.formModal.isEdit = true;
         this.showDialog = true;
       } else if (action == "delete") {
         if (confirm("Are you sure?")) {
           this.$store
-            .dispatch("deleteAdminUser", {
+            .dispatch("deleteAgent", {
               userId: data.id
             })
             .then(response => {
@@ -484,7 +435,6 @@ export default {
     // validation only
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
-
       if (field) {
         return {
           "md-invalid": field.$invalid && field.$dirty
@@ -506,8 +456,6 @@ export default {
       this.form.gender = null;
       this.form.email = null;
       this.form.address = null;
-      this.form.password = null;
-      this.form.repeatPassword = null;
       this.form.image = null;
     },
     validateUser(e) {
@@ -539,7 +487,7 @@ export default {
       this.form.sessionId = this.$session.get("userProfile").id;
       if (type == "add") {
         this.$store
-          .dispatch("addAdminUser", {
+          .dispatch("addPolicyHolder", {
             userData: this.form
           })
           .then(response => {
@@ -565,7 +513,7 @@ export default {
           });
       } else if (type == "edit") {
         this.$store
-          .dispatch("editAdminUser", {
+          .dispatch("editPolicyHolder", {
             userData: this.form
           })
           .then(response => {
@@ -581,7 +529,6 @@ export default {
             this.onFilterReset();
           })
           .catch(error => {
-            console.log(error);
             this.$notify({
               message: error.data.error,
               icon: "add_alert",
@@ -595,7 +542,7 @@ export default {
     }
   }
   /* mounted() {
-    this.$store.dispatch("getAdminUsers");
+    this.$store.dispatch("getPolicyHolders");
   },   */
 };
 </script>

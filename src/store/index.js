@@ -7,8 +7,10 @@ import * as getters from './getters';
 import * as mutations from './mutations';
 import * as actions from './actions'; */
 import Login from './modules/login.store';
-import Users from './modules/users.store';
 import Dashboard from './modules/dashboard.store';
+import Users from './modules/users.store';
+import Agents from './modules/agents.store';
+import PolicyHolders from './modules/policyHolders.store';
 
 export default new Vuex.Store({
 	/* state,
@@ -17,7 +19,9 @@ export default new Vuex.Store({
 	actions, */
 	modules: {
 		Login,
+		Dashboard,
 		Users,
-		Dashboard
+		Agents,
+		PolicyHolders
 	}
 });

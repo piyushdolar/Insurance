@@ -15,7 +15,7 @@ export const VuetableMixin = {
 			filterDate: '',
 			defaultDate: moment(new Date()).format('YYYY/MM/DD'),
 			filter: {
-				searchText: null,
+				searchText: '',
 				searchDate: null,
 				startDate: this.defaultDate,
 				endDate: this.defaultDate

@@ -69,7 +69,8 @@ const actions = {
 			gender: userData.gender,
 			email: userData.email,
 			phone: userData.phone,
-			address: userData.address
+			address: userData.address,
+			updatedBy: userData.sessionId
 		};
 		return axios({
 			method: 'put',
@@ -89,11 +90,11 @@ const actions = {
 						.then(function(data) {
 							return 'A User successfully updated to database.';
 						})
-						.catch(function() {
-							throw '[CODE:USER] Something gone wrong.';
+						.catch(function(error) {
+							throw error;
 						});
 				} else {
-					return response.data.message + ': ' + 'A User successfully updated to database.';
+					return 'A User successfully updated to database.';
 				}
 			})
 			.catch(error => {

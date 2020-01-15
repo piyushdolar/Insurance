@@ -85,7 +85,21 @@ Insurance
 
 ## Change logs:
 
-## [1.8.0] 2019-01-14
+## [1.9.0] 2020-01-15
+
+### Bugs/Fixes
+
+-   Users table edited by whom. history added.
+-   Users validation for password fixed.
+-   Users button name not changing for update.
+-   Users phone number validation fixed.
+-   Users modal close only after it's successfully created fixed.
+-   Vuetable "Object not defined" while empty search in database fixed.
+-   Users folder directory changed avatars/ to avatars/users and same as with rest of users agents and customers/policy holders.
+-   Users/Agents/Customers gender selection bug fixed.
+-   Tabs Home,Users,Agent's Information, Policy Holders successfully added.
+
+## [1.8.0] 2020-01-14
 
 ### Changes/Fixes
 
@@ -93,14 +107,14 @@ Insurance
 -   Users table bugs fixed for email API as well profile picture.
 -   After login dashboard API was not able to fetch the instance token.
 
-## [1.7.0] 2019-01-10
+## [1.7.0] 2020-01-10
 
 ### Changes
 
 -   Datatable Searchbar, Pagination, Per-page dropdown with REST APIs sync added.
 -   Dashboard sidebar naming change.
 
-## [1.6.0] 2019-01-07
+## [1.6.0] 2020-01-07
 
 ### Dependencies Updates, Design enhancement.
 
@@ -108,7 +122,7 @@ Insurance
 -   Updated dashboard which we discussed yesterday.
 -   Users datatable with filter design updated.
 
-## [1.5.1] 2019-01-06
+## [1.5.1] 2020-01-06
 
 ### Dependencies Updates
 

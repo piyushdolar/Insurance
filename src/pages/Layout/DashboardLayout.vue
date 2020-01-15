@@ -16,11 +16,11 @@
         <md-icon>accessibility_new</md-icon>
         <p>Agent's Information</p>
       </sidebar-link>
-      <sidebar-link to="/customers">
+      <sidebar-link to="/policy-holders">
         <md-icon>emoji_people</md-icon>
         <p>Policy Holders</p>
       </sidebar-link>
-      <sidebar-link to="/contracts">
+      <sidebar-link to="/policies">
         <md-icon>assignment</md-icon>
         <p>Policy</p>
       </sidebar-link>
