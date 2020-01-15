@@ -550,9 +550,7 @@ export default {
               horizontalAlign: "right",
               type: "success"
             });
-            this.showDialog = false;
             this.clearForm();
-            this.onFilterReset();
           })
           .catch(error => {
             this.$notify({
@@ -576,12 +574,9 @@ export default {
               horizontalAlign: "right",
               type: "success"
             });
-            this.showDialog = false;
             this.clearForm();
-            this.onFilterReset();
           })
           .catch(error => {
-            console.log(error);
             this.$notify({
               message: error.data.error,
               icon: "add_alert",
@@ -591,7 +586,9 @@ export default {
             });
           });
       }
+      this.onFilterReset();
       this.sending = false;
+      this.showDialog = false;
     }
   }
   /* mounted() {

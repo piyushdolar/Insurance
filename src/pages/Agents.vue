@@ -429,9 +429,7 @@ export default {
 							horizontalAlign: 'right',
 							type: 'success'
 						});
-						this.showDialog = false;
 						this.clearForm();
-						this.onFilterReset();
 					})
 					.catch(error => {
 						this.$notify({
@@ -455,9 +453,7 @@ export default {
 							horizontalAlign: 'right',
 							type: 'success'
 						});
-						this.showDialog = false;
 						this.clearForm();
-						this.onFilterReset();
 					})
 					.catch(error => {
 						this.$notify({
@@ -469,6 +465,8 @@ export default {
 						});
 					});
 			}
+			this.onFilterReset();
+			this.showDialog = false;
 			this.sending = false;
 		}
 	}

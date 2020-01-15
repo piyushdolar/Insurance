@@ -49,8 +49,8 @@ const actions = {
 						.then(function(data) {
 							return 'User has been successfully created.';
 						})
-						.catch(function() {
-							throw '[CODE:USER] Something gone wrong.';
+						.catch(function(error) {
+							throw error;
 						});
 				} else {
 					return 'User has been successfully created.';

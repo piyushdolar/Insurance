@@ -49,7 +49,7 @@ const actions = {
 						.then(function(data) {
 							return 'Policy Holder has been successfully created.';
 						})
-						.catch(function() {
+						.catch(function(error) {
 							throw error;
 						});
 				} else {
