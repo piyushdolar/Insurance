@@ -445,7 +445,7 @@ export default {
       this.showDialog = true;
       this.formModal.btn = "CREATE";
       this.formModal.isEdit = false;
-      this.form.imagePreview = require("../assets/img/avatars/default.png");
+      this.form.imagePreview = require("@/assets/img/avatars/default.png");
       this.clearForm();
     },
     clearForm() {

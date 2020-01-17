@@ -202,7 +202,7 @@
               <template slot="picture" scope="props">
                 <img
                   v-if="props.rowData.picture != null"
-                  :src="require('../assets/img/avatars/agents/' + props.rowData.picture)"
+                  :src="require('@/assets/img/avatars/agents/' + props.rowData.picture)"
                   alt="profile-image"
                 />
                 <img v-else :src="require('../assets/img/avatars/default.png')" alt="profile-image" />
