@@ -79,7 +79,6 @@ const getters = {
 		return state.recent.policy_holders;
 	},
 	getDashboardCharts: state => {
-		console.log('Getter: ', state.charts);
 		return state.charts;
 	}
 };

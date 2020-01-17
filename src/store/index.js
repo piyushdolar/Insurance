@@ -11,6 +11,7 @@ import Dashboard from './modules/dashboard.store';
 import Users from './modules/users.store';
 import Agents from './modules/agents.store';
 import PolicyHolders from './modules/policyHolders.store';
+import Policies from './modules/policies.store';
 
 export default new Vuex.Store({
 	/* state,
@@ -22,6 +23,7 @@ export default new Vuex.Store({
 		Dashboard,
 		Users,
 		Agents,
-		PolicyHolders
+		PolicyHolders,
+		Policies
 	}
 });

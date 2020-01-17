@@ -15,6 +15,8 @@ import Notifications from './components/NotificationPlugin';
 // MaterialDashboard plugin
 import MaterialDashboard from './material';
 import VMdDateRangePicker from 'v-md-date-range-picker';
+// import 'vue-material/dist/vue-material.min.css';
+// import 'vue-material/dist/theme/default.css';
 
 import Chartist from 'chartist';
 import moment from 'moment';

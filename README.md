@@ -85,7 +85,7 @@ Insurance
 
 ## Change logs:
 
-## [1.10.9] 2020-01-15
+## [1.10.9] 2020-01-16
 
 ### Bugs/Fixes
 
@@ -98,6 +98,9 @@ Insurance
 -   Users folder directory changed avatars/ to avatars/users and same as with rest of users agents and customers/policy holders.
 -   Users/Agents/Customers gender selection bug fixed.
 -   Tabs Home,Users,Agent's Information, Policy Holders successfully added.
+-   Policy API established.
+-   Policy Features like filter, auto select added.
+-   Some extra features and bugs fixed and updated.
 
 ## [1.8.0] 2020-01-14
 

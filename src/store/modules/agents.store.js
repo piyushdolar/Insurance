@@ -1,5 +1,4 @@
 import axios from '../../api/config';
-import moment from 'moment';
 
 axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('refreshToken')}`;
 
@@ -9,9 +8,15 @@ const state = {
 
 const actions = {
 	// Get all agents
-	getAgents: ({ commit }) => {
+	getAgents: ({ commit }, searchWord) => {
+		const params = {
+			sort: 'id|desc',
+			page: 1,
+			per_page: 20,
+			filter: searchWord
+		};
 		axios
-			.get('/agents')
+			.get('/agents', { params: params })
 			.then(response => {
 				commit('SET_AGENTS', response.data.data);
 			})
@@ -119,18 +124,14 @@ const actions = {
 
 const mutations = {
 	SET_AGENTS: (state, users) => {
-		for (let i = 0; i < users.data.length; i++) {
+		for (let i = 0; i < users.length; i++) {
 			let userAvailable = state.agents.find(user => {
-				return user.email === users.data[i].email;
+				return user.id === users[i].id;
 			});
 			if (!userAvailable) {
 				state.agents.push({
-					id: i + 1,
-					fullName: users.data[i].firstName + ' ' + users.data[i].lastName,
-					email: users.data[i].email,
-					gender: users.data[i].gender,
-					createdAt: moment(String(users.data[i].createdAt)).format('DD/MM/YYYY hh:mm A'),
-					updatedAt: moment(String(users.data[i].updatedAt)).format('DD/MM/YYYY hh:mm A')
+					id: users[i].id,
+					name: users[i].firstName + ' ' + users[i].lastName
 				});
 			}
 		}
@@ -138,7 +139,7 @@ const mutations = {
 };
 
 const getters = {
-	getAgent: ({ state }) => {
+	getAgents: state => {
 		return state.agents;
 	}
 };

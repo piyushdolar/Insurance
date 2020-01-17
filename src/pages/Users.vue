@@ -15,7 +15,7 @@
                     <md-input
                       name="first-name"
                       id="first-name"
-                      autocomplete="given-name"
+                      autocomplete="first-name"
                       v-model="form.fname"
                       :disabled="sending"
                     />
@@ -534,8 +534,6 @@ export default {
     },
     saveUser(type) {
       this.sending = true;
-      let alertMessage = null;
-      let alertColor = "warning";
       this.form.sessionId = this.$session.get("userProfile").id;
       if (type == "add") {
         this.$store
@@ -551,6 +549,7 @@ export default {
               type: "success"
             });
             this.clearForm();
+            this.onFilterReset();
           })
           .catch(error => {
             this.$notify({
@@ -575,6 +574,7 @@ export default {
               type: "success"
             });
             this.clearForm();
+            this.onFilterReset();
           })
           .catch(error => {
             this.$notify({
@@ -586,7 +586,6 @@ export default {
             });
           });
       }
-      this.onFilterReset();
       this.sending = false;
       this.showDialog = false;
     }
