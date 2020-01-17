@@ -244,7 +244,7 @@
                   :src="require('@/assets/img/avatars/users/' + props.rowData.picture)"
                   alt="profile-image"
                 />
-                <img v-else :src="require('@/assets/img/avatars/default.png')" alt="profile-image" />
+                <img v-else :src="require('../assets/img/avatars/default.png')" alt="profile-image" />
               </template>
               <template slot="actions" scope="props">
                 <div class="custom-actions">
