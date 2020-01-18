@@ -85,7 +85,7 @@ Insurance
 
 ## Change logs:
 
-## [1.10.9] 2020-01-18
+## [1.15.0] 2020-01-18
 
 ### Bugs/Fixes
 
