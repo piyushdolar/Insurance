@@ -107,6 +107,12 @@ Insurance
 -   Users filter table added the loading wait while creating or editing users.
 -   LoggedIn user profile component updated, user now can able to change profile section.
 
+### Known Bugs/Changes/Update
+
+-   Images are not updating right now because of server issue sometime not rendering properly will be fixed on next update.
+-   Filter for polices.
+-   Profile page on page change not getting data from API, but on refresh can.
+
 ### In Development
 
 -   Specific User Profile.
