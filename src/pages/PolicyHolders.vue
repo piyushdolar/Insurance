@@ -146,7 +146,7 @@
               <div class="md-layout-item md-layout">
                 <md-field>
                   <label for="address">Search in the table</label>
-                  <md-input v-model="filter.searchText" @keyup.enter="doFilter"></md-input>
+                  <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item md-layout">
@@ -166,8 +166,8 @@
                 <div class="md-layout-item">
                   <md-field>
                     <v-md-date-range-picker
-                      v-bind:start-date="filter.startDate"
-                      v-bind:end-date="filter.endDate"
+                      v-bind:start-date="filterItem.startDate"
+                      v-bind:end-date="filterItem.endDate"
                       opens="right"
                       @change="handleDateChange"
                     ></v-md-date-range-picker>
@@ -202,10 +202,10 @@
               <template slot="picture" scope="props">
                 <img
                   v-if="props.rowData.picture != null"
-                  :src="require('../assets/img/avatars/customers/' + props.rowData.picture)"
+                  :src="'/images/avatars/customers/' + props.rowData.picture"
                   alt="profile-image"
                 />
-                <img v-else :src="require('../assets/img/avatars/default.png')" alt="profile-image" />
+                <img v-else :src="'/images/avatars/default.png'" alt="profile-image" />
               </template>
               <template slot="actions" scope="props">
                 <div class="custom-actions">
@@ -246,12 +246,8 @@ import {
   sameAs
 } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
-
-// vuetable2
 import { VuetableMixin } from "../mixins/VuetableMixin";
-
 import moment from "moment";
-import Vue from "vue";
 
 export default {
   name: "PolicyHolderComponent",
@@ -266,7 +262,7 @@ export default {
       email: null,
       address: null,
       image: null,
-      imagePreview: require("../assets/img/avatars/default.png")
+      imagePreview: "/images/avatars/default.png"
     },
     formModal: {
       title: "CREATE NEW CUSTOMER",
@@ -293,8 +289,7 @@ export default {
         name: "__slot:picture",
         title: "Image",
         callback: image => {
-          // return image == null ? 'default.png' : image;
-          return "default.png";
+          return image == null ? "default.png" : image;
         }
       },
       {
@@ -348,10 +343,6 @@ export default {
         name: "__slot:actions", // <----
         title: "Actions"
       }
-      /* {
-        name: "__component:custom-actions", // <----
-        title: "Actions"
-      } */
     ]
   }),
   validations: {
@@ -387,7 +378,6 @@ export default {
       this.form.imagePreview = URL.createObjectURL(this.form.image);
     },
     onAction(action, data, index) {
-      console.log(data);
       if (action == "edit") {
         this.form.id = data.id;
         this.form.fname = data.firstName;
@@ -397,8 +387,7 @@ export default {
         this.form.email = data.email;
         this.form.address = data.address;
         if (data.picture != null) {
-          this.form.imagePreview = require("../assets/img/avatars/customers/" +
-            data.picture);
+          this.form.imagePreview = "/images/avatars/customers/" + data.picture;
         }
         this.formModal.title = "EDIT CUSTOMER DATA";
         this.formModal.btn = "UPDATE";
@@ -407,7 +396,7 @@ export default {
       } else if (action == "delete") {
         if (confirm("Are you sure?")) {
           this.$store
-            .dispatch("deleteAgent", {
+            .dispatch("deletePolicyHolder", {
               userId: data.id
             })
             .then(response => {
@@ -445,7 +434,7 @@ export default {
       this.showDialog = true;
       this.formModal.btn = "CREATE";
       this.formModal.isEdit = false;
-      this.form.imagePreview = require("@/assets/img/avatars/default.png");
+      this.form.imagePreview = "/images/avatars/default.png";
       this.clearForm();
     },
     clearForm() {
@@ -480,11 +469,11 @@ export default {
       }
       //   console.log(this.$v.form);
     },
-    saveUser(type) {
+    async saveUser(type) {
       this.sending = true;
       this.form.sessionId = this.$session.get("userProfile").id;
       if (type == "add") {
-        this.$store
+        await this.$store
           .dispatch("addPolicyHolder", {
             userData: this.form
           })
@@ -496,6 +485,7 @@ export default {
               horizontalAlign: "right",
               type: "success"
             });
+            this.showDialog = false;
             this.clearForm();
           })
           .catch(error => {
@@ -508,7 +498,7 @@ export default {
             });
           });
       } else if (type == "edit") {
-        this.$store
+        await this.$store
           .dispatch("editPolicyHolder", {
             userData: this.form
           })
@@ -520,6 +510,7 @@ export default {
               horizontalAlign: "right",
               type: "success"
             });
+            this.showDialog = false;
             this.clearForm();
           })
           .catch(error => {
@@ -533,7 +524,6 @@ export default {
           });
       }
       this.onFilterReset();
-      this.showDialog = false;
       this.sending = false;
     }
   }

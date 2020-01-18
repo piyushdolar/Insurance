@@ -14,7 +14,7 @@ export const VuetableMixin = {
 			filterText: '',
 			filterDate: '',
 			defaultDate: moment(new Date()).format('YYYY/MM/DD'),
-			filter: {
+			filterItem: {
 				searchText: '',
 				searchDate: null,
 				startDate: this.defaultDate,
@@ -36,7 +36,7 @@ export const VuetableMixin = {
 			});
 		},
 		handleDateChange(date) {
-			this.filter.searchDate = moment(date[0]._d).format('YYYY/MM/DD') + '|' + moment(date[1]._d).format('YYYY/MM/DD');
+			this.filterItem.searchDate = moment(date[0]._d).format('YYYY/MM/DD') + '|' + moment(date[1]._d).format('YYYY/MM/DD');
 		},
 		onPaginationData(paginationData) {
 			this.$refs.pagination.setPaginationData(paginationData);
@@ -47,7 +47,7 @@ export const VuetableMixin = {
 		},
 		// Filter set
 		doFilter() {
-			this.$events.fire('filter-set', this.filter);
+			this.$events.fire('filter-set', this.filterItem);
 		},
 		onFilterSet(filter) {
 			this.moreParams = {
@@ -58,10 +58,10 @@ export const VuetableMixin = {
 		},
 		// Filter reset
 		resetFilter() {
-			this.filter.searchText = '';
-			this.filter.searchDate = '';
-			this.filter.startDate = this.defaultDate;
-			this.filter.endDate = this.defaultDate;
+			this.filterItem.searchText = '';
+			this.filterItem.searchDate = '';
+			this.filterItem.startDate = this.defaultDate;
+			this.filterItem.endDate = this.defaultDate;
 			// this.$events.fire('filter-reset');
 			// this.$router.go();
 			// this.$router.go(this.$router.currentRoute);

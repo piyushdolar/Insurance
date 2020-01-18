@@ -85,7 +85,7 @@ Insurance
 
 ## Change logs:
 
-## [1.10.9] 2020-01-16
+## [1.10.9] 2020-01-18
 
 ### Bugs/Fixes
 
@@ -101,6 +101,18 @@ Insurance
 -   Policy API established.
 -   Policy Features like filter, auto select added.
 -   Some extra features and bugs fixed and updated.
+-   Image problem resolved(image not shown on server route but in local can)
+-   Dashboard chart fixed which was not showing data on page refresh but showing on component load only.
+-   Datatable error fixed for searching with any users/agents/customers.
+-   Users filter table added the loading wait while creating or editing users.
+-   LoggedIn user profile component updated, user now can able to change profile section.
+
+### In Development
+
+-   Specific User Profile.
+-   Policies table on click on particular username open the agent and user profile.
+-   Edit the current user profile.
+-   Policies table Filter integration.
 
 ## [1.8.0] 2020-01-14
 

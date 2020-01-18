@@ -1,9 +1,6 @@
 <template>
   <md-card>
-    <md-card-header
-      class="card-chart"
-      :data-background-color="dataBackgroundColor"
-    >
+    <md-card-header class="card-chart" :data-background-color="dataBackgroundColor">
       <div :id="chartId" class="ct-chart"></div>
     </md-card-header>
 
@@ -90,6 +87,11 @@ export default {
   mounted() {
     this.updateChartId();
     this.$nextTick(this.initChart);
+  },
+  watch: {
+    chartData(to, from) {
+      this.$nextTick(this.initChart);
+    }
   }
 };
 </script>

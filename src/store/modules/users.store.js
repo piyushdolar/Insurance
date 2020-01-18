@@ -4,7 +4,8 @@ import moment from 'moment';
 axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('refreshToken')}`;
 
 const state = {
-	adminUsers: []
+	adminUsers: [],
+	singleUser: {}
 };
 
 const actions = {
@@ -19,11 +20,21 @@ const actions = {
 				console.log('Error-vuex-actions: ', error);
 			});
 	},
+	getSingleAdminUser({ commit }, userId) {
+		axios
+			.get('/users/' + userId)
+			.then(response => {
+				commit('SET_SINGLE_ADMIN_USER', response.data.data);
+			})
+			.catch(error => {
+				console.log('Error-vuex-actions: ', error);
+			});
+	},
 	// Create admin user
-	addAdminUser: ({ commit }, { userData }) => {
+	addAdminUser: ({ commit }, userData) => {
 		let rowData = {
-			firstName: userData.fname,
-			lastName: userData.lname,
+			firstName: userData.firstName,
+			lastName: userData.lastName,
 			gender: userData.gender,
 			email: userData.email,
 			phone: userData.phone,
@@ -62,10 +73,10 @@ const actions = {
 	},
 
 	// Edit admin user
-	editAdminUser: ({ commit }, { userData }) => {
+	editAdminUser: ({ commit }, userData) => {
 		let rowData = {
-			firstName: userData.fname,
-			lastName: userData.lname,
+			firstName: userData.firstName,
+			lastName: userData.lastName,
 			gender: userData.gender,
 			email: userData.email,
 			phone: userData.phone,
@@ -78,7 +89,7 @@ const actions = {
 			data: rowData
 		})
 			.then(response => {
-				if (userData.image != null) {
+				if (userData.image != null && response.status == 200) {
 					let formData = new FormData();
 					formData.append('avatar', userData.image);
 					return axios
@@ -88,13 +99,13 @@ const actions = {
 							}
 						})
 						.then(function(data) {
-							return 'A User successfully updated to database.';
+							return 'A User profile updated successfully.';
 						})
 						.catch(function(error) {
 							throw error;
 						});
 				} else {
-					return 'A User successfully updated to database.';
+					return 'A User profile updated successfully.';
 				}
 			})
 			.catch(error => {
@@ -134,6 +145,9 @@ const mutations = {
 				});
 			}
 		}
+	},
+	SET_SINGLE_ADMIN_USER: (state, response) => {
+		state.singleUser = response;
 	}
 };
 
@@ -159,6 +173,9 @@ const getters = {
 				}
 			}
 		];
+	},
+	getSingleAdminUser(state) {
+		return state.singleUser;
 	}
 };
 

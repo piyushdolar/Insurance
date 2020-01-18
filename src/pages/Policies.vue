@@ -131,7 +131,7 @@
               <div class="md-layout-item md-layout">
                 <md-field>
                   <label for="table">Search in the table</label>
-                  <md-input v-model="filter.searchText" @keyup.enter="doFilter"></md-input>
+                  <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item md-layout">
@@ -151,8 +151,8 @@
                 <div class="md-layout-item">
                   <md-field>
                     <v-md-date-range-picker
-                      v-bind:start-date="filter.startDate"
-                      v-bind:end-date="filter.endDate"
+                      v-bind:start-date="filterItem.startDate"
+                      v-bind:end-date="filterItem.endDate"
                       opens="right"
                       @change="handleDateChange"
                     ></v-md-date-range-picker>
@@ -222,12 +222,8 @@ import {
   sameAs
 } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
-
-// vuetable2
 import { VuetableMixin } from "../mixins/VuetableMixin";
-
 import moment from "moment";
-import Vue from "vue";
 import { mapGetters } from "vuex";
 
 export default {
@@ -508,11 +504,11 @@ export default {
       }
       //   console.log(this.$v.form);
     },
-    saveUser(type) {
+    async saveUser(type) {
       this.sending = true;
       this.form.sessionId = this.$session.get("userProfile").id;
       if (type == "add") {
-        this.$store
+        await this.$store
           .dispatch("addPolicy", this.form)
           .then(response => {
             this.$notify({
@@ -522,6 +518,7 @@ export default {
               horizontalAlign: "right",
               type: "success"
             });
+            this.showDialog = false;
             this.clearForm();
             this.onFilterReset();
           })
@@ -535,7 +532,7 @@ export default {
             });
           });
       } else if (type == "edit") {
-        this.$store
+        await this.$store
           .dispatch("editPolicy", this.form)
           .then(response => {
             this.$notify({
@@ -545,6 +542,7 @@ export default {
               horizontalAlign: "right",
               type: "success"
             });
+            this.showDialog = false;
             this.onFilterReset();
             this.clearForm();
           })
@@ -558,7 +556,6 @@ export default {
             });
           });
       }
-      this.showDialog = false;
       this.sending = false;
     }
   },

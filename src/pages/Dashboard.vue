@@ -33,7 +33,7 @@
             <h4 class="title">Daily Sales Performance</h4>
             <p class="category">
               <span class="text-success">
-                <i class="fas fa-long-arrow-alt-up"></i> 50%
+                <i class="fas fa-long-arrow-alt-up"></i> Updated
               </span>
               increase in today sales.
             </p>
@@ -48,7 +48,7 @@
       </div>
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
         <chart-card
-          :chart-data="getDashboardCharts.agents.data"
+          :chart-data="getDashboardCharts.agents"
           :chart-options="charts.options"
           :chart-type="'Line'"
           data-background-color="green"

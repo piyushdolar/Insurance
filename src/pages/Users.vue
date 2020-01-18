@@ -10,32 +10,41 @@
             <md-dialog-content>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('fname')">
+                  <md-field :class="getValidationClass('firstName')">
                     <label for="first-name">First Name</label>
                     <md-input
                       name="first-name"
                       id="first-name"
                       autocomplete="first-name"
-                      v-model="form.fname"
+                      v-model="form.firstName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.fname.required">The first name is required</span>
-                    <span class="md-error" v-else-if="!$v.form.fname.minlength">Invalid first name</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.firstName.required"
+                    >The first name is required</span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.firstName.minlength"
+                    >Invalid first name</span>
                   </md-field>
                 </div>
 
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('lname')">
+                  <md-field :class="getValidationClass('lastName')">
                     <label for="last-name">Last Name</label>
                     <md-input
                       name="last-name"
                       id="last-name"
                       autocomplete="family-name"
-                      v-model="form.lname"
+                      v-model="form.lastName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.lname.required">The last name is required</span>
-                    <span class="md-error" v-else-if="!$v.form.lname.minlength">Invalid last name</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.lastName.required"
+                    >The last name is required</span>
+                    <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
                   </md-field>
                 </div>
               </div>
@@ -130,10 +139,15 @@
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 text-center">
-                  <img :src="form.imagePreview" width="100" height="100" />
+                  <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
-                    <md-file id="image" @change="onFileSelected" accept="image/*" />
+                    <md-file
+                      id="image"
+                      @change="onFileSelected"
+                      accept="image/*"
+                      alt="profile-image"
+                    />
                   </md-field>
                 </div>
               </div>
@@ -185,7 +199,7 @@
               <div class="md-layout-item md-layout">
                 <md-field>
                   <label for="address">Search in the table</label>
-                  <md-input v-model="filter.searchText" @keyup.enter="doFilter"></md-input>
+                  <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item md-layout">
@@ -205,8 +219,8 @@
                 <div class="md-layout-item">
                   <md-field>
                     <v-md-date-range-picker
-                      v-bind:start-date="filter.startDate"
-                      v-bind:end-date="filter.endDate"
+                      v-bind:start-date="filterItem.startDate"
+                      v-bind:end-date="filterItem.endDate"
                       opens="right"
                       @change="handleDateChange"
                     ></v-md-date-range-picker>
@@ -241,10 +255,10 @@
               <template slot="picture" scope="props">
                 <img
                   v-if="props.rowData.picture != null"
-                  :src="require('@/assets/img/avatars/users/' + props.rowData.picture)"
+                  :src="'/images/avatars/users/'+props.rowData.picture"
                   alt="profile-image"
                 />
-                <img v-else :src="require('@/assets/img/avatars/default.png')" alt="profile-image" />
+                <img v-else src="/images/avatars/default.png" alt="profile-image" />
               </template>
               <template slot="actions" scope="props">
                 <div class="custom-actions">
@@ -285,12 +299,8 @@ import {
   sameAs
 } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
-
-// vuetable2
 import { VuetableMixin } from "../mixins/VuetableMixin";
-
 import moment from "moment";
-import Vue from "vue";
 
 export default {
   name: "UsersComponent",
@@ -299,8 +309,8 @@ export default {
     showDialog: false,
     // users: [],
     form: {
-      fname: null,
-      lname: null,
+      firstName: null,
+      lastName: null,
       gender: null,
       phone: null,
       email: null,
@@ -308,7 +318,7 @@ export default {
       password: null,
       repeatPassword: null,
       image: null,
-      imagePreview: require("@/assets/img/avatars/default.png")
+      imagePreview: "/images/avatars/default.png"
     },
     formModal: {
       title: "CREATE NEW USER",
@@ -335,8 +345,7 @@ export default {
         name: "__slot:picture",
         title: "Image",
         callback: image => {
-          // return image == null ? 'default.png' : image;
-          return "default.png";
+          return image == null ? "default.png" : image;
         }
       },
       {
@@ -398,11 +407,11 @@ export default {
   }),
   validations: {
     form: {
-      fname: {
+      firstName: {
         required,
         minLength: minLength(3)
       },
-      lname: {
+      lastName: {
         required,
         minLength: minLength(3)
       },
@@ -439,15 +448,14 @@ export default {
     onAction(action, data, index) {
       if (action == "edit") {
         this.form.id = data.id;
-        this.form.fname = data.firstName;
-        this.form.lname = data.lastName;
+        this.form.firstName = data.firstName;
+        this.form.lastName = data.lastName;
         this.form.gender = data.gender;
         this.form.phone = data.phone;
         this.form.email = data.email;
         this.form.address = data.address;
         if (data.picture != null) {
-          this.form.imagePreview = require("@/assets/img/avatars/users/" +
-            data.picture);
+          this.form.imagePreview = "/images/avatars/users/" + data.picture;
         }
         this.formModal.title = "EDIT USER DATA";
         this.formModal.btn = "UPDATE";
@@ -484,7 +492,6 @@ export default {
     // validation only
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
-
       if (field) {
         return {
           "md-invalid": field.$invalid && field.$dirty
@@ -495,13 +502,13 @@ export default {
       this.showDialog = true;
       this.formModal.btn = "CREATE";
       this.formModal.isEdit = false;
-      this.form.imagePreview = require("@/assets/img/avatars/default.png");
+      this.form.imagePreview = "/images/avatars/default.png";
       this.clearForm();
     },
     clearForm() {
       this.$v.$reset();
-      this.form.fname = null;
-      this.form.lname = null;
+      this.form.firstName = null;
+      this.form.lastName = null;
       this.form.phone = null;
       this.form.gender = null;
       this.form.email = null;
@@ -514,16 +521,14 @@ export default {
       this.$v.$touch();
       if (this.formModal.isEdit) {
         if (
-          !this.$v.form.fname.$invalid &&
-          !this.$v.form.lname.$invalid &&
+          !this.$v.form.firstName.$invalid &&
+          !this.$v.form.lastName.$invalid &&
           !this.$v.form.gender.$invalid &&
           !this.$v.form.phone.$invalid &&
           !this.$v.form.email.$invalid &&
           !this.$v.form.address.$invalid
         ) {
           this.saveUser("edit");
-        } else {
-          console.log("Edit From: ", "error");
         }
       } else {
         if (!this.$v.form.$invalid) {
@@ -532,14 +537,12 @@ export default {
       }
       //   console.log(this.$v.form);
     },
-    saveUser(type) {
+    async saveUser(type, btnText) {
       this.sending = true;
       this.form.sessionId = this.$session.get("userProfile").id;
       if (type == "add") {
-        this.$store
-          .dispatch("addAdminUser", {
-            userData: this.form
-          })
+        await this.$store
+          .dispatch("addAdminUser", this.form)
           .then(response => {
             this.$notify({
               message: response,
@@ -548,6 +551,7 @@ export default {
               horizontalAlign: "right",
               type: "success"
             });
+            this.showDialog = false;
             this.clearForm();
             this.onFilterReset();
           })
@@ -561,10 +565,8 @@ export default {
             });
           });
       } else if (type == "edit") {
-        this.$store
-          .dispatch("editAdminUser", {
-            userData: this.form
-          })
+        await this.$store
+          .dispatch("editAdminUser", this.form)
           .then(response => {
             this.$notify({
               message: response,
@@ -573,6 +575,7 @@ export default {
               horizontalAlign: "right",
               type: "success"
             });
+            this.showDialog = false;
             this.clearForm();
             this.onFilterReset();
           })
@@ -587,12 +590,8 @@ export default {
           });
       }
       this.sending = false;
-      this.showDialog = false;
     }
   }
-  /* mounted() {
-    this.$store.dispatch("getAdminUsers");
-  },   */
 };
 </script>
 <style lang="scss" scoped>

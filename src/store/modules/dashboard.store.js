@@ -14,7 +14,20 @@ const state = {
 		policy_holders: [],
 		policies: []
 	},
-	charts: {}
+	charts: {
+		policy_holders: {
+			labels: [],
+			series: [[]]
+		},
+		daily_sales: {
+			labels: [],
+			series: [[]]
+		},
+		agents: {
+			labels: [],
+			series: [[]]
+		}
+	}
 };
 
 const actions = {
@@ -53,10 +66,8 @@ const mutations = {
 				series: [response.charts.daily_sales.data]
 			},
 			agents: {
-				data: {
-					labels: response.charts.daily_sales.labels,
-					series: [response.charts.daily_sales.data]
-				}
+				labels: response.charts.daily_sales.labels,
+				series: [response.charts.daily_sales.data]
 			}
 		};
 	}

@@ -2,18 +2,13 @@
   <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
     <md-card class="md-card-profile">
       <div class="md-card-avatar">
-        <img
-          class="img"
-          v-if="form.picture != null"
-          :src="require('@/assets/img/avatars/users/' + form.picturePreview)"
-        />
-        <img class="img" v-else :src="require('@/assets/img/avatars/default.png')" />
+        <img class="img" v-if="form.picture != null" :src="picturePreview" alt="image-preview" />
+        <img class="img" v-else src="/images/avatars/default.png" alt="image-preview" />
       </div>
-
       <md-card-content>
         <div class="md-layout">
           <div class="md-layout-item md-small-size-100 md-size-50">
-            <md-field>
+            <md-field :class="getValidationClass('firstName')">
               <label>First Name</label>
               <md-input v-model="form.firstName" type="text"></md-input>
             </md-field>
@@ -64,10 +59,11 @@
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-right">
-            <md-button class="md-raised md-primary">Update Profile</md-button>
+            <md-button type="submit" class="md-raised md-primary" :disabled="sending">Update Profile</md-button>
           </div>
         </div>
       </md-card-content>
+      <md-progress-bar md-mode="indeterminate" v-if="sending" />
     </md-card>
   </form>
 </template>
@@ -79,22 +75,18 @@ import {
   maxLength,
   sameAs
 } from "vuelidate/lib/validators";
+import { validationMixin } from "vuelidate";
+import { mapGetters } from "vuex";
+
 export default {
   name: "edit-profile-form",
   data() {
     return {
-      form: {
-        firstName: null,
-        lastName: null,
-        gender: null,
-        phone: null,
-        email: null,
-        address: null,
-        picture: null,
-        picturePreview: require("@/assets/img/avatars/default.png")
-      }
+      picturePreview: "/images/avatars/default.png",
+      sending: false
     };
   },
+  mixins: [validationMixin],
   validations: {
     form: {
       firstName: {
@@ -122,23 +114,59 @@ export default {
       }
     }
   },
-  method: {
+  methods: {
+    getValidationClass(fieldName) {
+      const field = this.$v.form[fieldName];
+      if (field) {
+        return {
+          "md-invalid": field.$invalid && field.$dirty
+        };
+      }
+    },
     validateUser(e) {
       this.$v.$touch();
       if (!this.$v.form.$invalid) {
-        this.saveUser("add");
+        this.saveUser("edit");
       }
+    },
+    async saveUser(type) {
+      this.sending = true;
+      await this.$store
+        .dispatch("editAdminUser", this.form)
+        .then(response => {
+          this.$notify({
+            message: response,
+            icon: "add_alert",
+            verticalAlign: "top",
+            horizontalAlign: "right",
+            type: "success"
+          });
+        })
+        .catch(error => {
+          this.$notify({
+            message: error.data.error,
+            icon: "add_alert",
+            verticalAlign: "top",
+            horizontalAlign: "right",
+            type: "danger"
+          });
+        });
+      this.sending = false;
     }
   },
-  mounted() {
-    this.form = {
-      firstName: this.$session.get("userProfile").firstName,
-      lastName: this.$session.get("userProfile").lastName,
-      gender: this.$session.get("userProfile").gender,
-      phone: this.$session.get("userProfile").phone,
-      picture: this.$session.get("userProfile").picture,
-      address: this.$session.get("userProfile").address
-    };
+  created() {
+    this.$store.dispatch(
+      "getSingleAdminUser",
+      this.$session.get("userProfile").id
+    );
+  },
+  computed: {
+    ...mapGetters({ form: "getSingleAdminUser" })
+  },
+  watch: {
+    getSingleAdminUser(response) {
+      console.log(response);
+    }
   }
 };
 </script>
