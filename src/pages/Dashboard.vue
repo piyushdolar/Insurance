@@ -1,7 +1,9 @@
 <template>
   <div class="content">
     <div class="md-layout">
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
+      >
         <chart-card
           :chart-data="getDashboardCharts.policy_holders"
           :chart-options="charts.options"
@@ -21,7 +23,9 @@
           </template>
         </chart-card>
       </div>
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
+      >
         <chart-card
           :chart-data="getDashboardCharts.daily_sales"
           :chart-options="charts.options"
@@ -46,7 +50,9 @@
           </template>
         </chart-card>
       </div>
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
+      >
         <chart-card
           :chart-data="getDashboardCharts.agents"
           :chart-options="charts.options"
@@ -66,7 +72,9 @@
           </template>
         </chart-card>
       </div>
-      <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
         <stats-card data-background-color="green">
           <template slot="header">
             <md-icon>verified_user</md-icon>
@@ -84,7 +92,9 @@
           </template>
         </stats-card>
       </div>
-      <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
         <stats-card data-background-color="orange">
           <template slot="header">
             <md-icon>supervised_user_circle</md-icon>
@@ -102,7 +112,9 @@
           </template>
         </stats-card>
       </div>
-      <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
         <stats-card data-background-color="red">
           <template slot="header">
             <i class="fa fa-users"></i>
@@ -120,7 +132,9 @@
           </template>
         </stats-card>
       </div>
-      <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
         <stats-card data-background-color="blue">
           <template slot="header">
             <md-icon>assignment</md-icon>
@@ -132,13 +146,13 @@
           </template>
 
           <template slot="footer">
-            <div class="stats">
-              <md-icon>update</md-icon>Just Updated
-            </div>
+            <div class="stats"><md-icon>update</md-icon>Just Updated</div>
           </template>
         </stats-card>
       </div>
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
+      >
         <md-card>
           <md-card-header data-background-color="orange">
             <h4 class="title">Recent User Logged In</h4>
@@ -149,7 +163,9 @@
           </md-card-content>
         </md-card>
       </div>
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
+      >
         <nav-tabs-card>
           <template slot="content">
             <span class="md-nav-tabs-title">

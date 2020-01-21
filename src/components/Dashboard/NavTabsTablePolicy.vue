@@ -1,6 +1,9 @@
 <template>
   <div>
-    <md-table v-model="getDashboardRecentPolicies" :table-header-color="tableHeaderColor">
+    <md-table
+      v-model="getDashboardRecentPolicies"
+      :table-header-color="tableHeaderColor"
+    >
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Name">{{ item.policyNumber }}</md-table-cell>
         <md-table-cell md-label="Phone">{{ item.policyName }}</md-table-cell>

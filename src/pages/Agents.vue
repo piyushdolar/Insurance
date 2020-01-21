@@ -124,7 +124,11 @@
             </md-dialog-content>
             <md-dialog-actions>
               <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
-              <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
+              <md-button type="submit" class="md-primary" :disabled="sending">
+                {{
+                formModal.btn
+                }}
+              </md-button>
             </md-dialog-actions>
           </form>
         </md-dialog>
@@ -202,10 +206,10 @@
               <template slot="picture" scope="props">
                 <img
                   v-if="props.rowData.picture != null"
-                  :src="'/images/avatars/agents/' + props.rowData.picture"
+                  :src="require(`@/assets/images/avatars/agents/${props.rowData.picture}`)"
                   alt="profile-image"
                 />
-                <img v-else src="/images/avatars/default.png" alt="profile-image" />
+                <img v-else :src="defaultImage" alt="profile-image" />
               </template>
               <template slot="actions" scope="props">
                 <div class="custom-actions">
@@ -254,6 +258,7 @@ export default {
   mixins: [validationMixin, VuetableMixin],
   data: () => ({
     showDialog: false,
+    defaultImage: require("@/assets/images/avatars/default.png"),
     form: {
       fname: null,
       lname: null,
@@ -262,7 +267,7 @@ export default {
       email: null,
       address: null,
       image: null,
-      imagePreview: "/images/avatars/default.png"
+      imagePreview: null
     },
     formModal: {
       title: "CREATE NEW AGENT",
@@ -287,20 +292,12 @@ export default {
       },
       {
         name: "__slot:picture",
-        title: "Image",
-        callback: image => {
-          return image == null ? "default.png" : image;
-        }
+        title: "Image"
       },
       {
-        name: "firstName",
+        name: "fullName",
         sortField: "firstName",
-        title: "First Name"
-      },
-      {
-        name: "lastName",
-        sortField: "lastName",
-        title: "Last Name"
+        title: "Full Name"
       },
       {
         name: "gender",
@@ -387,7 +384,7 @@ export default {
         this.form.email = data.email;
         this.form.address = data.address;
         if (data.picture != null) {
-          this.form.imagePreview = "/images/avatars/agents/" + data.picture;
+          this.form.imagePreview = require(`@/assets/images/avatars/agents/${data.picture}`);
         }
         this.formModal.title = "EDIT AGENT DATA";
         this.formModal.btn = "UPDATE";
@@ -434,7 +431,7 @@ export default {
       this.showDialog = true;
       this.formModal.btn = "CREATE";
       this.formModal.isEdit = false;
-      this.form.imagePreview = "/images/avatars/default.png";
+      this.form.imagePreview = this.defaultImage;
       this.clearForm();
     },
     clearForm() {

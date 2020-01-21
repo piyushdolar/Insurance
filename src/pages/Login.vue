@@ -5,7 +5,9 @@
         <md-card>
           <md-card-header data-background-color="purple">
             <h4 class="title">Login</h4>
-            <p class="category">Enter your username and password to login with Insurance software.</p>
+            <p class="category">
+              Enter your username and password to login with Insurance software.
+            </p>
           </md-card-header>
 
           <md-card-content>
@@ -22,8 +24,12 @@
                       v-model="form.email"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
-                    <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+                    <span class="md-error" v-if="!$v.form.email.required"
+                      >The email is required</span
+                    >
+                    <span class="md-error" v-else-if="!$v.form.email.email"
+                      >Invalid email</span
+                    >
                   </md-field>
                 </div>
                 <div class="md-layout-item md-size-100 md-small-size-100">
@@ -36,17 +42,22 @@
                       v-model="form.password"
                       :disabled="sending"
                     />
+                    <span class="md-error" v-if="!$v.form.password.required"
+                      >The password is required</span
+                    >
                     <span
                       class="md-error"
-                      v-if="!$v.form.password.required"
-                    >The password is required</span>
-                    <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid password</span>
+                      v-else-if="!$v.form.password.minlength"
+                      >Invalid password</span
+                    >
                   </md-field>
                 </div>
 
                 <div class="md-layout-item md-size-100 md-small-size-100">
                   <ul v-if="errors && errors.length">
-                    <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
+                    <li v-for="error in errors" v-bind:key="error">
+                      {{ error }}
+                    </li>
                   </ul>
                 </div>
                 <div class="md-layout-item md-size-100 md-small-size-100">
@@ -54,7 +65,12 @@
                 </div>
 
                 <div class="md-layout-item md-size-100 md-small-size-100">
-                  <md-button type="submit" class="md-primary" :disabled="sending">Login</md-button>
+                  <md-button
+                    type="submit"
+                    class="md-primary"
+                    :disabled="sending"
+                    >Login</md-button
+                  >
                 </div>
               </div>
             </form>
@@ -103,7 +119,7 @@ export default {
   created() {
     let url = this.$route.query.returnUrl || "/";
     if (localStorage.getItem("refreshToken")) {
-      this.$router.push("/Dashboard");
+      this.$router.push("/dashboard");
     }
     if (this.$session.flash.get("sessionExpired")) {
       this.$notify({
@@ -145,9 +161,7 @@ export default {
             date: new Date(),
             limit: "60"
           });
-          this.$router.push({
-            path: "/dashboard"
-          });
+          this.$router.go("/dashboard");
           this.$notify({
             message: response.message,
             icon: "add_alert",

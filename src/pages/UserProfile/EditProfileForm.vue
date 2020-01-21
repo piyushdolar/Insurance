@@ -2,8 +2,18 @@
   <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
     <md-card class="md-card-profile">
       <div class="md-card-avatar">
-        <img class="img" v-if="form.picture != null" :src="picturePreview" alt="image-preview" />
-        <img class="img" v-else src="/images/avatars/default.png" alt="image-preview" />
+        <img
+          class="img"
+          v-if="form.picture != null"
+          :src="picturePreview"
+          alt="image-preview"
+        />
+        <img
+          class="img"
+          v-else
+          src="/images/avatars/default.png"
+          alt="image-preview"
+        />
       </div>
       <md-card-content>
         <div class="md-layout">
@@ -59,7 +69,12 @@
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-right">
-            <md-button type="submit" class="md-raised md-primary" :disabled="sending">Update Profile</md-button>
+            <md-button
+              type="submit"
+              class="md-raised md-primary"
+              :disabled="sending"
+              >Update Profile</md-button
+            >
           </div>
         </div>
       </md-card-content>

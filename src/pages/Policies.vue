@@ -41,7 +41,11 @@
                   >
                     <label>Select Customer *</label>
                     <template slot="md-autocomplete-item" slot-scope="{ item, term }">
-                      <md-highlight-text :md-term="term">{{ item.name }}</md-highlight-text>
+                      <md-highlight-text :md-term="term">
+                        {{
+                        item.name
+                        }}
+                      </md-highlight-text>
                     </template>
 
                     <template
@@ -94,7 +98,11 @@
                   >
                     <label>Select Agent</label>
                     <template slot="md-autocomplete-item" slot-scope="{ item, term }">
-                      <md-highlight-text :md-term="term">{{ item.name }}</md-highlight-text>
+                      <md-highlight-text :md-term="term">
+                        {{
+                        item.name
+                        }}
+                      </md-highlight-text>
                     </template>
 
                     <template
@@ -109,7 +117,11 @@
             </md-dialog-content>
             <md-dialog-actions>
               <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
-              <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
+              <md-button type="submit" class="md-primary" :disabled="sending">
+                {{
+                formModal.btn
+                }}
+              </md-button>
             </md-dialog-actions>
           </form>
         </md-dialog>
@@ -118,6 +130,78 @@
           <md-icon>add</md-icon>CREATE POLICY
         </md-button>
       </div>
+
+      <!-- SINGLE USER DIALOG BOX -->
+      <md-dialog :md-active.sync="showSingleUserDialog">
+        <md-dialog-title>{{ singleUserForm.name }}'s Detail</md-dialog-title>
+        <md-dialog-content>
+          <md-list class="md-double-line">
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item">
+                <md-list-item>
+                  <md-icon class="md-primary">face</md-icon>
+                  <div class="md-list-item-text">
+                    <span>{{ singleUserForm.name }}</span>
+                    <span>Full Name</span>
+                  </div>
+                </md-list-item>
+                <md-list-item>
+                  <md-icon class="md-primary fas fa-gender">email</md-icon>
+                  <i class="fas fa-gender"></i>
+                  <div class="md-list-item-text">
+                    <span>{{ singleUserForm.email }}</span>
+                    <span>Personal</span>
+                  </div>
+                </md-list-item>
+                <md-list-item>
+                  <md-icon class="md-primary">supervised_user_circle</md-icon>
+                  <div class="md-list-item-text">
+                    <span v-if="singleUserForm.gender == 1">Male</span>
+                    <span v-if="singleUserForm.gender == 2">Female</span>
+                    <span v-if="singleUserForm.gender == 3">Other</span>
+                    <span>Gender</span>
+                  </div>
+                </md-list-item>
+                <md-list-item>
+                  <md-icon class="md-primary">home</md-icon>
+                  <div class="md-list-item-text">
+                    <span>{{ singleUserForm.address }}</span>
+                    <span>Address</span>
+                  </div>
+                </md-list-item>
+              </div>
+              <div class="md-layout-item">
+                <md-list-item>
+                  <md-icon class="md-primary">phone</md-icon>
+                  <div class="md-list-item-text">
+                    <span>{{ singleUserForm.phone }}</span>
+                    <span>Phone</span>
+                  </div>
+                </md-list-item>
+                <md-list-item>
+                  <md-icon class="md-primary">fiber_manual_record</md-icon>
+                  <div class="md-list-item-text">
+                    <span v-if="singleUserForm.status == 1">Active</span>
+                    <span v-else>Deactive</span>
+                    <span>Status</span>
+                  </div>
+                </md-list-item>
+                <md-list-item>
+                  <md-icon class="md-primary">watch_later</md-icon>
+                  <div class="md-list-item-text">
+                    <span>{{ singleUserForm.createdAt }}</span>
+                    <span>Created At</span>
+                  </div>
+                </md-list-item>
+              </div>
+            </div>
+          </md-list>
+        </md-dialog-content>
+        <md-dialog-actions>
+          <md-button class="md-primary" @click="showSingleUserDialog = false">Close</md-button>
+        </md-dialog-actions>
+      </md-dialog>
+      <!-- DIALOG BOX OVER -->
 
       <!-- vuetable -->
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable">
@@ -184,6 +268,13 @@
               :per-page="perPage"
               @vuetable:load-error="handleLoadError"
             >
+              <template slot="policyHolder" scope="props">
+                <a
+                  class="md-primary"
+                  href="javascript:void(0)"
+                  @click="onSelectSingleUser(props.rowData.policyHolder.id)"
+                >{{ props.rowData.policyHolder.fullName }}</a>
+              </template>
               <template slot="actions" scope="props">
                 <div class="custom-actions">
                   <md-button
@@ -223,34 +314,14 @@ import {
 } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import { VuetableMixin } from "../mixins/VuetableMixin";
-import moment from "moment";
+import { Policies } from "../mixins/Policies";
 import { mapGetters } from "vuex";
 
 export default {
   name: "PolicyComponent",
-  mixins: [validationMixin, VuetableMixin],
+  mixins: [validationMixin, VuetableMixin, Policies],
   data: () => ({
     showDialog: false,
-    form: {
-      policyName: null,
-      policyType: null,
-      startDate: null,
-      endDate: null,
-      customerSearched: {
-        id: null,
-        name: null
-      },
-      agentSearched: {
-        id: null,
-        name: null
-      },
-      searchedList: []
-    },
-    formModal: {
-      title: "CREATE NEW POLICY FOR POLICY HOLDER",
-      btn: "CREATE",
-      isEdit: false
-    },
     sending: false,
     // vuetable
     fireEvent: null,
@@ -259,101 +330,6 @@ export default {
         field: "id",
         sortField: "id",
         direction: "desc"
-      }
-    ],
-    fields: [
-      {
-        name: "policyNumber",
-        title: "Policy Number"
-      },
-      {
-        name: "policyName",
-        sortField: "policyName",
-        title: "Policy Name"
-      },
-      {
-        name: "policyHolder",
-        sortField: "policyHolder.id",
-        title: "Customer Name",
-        callback: function(value) {
-          return '<a href="/userProfile">' + value.fullName + "</a>";
-        }
-      },
-      {
-        name: "startDate",
-        sortField: "startDate",
-        title: "Start Date",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY");
-        }
-      },
-      {
-        name: "endDate",
-        sortField: "endDate",
-        title: "End Date",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY");
-        }
-      },
-      {
-        name: "policyType",
-        sortField: "policyType",
-        title: "Policy Type",
-        callback: function(value) {
-          return value == 1 ? "Motor" : value == 2 ? "Non-Motor" : "Other";
-        }
-      },
-      {
-        name: "agent",
-        sortField: "agent.id",
-        title: "Agent Name",
-        callback: function(value) {
-          return value.fullName;
-        }
-      },
-      {
-        name: "status",
-        sortField: "status",
-        title: "Approve Status",
-        callback: function(v) {
-          return v == 1 ? "Pending" : "Approved";
-        }
-      },
-      {
-        name: "createdAt",
-        sortField: "createdAt",
-        title: "Created Date",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY hh:mm a");
-        }
-      },
-      {
-        name: "createdBy",
-        sortField: "createdBy.id",
-        title: "Created By",
-        callback: function(value) {
-          return value.name;
-        }
-      },
-      {
-        name: "updatedAt",
-        sortField: "updatedAt",
-        title: "Updated Date",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY hh:mm a");
-        }
-      },
-      {
-        name: "updatedBy",
-        sortField: "updatedBy.id",
-        title: "Updated By",
-        callback: function(value) {
-          return '<a href="/userProfile">' + value.name + "</a>";
-        }
-      },
-      {
-        name: "__slot:actions",
-        title: "Actions"
       }
     ]
   }),
@@ -385,43 +361,6 @@ export default {
     }
   },
   methods: {
-    // md select
-    getCustomers(searchTerm) {
-      this.form.searchedList = new Promise(resolve => {
-        if (!searchTerm) {
-          resolve(this.customersList);
-        } else {
-          const term = searchTerm.toLowerCase();
-          resolve(
-            this.customersList.filter(({ name }) =>
-              name.toLowerCase().includes(term)
-            )
-          );
-        }
-      });
-    },
-    onSelectCustomer(selectedSearch) {
-      this.form.customerSearched.id = selectedSearch.id;
-      this.form.customerSearched.name = selectedSearch.name;
-    },
-    getAgents(searchTerm) {
-      this.form.searchedList = new Promise(resolve => {
-        if (!searchTerm) {
-          resolve(this.agentsList);
-        } else {
-          const term = searchTerm.toLowerCase();
-          resolve(
-            this.agentsList.filter(({ name }) =>
-              name.toLowerCase().includes(term)
-            )
-          );
-        }
-      });
-    },
-    onSelectAgent(selectedSearch) {
-      this.form.agentSearched.id = selectedSearch.id;
-      this.form.agentSearched.name = selectedSearch.name;
-    },
     // md select over...
     onAction(action, data, index) {
       if (action == "edit") {

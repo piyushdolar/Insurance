@@ -1,15 +1,15 @@
 <template>
-	<div class="content">
-		<EditProfileForm />
-	</div>
+  <div class="content">
+    <EditProfileForm />
+  </div>
 </template>
 
 <script>
-import { EditProfileForm } from '@/pages';
+import { EditProfileForm } from "@/pages";
 
 export default {
-	components: {
-		EditProfileForm
-	}
+  components: {
+    EditProfileForm
+  }
 };
 </script>

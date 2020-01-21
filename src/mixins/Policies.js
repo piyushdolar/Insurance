@@ -1,0 +1,177 @@
+import moment from "moment";
+import { mapGetters } from "vuex";
+
+export const Policies = {
+  data() {
+    return {
+      showSingleUserDialog: false,
+      singleUserForm: {
+        name: null,
+        gender: null,
+        address: null,
+        phone: null,
+        email: null,
+        status: null,
+        createdAt: null
+      },
+      form: {
+        policyName: null,
+        policyType: null,
+        startDate: null,
+        endDate: null,
+        customerSearched: {
+          id: null,
+          name: null
+        },
+        agentSearched: {
+          id: null,
+          name: null
+        },
+        searchedList: []
+      },
+      formModal: {
+        title: "CREATE NEW POLICY FOR POLICY HOLDER",
+        btn: "CREATE",
+        isEdit: false
+      },
+      fields: [
+        {
+          name: "policyNumber",
+          title: "Policy Number"
+        },
+        {
+          name: "policyName",
+          sortField: "policyName",
+          title: "Policy Name"
+        },
+        {
+          name: "__slot:policyHolder",
+          sortField: "firstName",
+          title: "Customer Name"
+        },
+        {
+          name: "startDate",
+          sortField: "startDate",
+          title: "Start Date",
+          callback: function(value) {
+            return moment(String(value)).format("DD/MM/YYYY");
+          }
+        },
+        {
+          name: "endDate",
+          sortField: "endDate",
+          title: "End Date",
+          callback: function(value) {
+            return moment(String(value)).format("DD/MM/YYYY");
+          }
+        },
+        {
+          name: "policyType",
+          sortField: "policyType",
+          title: "Policy Type",
+          callback: function(value) {
+            return value == 1 ? "Motor" : value == 2 ? "Non-Motor" : "Other";
+          }
+        },
+        {
+          name: "agent",
+          sortField: "agent.id",
+          title: "Agent Name",
+          callback: function(value) {
+            return value.fullName;
+          }
+        },
+        {
+          name: "status",
+          sortField: "status",
+          title: "Approve Status",
+          callback: function(v) {
+            return v == 1 ? "Pending" : "Approved";
+          }
+        },
+        {
+          name: "createdAt",
+          sortField: "createdAt",
+          title: "Created Date",
+          callback: function(value) {
+            return moment(String(value)).format("DD/MM/YYYY hh:mm a");
+          }
+        },
+        {
+          name: "createdBy",
+          sortField: "createdBy.id",
+          title: "Created By",
+          callback: function(value) {
+            return value.name;
+          }
+        },
+        {
+          name: "updatedAt",
+          sortField: "updatedAt",
+          title: "Updated Date",
+          callback: function(value) {
+            return moment(String(value)).format("DD/MM/YYYY hh:mm a");
+          }
+        },
+        {
+          name: "updatedBy",
+          sortField: "updatedBy.id",
+          title: "Updated By",
+          callback: function(value) {
+            return value.name;
+          }
+        },
+        {
+          name: "__slot:actions",
+          title: "Actions"
+        }
+      ]
+    };
+  },
+  methods: {
+    // md select
+    getCustomers(searchTerm) {
+      this.form.searchedList = new Promise(resolve => {
+        if (!searchTerm) {
+          resolve(this.customersList);
+        } else {
+          const term = searchTerm.toLowerCase();
+          resolve(
+            this.customersList.filter(({ name }) =>
+              name.toLowerCase().includes(term)
+            )
+          );
+        }
+      });
+    },
+    onSelectCustomer(selectedSearch) {
+      this.form.customerSearched.id = selectedSearch.id;
+      this.form.customerSearched.name = selectedSearch.name;
+    },
+    getAgents(searchTerm) {
+      this.form.searchedList = new Promise(resolve => {
+        if (!searchTerm) {
+          resolve(this.agentsList);
+        } else {
+          const term = searchTerm.toLowerCase();
+          resolve(
+            this.agentsList.filter(({ name }) =>
+              name.toLowerCase().includes(term)
+            )
+          );
+        }
+      });
+    },
+    onSelectAgent(selectedSearch) {
+      this.form.agentSearched.id = selectedSearch.id;
+      this.form.agentSearched.name = selectedSearch.name;
+    },
+    onSelectSingleUser(id) {
+      this.showSingleUserDialog = true;
+      this.singleUserForm = this.getSingleCustomer(id);
+    }
+  },
+  computed: {
+    ...mapGetters(["getSingleCustomer"])
+  }
+};

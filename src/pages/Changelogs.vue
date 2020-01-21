@@ -13,7 +13,9 @@
           <md-card-content>
             <div class="md-layout">
               <div class="md-layout-item md-medium-size-100">
-                <a href="https://github.com/tnklaos/Insurance#change-logs">Check Changelogs</a>
+                <a href="https://github.com/tnklaos/Insurance#change-logs"
+                  >Check Changelogs</a
+                >
                 <!-- <section>
                   <h2>v1.3.2 - Dependencies Updates and BugFixing - 2019-12-27</h2>
                   <h3>Added:</h3>

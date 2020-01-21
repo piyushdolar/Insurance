@@ -85,6 +85,18 @@ Insurance
 
 ## Change logs:
 
+## [1.15.0] 2020-01-20
+
+### What's new
+
+-   Policy's specific user profile display with popup box.
+-   Manage user with edit option has finished development.
+
+### Bugs/Fixes
+
+-   Profile page on page change not getting data from API, but on refresh can.
+-   Dashboard User Count including current user.
+
 ## [1.15.0] 2020-01-18
 
 ### Bugs/Fixes
@@ -112,6 +124,7 @@ Insurance
 -   Images are not updating right now because of server issue sometime not rendering properly will be fixed on next update.
 -   Filter for polices.
 -   Profile page on page change not getting data from API, but on refresh can.
+-   Dashboard User Count including current user.
 
 ### In Development
 
@@ -119,6 +132,7 @@ Insurance
 -   Policies table on click on particular username open the agent and user profile.
 -   Edit the current user profile.
 -   Policies table Filter integration.
+-   Login middleware.
 
 ## [1.8.0] 2020-01-14
 
