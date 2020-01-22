@@ -259,7 +259,7 @@
               <template slot="picture" scope="props">
                 <img
                   v-if="props.rowData.picture != null"
-                  :src="require(`@/assets/images/avatars/users/${props.rowData.picture}`)"
+                  :src="`/images/avatars/users/${props.rowData.picture}`"
                   alt="profile-image"
                 />
                 <img v-else :src="defaultImage" alt="profile-image" />
@@ -311,7 +311,7 @@ export default {
   mixins: [validationMixin, VuetableMixin],
   data: () => ({
     showDialog: false,
-    defaultImage: require("@/assets/images/avatars/default.png"),
+    defaultImage: "/images/avatars/default.png",
     // users: [],
     form: {
       firstName: null,
@@ -457,7 +457,7 @@ export default {
         this.form.email = data.email;
         this.form.address = data.address;
         if (data.picture != null) {
-          this.form.imagePreview = require(`@/assets/images/avatars/users/${data.picture}`);
+          this.form.imagePreview = `/images/avatars/users/${data.picture}`;
         }
         this.formModal.title = "EDIT USER DATA";
         this.formModal.btn = "UPDATE";
