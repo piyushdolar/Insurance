@@ -1,6 +1,6 @@
 <template>
   <ul class="nav nav-mobile-menu">
-    <li>
+    <!-- <li>
       <md-field>
         <label>Search</label>
         <md-input v-model="search" type="text"></md-input>
@@ -27,12 +27,12 @@
           <li><a href="#">Another One</a></li>
         </ul>
       </drop-down>
-    </li>
+    </li>-->
     <li>
-      <a href="#" data-toggle="dropdown" class="dropdown-toggle"
-        ><i class="material-icons">person</i>
-        <p>Profile</p></a
-      >
+      <a href="/my-profile" data-toggle="dropdown" class="dropdown-toggle">
+        <i class="material-icons">person</i>
+        <p>Profile</p>
+      </a>
     </li>
   </ul>
 </template>

@@ -12,9 +12,11 @@
         </div>
       </a>
 
-      <a href="/dashboard" target="_blank" class="simple-text logo-normal">{{
+      <a href="/dashboard" target="_blank" class="simple-text logo-normal">
+        {{
         title
-      }}</a>
+        }}
+      </a>
     </div>
     <div class="sidebar-wrapper">
       <slot name="content"></slot>

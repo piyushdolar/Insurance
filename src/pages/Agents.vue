@@ -4,7 +4,7 @@
       <!-- dialog with button -->
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <!-- CREATE AGENT MODAL -->
-        <md-dialog :md-active.sync="showDialog">
+        <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
           <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
             <md-dialog-content>
@@ -95,7 +95,7 @@
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 text-center">
-                  <img :src="form.imagePreview" width="100" height="100" />
+                  <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
                     <md-file id="image" @change="onFileSelected" accept="image/*" />
@@ -119,7 +119,11 @@
                   </md-field>
                 </div>
               </div>
-
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-switch v-model="form.status" class="md-primary">Active/Deactive Status</md-switch>
+                </div>
+              </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
             </md-dialog-content>
             <md-dialog-actions>
@@ -133,9 +137,14 @@
           </form>
         </md-dialog>
 
-        <md-button class="md-primary pull-right" @click="openDialog">
-          <md-icon>add</md-icon>ADD AGENT
-        </md-button>
+        <div class="pull-right">
+          <md-button class="md-primary" @click="downloadCSV('agents')">
+            <md-icon>cloud_download</md-icon>Download CSV
+          </md-button>
+          <md-button class="md-primary" @click="openDialog">
+            <md-icon>add</md-icon>Add Agent
+          </md-button>
+        </div>
       </div>
 
       <!-- vuetable -->
@@ -146,14 +155,14 @@
             <p class="category">Here you can find and see every agent's details</p>
           </md-card-header>
           <md-card-content>
-            <div class="md-layout">
-              <div class="md-layout-item md-layout">
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item">
                 <md-field>
                   <label for="address">Search in the table</label>
                   <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
                 </md-field>
               </div>
-              <div class="md-layout-item md-layout">
+              <div class="md-layout-item">
                 <md-field>
                   <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
                     <md-option :value="10">10</md-option>
@@ -166,19 +175,17 @@
                   </md-select>
                 </md-field>
               </div>
-              <div class="md-layout-item md-layout">
-                <div class="md-layout-item">
-                  <md-field>
-                    <v-md-date-range-picker
-                      v-bind:start-date="filterItem.startDate"
-                      v-bind:end-date="filterItem.endDate"
-                      opens="right"
-                      @change="handleDateChange"
-                    ></v-md-date-range-picker>
-                  </md-field>
-                </div>
+              <div class="md-layout-item">
+                <md-field>
+                  <v-md-date-range-picker
+                    v-bind:start-date="filterItem.startDate"
+                    v-bind:end-date="filterItem.endDate"
+                    opens="right"
+                    @change="handleDateChange"
+                  ></v-md-date-range-picker>
+                </md-field>
               </div>
-              <div class="md-layout-item md-layout md-size-15 text-center">
+              <div class="md-layout-item text-center">
                 <md-button class="md-info md-just-icon" @click="doFilter">
                   <md-icon>search</md-icon>
                 </md-button>
@@ -189,51 +196,59 @@
             </div>
             <!-- :api-mode="false"
             :data="tableData"-->
-            <vuetable
-              ref="vuetable"
-              api-url="http://119.8.40.98/api/agents"
-              :fields="fields"
-              :http-options="{ headers: { Authorization: accessToken } }"
-              pagination-path
-              @vuetable:pagination-data="onPaginationData"
-              :multi-sort="true"
-              multi-sort-key="ctrl"
-              :sort-order="sortOrder"
-              :append-params="moreParams"
-              :per-page="perPage"
-              @vuetable:load-error="handleLoadError"
-            >
-              <template slot="picture" scope="props">
-                <img
-                  v-if="props.rowData.picture != null"
-                  :src="`/images/avatars/agents/${props.rowData.picture}`"
-                  alt="profile-image"
-                />
-                <img v-else :src="defaultImage" alt="profile-image" />
-              </template>
-              <template slot="actions" scope="props">
-                <div class="custom-actions">
-                  <md-button
-                    class="md-primary md-just-icon"
-                    @click="onAction('edit', props.rowData, props.rowIndex)"
-                  >
-                    <md-icon>edit</md-icon>
-                  </md-button>
-                  <md-button
-                    class="md-danger md-just-icon"
-                    @click="onAction('delete', props.rowData, props.rowIndex)"
-                  >
-                    <md-icon>delete</md-icon>
-                  </md-button>
-                </div>
-              </template>
-            </vuetable>
-            <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
-            <vuetable-pagination
-              id="vPage"
-              ref="pagination"
-              @vuetable-pagination:change-page="onChangePage"
-            ></vuetable-pagination>
+            <div class="md-layout">
+              <div class="md-layout-item table-responsive">
+                <vuetable
+                  ref="vuetable"
+                  api-url="http://119.8.40.98/api/agents"
+                  :fields="fields"
+                  :http-options="{ headers: { Authorization: accessToken } }"
+                  pagination-path
+                  @vuetable:pagination-data="onPaginationData"
+                  :multi-sort="true"
+                  multi-sort-key="ctrl"
+                  :sort-order="sortOrder"
+                  :append-params="moreParams"
+                  :per-page="perPage"
+                  @vuetable:load-error="handleLoadError"
+                >
+                  <template slot="picture" scope="props">
+                    <img
+                      v-if="props.rowData.picture != null"
+                      :src="`/images/avatars/agents/${props.rowData.picture}`"
+                      alt="profile-image"
+                    />
+                    <img v-else :src="defaultImage" alt="profile-image" />
+                  </template>
+                  <template slot="status" scope="props">
+                    <md-chip class="md-primary" v-if="props.rowData.status==1" md-clickable>Active</md-chip>
+                    <md-chip class="md-accent" v-else md-clickable>Deactive</md-chip>
+                  </template>
+                  <template slot="actions" scope="props">
+                    <div class="custom-actions">
+                      <md-button
+                        class="md-primary md-just-icon"
+                        @click="onAction('edit', props.rowData, props.rowIndex)"
+                      >
+                        <md-icon>edit</md-icon>
+                      </md-button>
+                      <md-button
+                        class="md-danger md-just-icon"
+                        @click="onAction('delete', props.rowData, props.rowIndex)"
+                      >
+                        <md-icon>delete</md-icon>
+                      </md-button>
+                    </div>
+                  </template>
+                </vuetable>
+                <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
+                <vuetable-pagination
+                  id="vPage"
+                  ref="pagination"
+                  @vuetable-pagination:change-page="onChangePage"
+                ></vuetable-pagination>
+              </div>
+            </div>
           </md-card-content>
         </md-card>
       </div>
@@ -266,6 +281,7 @@ export default {
       phone: null,
       email: null,
       address: null,
+      status: false,
       image: null,
       imagePreview: null
     },
@@ -313,12 +329,9 @@ export default {
         title: "Email"
       },
       {
-        name: "status",
-        sortField: "status",
+        name: "__slot:status",
         title: "Status",
-        callback: function(v) {
-          return v == 1 ? "Active" : "Blocked";
-        }
+        sortField: "status"
       },
       {
         name: "createdAt",
@@ -383,6 +396,7 @@ export default {
         this.form.phone = data.phone;
         this.form.email = data.email;
         this.form.address = data.address;
+        this.form.status = data.status == 1 ? true : false;
         if (data.picture != null) {
           this.form.imagePreview = `/images/avatars/agents/${data.picture}`;
         }
@@ -443,6 +457,7 @@ export default {
       this.form.email = null;
       this.form.address = null;
       this.form.image = null;
+      this.form.status = false;
     },
     validateUser(e) {
       this.$v.$touch();
@@ -531,9 +546,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.md-dialog {
-  width: 800px;
-}
 .md-progress-bar {
   position: absolute;
   top: 0;

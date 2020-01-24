@@ -6,11 +6,7 @@
     v-click-outside="closeDropDown"
   >
     <slot name="title">
-      <a
-        class="dropdown-toggle"
-        data-toggle="dropdown"
-        href="javascript:void(0)"
-      >
+      <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)">
         <i :class="icon"></i>
         <p class="notification">
           {{ title }}

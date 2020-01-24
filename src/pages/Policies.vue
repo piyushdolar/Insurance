@@ -4,7 +4,7 @@
       <!-- dialog with button -->
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <!-- CREATE POLICY MODAL -->
-        <md-dialog :md-active.sync="showDialog">
+        <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
           <form novalidate @submit.prevent="validateUser">
             <md-dialog-content>
@@ -112,7 +112,11 @@
                   </md-autocomplete>
                 </div>
               </div>
-
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-switch v-model="form.status" class="md-primary">UnApproved/Approved Status</md-switch>
+                </div>
+              </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
             </md-dialog-content>
             <md-dialog-actions>
@@ -126,9 +130,14 @@
           </form>
         </md-dialog>
 
-        <md-button class="md-primary pull-right" @click="openDialog">
-          <md-icon>add</md-icon>CREATE POLICY
-        </md-button>
+        <div class="pull-right">
+          <md-button class="md-primary" @click="downloadCSV('policy')">
+            <md-icon>cloud_download</md-icon>Download CSV
+          </md-button>
+          <md-button class="md-primary" @click="openDialog">
+            <md-icon>add</md-icon>Create Policy
+          </md-button>
+        </div>
       </div>
 
       <!-- SINGLE USER DIALOG BOX -->
@@ -211,14 +220,14 @@
             <p class="category">Here you can find and see every policy's details</p>
           </md-card-header>
           <md-card-content>
-            <div class="md-layout">
-              <div class="md-layout-item md-layout">
+            <div class="md-layout md-gutter">
+              <div class="md-layout-item">
                 <md-field>
                   <label for="table">Search in the table</label>
                   <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
                 </md-field>
               </div>
-              <div class="md-layout-item md-layout">
+              <div class="md-layout-item">
                 <md-field>
                   <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
                     <md-option :value="10">10</md-option>
@@ -231,19 +240,17 @@
                   </md-select>
                 </md-field>
               </div>
-              <div class="md-layout-item md-layout">
-                <div class="md-layout-item">
-                  <md-field>
-                    <v-md-date-range-picker
-                      v-bind:start-date="filterItem.startDate"
-                      v-bind:end-date="filterItem.endDate"
-                      opens="right"
-                      @change="handleDateChange"
-                    ></v-md-date-range-picker>
-                  </md-field>
-                </div>
+              <div class="md-layout-item">
+                <md-field>
+                  <v-md-date-range-picker
+                    v-bind:start-date="filterItem.startDate"
+                    v-bind:end-date="filterItem.endDate"
+                    opens="right"
+                    @change="handleDateChange"
+                  ></v-md-date-range-picker>
+                </md-field>
               </div>
-              <div class="md-layout-item md-layout md-size-15 text-center">
+              <div class="md-layout-item text-center">
                 <md-button class="md-info md-just-icon" @click="doFilter">
                   <md-icon>search</md-icon>
                 </md-button>
@@ -254,50 +261,66 @@
             </div>
             <!-- :api-mode="false"
             :data="tableData"-->
-            <vuetable
-              ref="vuetable"
-              api-url="http://119.8.40.98/api/policy"
-              :fields="fields"
-              :http-options="{ headers: { Authorization: accessToken } }"
-              pagination-path
-              @vuetable:pagination-data="onPaginationData"
-              :multi-sort="true"
-              multi-sort-key="ctrl"
-              :sort-order="sortOrder"
-              :append-params="moreParams"
-              :per-page="perPage"
-              @vuetable:load-error="handleLoadError"
-            >
-              <template slot="policyHolder" scope="props">
-                <a
-                  class="md-primary"
-                  href="javascript:void(0)"
-                  @click="onSelectSingleUser(props.rowData.policyHolder.id)"
-                >{{ props.rowData.policyHolder.fullName }}</a>
-              </template>
-              <template slot="actions" scope="props">
-                <div class="custom-actions">
-                  <md-button
-                    class="md-primary md-just-icon"
-                    @click="onAction('edit', props.rowData, props.rowIndex)"
-                  >
-                    <md-icon>edit</md-icon>
-                  </md-button>
-                  <md-button
-                    class="md-danger md-just-icon"
-                    @click="onAction('delete', props.rowData, props.rowIndex)"
-                  >
-                    <md-icon>delete</md-icon>
-                  </md-button>
-                </div>
-              </template>
-            </vuetable>
-            <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
-            <vuetable-pagination
-              id="vPage"
-              ref="pagination"
-              @vuetable-pagination:change-page="onChangePage"
-            ></vuetable-pagination>
+            <div class="md-layout">
+              <div class="md-layout-item table-responsive">
+                <vuetable
+                  ref="vuetable"
+                  api-url="http://119.8.40.98/api/policy"
+                  :fields="fields"
+                  :http-options="{ headers: { Authorization: accessToken } }"
+                  pagination-path
+                  @vuetable:pagination-data="onPaginationData"
+                  :multi-sort="true"
+                  multi-sort-key="ctrl"
+                  :sort-order="sortOrder"
+                  :append-params="moreParams"
+                  :per-page="perPage"
+                  @vuetable:load-error="handleLoadError"
+                >
+                  <template slot="policyHolder" scope="props">
+                    <a
+                      class="md-primary"
+                      href="javascript:void(0)"
+                      @click="onSelectSingleUser(props.rowData.policyHolder.id)"
+                    >{{ props.rowData.policyHolder.fullName }}</a>
+                  </template>
+                  <template slot="policyType" scope="props">
+                    <md-chip
+                      class="md-primary"
+                      v-if="props.rowData.policyType==1"
+                      md-clickable
+                    >Motor</md-chip>
+                    <md-chip class="md-accent" v-else md-clickable>Non-Motor</md-chip>
+                  </template>
+                  <template slot="status" scope="props">
+                    <md-chip class="md-accent" v-if="props.rowData.status==1" md-clickable>Pending</md-chip>
+                    <md-chip class="md-primary" v-else md-clickable>Approved</md-chip>
+                  </template>
+                  <template slot="actions" scope="props">
+                    <div class="custom-actions">
+                      <md-button
+                        class="md-primary md-just-icon"
+                        @click="onAction('edit', props.rowData, props.rowIndex)"
+                      >
+                        <md-icon>edit</md-icon>
+                      </md-button>
+                      <md-button
+                        class="md-danger md-just-icon"
+                        @click="onAction('delete', props.rowData, props.rowIndex)"
+                      >
+                        <md-icon>delete</md-icon>
+                      </md-button>
+                    </div>
+                  </template>
+                </vuetable>
+                <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
+                <vuetable-pagination
+                  id="vPage"
+                  ref="pagination"
+                  @vuetable-pagination:change-page="onChangePage"
+                ></vuetable-pagination>
+              </div>
+            </div>
           </md-card-content>
         </md-card>
       </div>
@@ -373,6 +396,7 @@ export default {
         this.form.agentSearched.name = data.agent.fullName;
         this.form.startDate = new Date(data.startDate);
         this.form.endDate = new Date(data.endDate);
+        this.form.status = data.status == 1 ? false : true;
         this.formModal.title = "EDIT POLICY";
         this.formModal.btn = "UPDATE";
         this.formModal.isEdit = true;
@@ -424,6 +448,7 @@ export default {
       this.$v.$reset();
       this.form.policyName = null;
       this.form.policyType = null;
+      this.form.status = false;
     },
     validateUser(e) {
       this.$v.$touch();
@@ -511,9 +536,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.md-dialog {
-  width: 800px;
-}
 .md-progress-bar {
   position: absolute;
   top: 0;

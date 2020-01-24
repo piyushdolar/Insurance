@@ -8,15 +8,7 @@
     :style="customPosition"
     data-notify-position="top-center"
   >
-    <button
-      type="button"
-      aria-hidden="true"
-      class="close"
-      data-notify="dismiss"
-      @click="close"
-    >
-      ×
-    </button>
+    <button type="button" aria-hidden="true" class="close" data-notify="dismiss" @click="close">×</button>
     <i data-notify="icon" class="material-icons">{{ icon }}</i>
     <span data-notify="message" v-html="message"></span>
   </div>
@@ -41,7 +33,7 @@ export default {
     },
     timeout: {
       type: Number,
-      default: 2500
+      default: 3000
     },
     timestamp: {
       type: Date,
@@ -114,7 +106,7 @@ export default {
 .alert {
   z-index: 100;
   cursor: pointer;
-  position: absolute;
+  position: fixed;
   width: 41%;
 
   &.center {

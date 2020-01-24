@@ -18,7 +18,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 The documentation for the Vue Material Dashboard is hosted at our [website](https://demos.creative-tim.com/vue-material-dashboard/documentation).
 
-## File Structure (Outdated)\*
+## File Structure
 
 Within the download you'll find the following directories and files:
 
@@ -26,13 +26,28 @@ Within the download you'll find the following directories and files:
 Insurance
 ├── README.md
 ├── babel.config.js
+├── vue.config.js
+├── db_insurance.sql
 ├── package.json
 ├── postcss.config.js
 ├── public
 │   └── index.html
+│   └── favicon.png
+│   └── images
 └── src
     ├── App.vue
+    ├── material.js
+    ├── globalComponents.js
+    ├── globalDirectives.js
+    ├── main.js
+    ├── material-dashboard.js
+    ├── api
+    │   └── config.js
+    ├── mixins
+    │   ├── Policies.js
+    │   └── VuetableMixin.js
     ├── assets
+    │   ├── github
     │   ├── img
     │   └── scss
     │       ├── material-dashboard.scss
@@ -42,7 +57,6 @@ Insurance
     │   │   ├── ChartCard.vue
     │   │   ├── NavTabsCard.vue
     │   │   └── StatsCard.vue
-    │   ├── Dropdown.vue
     │   ├── NotificationPlugin
     │   │   ├── Notification.vue
     │   │   ├── Notifications.vue
@@ -55,29 +69,41 @@ Insurance
     │   │   ├── NavTabsTable.vue
     │   │   ├── OrderedTable.vue
     │   │   └── SimpleTable.vue
+    │   ├── Dropdown.vue
+    │   ├── AlertBox.vue
     │   └── index.js
-    ├── globalComponents.js
-    ├── globalDirectives.js
-    ├── main.js
-    ├── material-dashboard.js
+    ├── store
+    │   ├── modules
+    │   │   ├── agents.store.js
+    │   │   ├── dashboard.store.js
+    │   │   ├── global.store.js
+    │   │   ├── login.store.js
+    │   │   ├── policies.store.js
+    │   │   ├── policyHolders.store.js
+    │   │   └── users.store.js
+    │   └── index.js
     ├── pages
-    │   ├── Dashboard.vue
-    │   ├── Icons.vue
     │   ├── Layout
     │   │   ├── Content.vue
     │   │   ├── ContentFooter.vue
     │   │   ├── DashboardLayout.vue
     │   │   ├── MobileMenu.vue
     │   │   └── TopNavbar.vue
-    │   ├── Maps.vue
-    │   ├── Notifications.vue
-    │   ├── TableList.vue
-    │   ├── Typography.vue
-    │   ├── UpgradeToPRO.vue
     │   ├── UserProfile
     │   │   ├── EditProfileForm.vue
     │   │   └── UserCard.vue
     │   ├── UserProfile.vue
+    │   ├── Dashboard.vue
+    │   ├── Maps.vue
+    │   ├── Agents.vue
+    │   ├── Changelogs.vue
+    │   ├── index.js
+    │   ├── Login.vue
+    │   ├── Logout.vue
+    │   ├── MyProfile.vue
+    │   ├── Policies.vue
+    │   ├── PolicyHolders.vue
+    │   ├── Users.vue
     │   └── index.js
     └── routes
         └── routes.js
@@ -85,17 +111,31 @@ Insurance
 
 ## Change logs:
 
-## [1.15.0] 2020-01-20
+## [1.26.7] 2020-01-24
 
 ### What's new
 
 -   Policy's specific user profile display with popup box.
 -   Manage user with edit option has finished development.
+-   Filter for policies.
+-   Specific user profile on navbar added.
+-   Policy's table name column on click show particular detail popup box added.
+-   Added Edit section for User/Agent/Policy profile.
+-   Added change status field for User/Agent/Customers.
+-   Added Vue Chips to vuetable for easy recognition.
+-   Notification CSS updated position fixed if user is on anywhere in page it'll still show to them.
+-   Download CSV file for users database/table it also can be opened with excel.
+-   New Scrollbar design added relative to dashbaord theme.
 
 ### Bugs/Fixes
 
 -   Profile page on page change not getting data from API, but on refresh can.
 -   Dashboard User Count including current user.
+-   Image not appearing on server problem fixed.
+-   Dashboard user count including master admin fixed.
+-   Profile picture alt attribute name wasn't appeared when it could find resource in server.
+-   Dialog box not scrolling on small devices issue has been fixed now.
+-   CSV files column name bug fixed Title to phone.
 
 ## [1.15.0] 2020-01-18
 
