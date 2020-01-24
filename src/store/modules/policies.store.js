@@ -25,7 +25,7 @@ const actions = {
 			endDate: moment(String(payload.endDate)).format('YYYY/MM/DD HH:mm:ss'),
 			policyType: payload.policyType,
 			agentId: payload.agentSearched.id,
-			status: 2,
+			status: 1,
 			createdBy: payload.sessionId,
 			updatedBy: payload.sessionId
 		};

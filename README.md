@@ -136,6 +136,8 @@ Insurance
 -   Profile picture alt attribute name wasn't appeared when it could find resource in server.
 -   Dialog box not scrolling on small devices issue has been fixed now.
 -   CSV files column name bug fixed Title to phone.
+-   When creating the Policy for customer/policy holder it's got accepted by default bug fixed.
+-   User/Agent/Customer,Policy - While creating profile it created in database when image error still exist.
 
 ## [1.15.0] 2020-01-18
 

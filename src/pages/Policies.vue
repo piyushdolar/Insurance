@@ -285,16 +285,12 @@
                     >{{ props.rowData.policyHolder.fullName }}</a>
                   </template>
                   <template slot="policyType" scope="props">
-                    <md-chip
-                      class="md-primary"
-                      v-if="props.rowData.policyType==1"
-                      md-clickable
-                    >Motor</md-chip>
-                    <md-chip class="md-accent" v-else md-clickable>Non-Motor</md-chip>
+                    <md-chip class="md-primary" v-if="props.rowData.policyType==1">Motor</md-chip>
+                    <md-chip class="md-accent" v-else>Non-Motor</md-chip>
                   </template>
                   <template slot="status" scope="props">
-                    <md-chip class="md-accent" v-if="props.rowData.status==1" md-clickable>Pending</md-chip>
-                    <md-chip class="md-primary" v-else md-clickable>Approved</md-chip>
+                    <md-chip class="md-accent" v-if="props.rowData.status==1">Pending</md-chip>
+                    <md-chip class="md-primary" v-else>Approved</md-chip>
                   </template>
                   <template slot="actions" scope="props">
                     <div class="custom-actions">

@@ -40,7 +40,7 @@ const actions = {
 			password: userData.repeatPassword,
 			address: userData.address,
 			userType: 2,
-			userStatus: userData.loginStatus
+			userStatus: userData.loginStatus ? 1 : 2
 		};
 		return axios({
 			method: 'post',

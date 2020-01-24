@@ -98,7 +98,7 @@
                   <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
-                    <md-file id="image" @change="onFileSelected" accept="image/*" />
+                    <md-file id="image" @change="onFileSelected" accept="image/x-png,image/jpeg" />
                   </md-field>
                 </div>
               </div>
@@ -221,17 +221,13 @@
                     <img v-else :src="defaultImage" alt="profile-image" />
                   </template>
                   <template slot="gender" scope="props">
-                    <md-chip class="md-primary" v-if="props.rowData.gender==1" md-clickable>Male</md-chip>
-                    <md-chip
-                      class="md-accent"
-                      v-else-if="props.rowData.gender==2"
-                      md-clickable
-                    >Female</md-chip>
-                    <md-chip v-else md-clickable>Other</md-chip>
+                    <md-chip class="md-primary" v-if="props.rowData.gender==1">Male</md-chip>
+                    <md-chip class="md-accent" v-else-if="props.rowData.gender==2">Female</md-chip>
+                    <md-chip v-else>Other</md-chip>
                   </template>
                   <template slot="status" scope="props">
-                    <md-chip class="md-primary" v-if="props.rowData.status==1" md-clickable>Active</md-chip>
-                    <md-chip class="md-accent" v-else md-clickable>Deactive</md-chip>
+                    <md-chip class="md-primary" v-if="props.rowData.status==1">Active</md-chip>
+                    <md-chip class="md-accent" v-else>Deactive</md-chip>
                   </template>
                   <template slot="actions" scope="props">
                     <div class="custom-actions">

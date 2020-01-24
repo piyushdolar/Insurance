@@ -145,7 +145,7 @@
                     <md-file
                       id="image"
                       @change="onFileSelected"
-                      accept="image/*"
+                      accept="image/x-png,image/jpeg"
                       alt="profile-image"
                     />
                   </md-field>
@@ -275,12 +275,8 @@
                     <img v-else :src="defaultImage" alt="profile-image" />
                   </template>
                   <template slot="userStatus" scope="props">
-                    <md-chip
-                      class="md-primary"
-                      v-if="props.rowData.userStatus==1"
-                      md-clickable
-                    >Active</md-chip>
-                    <md-chip class="md-accent" v-else md-clickable>Deactive</md-chip>
+                    <md-chip class="md-primary" v-if="props.rowData.userStatus==1">Active</md-chip>
+                    <md-chip class="md-accent" v-else>Deactive</md-chip>
                   </template>
                   <template slot="actions" scope="props">
                     <div class="custom-actions">
@@ -375,11 +371,6 @@ export default {
         name: "fullName",
         sortField: "firstName",
         title: "Full Name"
-      },
-      {
-        name: "lastName",
-        sortField: "lastName",
-        title: "Last Name"
       },
       {
         name: "gender",
