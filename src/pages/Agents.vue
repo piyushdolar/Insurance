@@ -98,7 +98,7 @@
                   <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
-                    <md-file id="image" @change="onFileSelected" accept="image/x-png,image/jpeg" />
+                    <md-file id="image" @change="onFileSelected" accept="image/x-png, image/jpeg" />
                   </md-field>
                 </div>
               </div>
@@ -137,11 +137,11 @@
           </form>
         </md-dialog>
 
-        <div class="pull-right">
-          <md-button class="md-primary" @click="downloadCSV('agents')">
+        <div class="pull-right md-layout">
+          <md-button class="md-primary md-layout-item" @click="downloadCSV('agents')">
             <md-icon>cloud_download</md-icon>Download CSV
           </md-button>
-          <md-button class="md-primary" @click="openDialog">
+          <md-button class="md-primary md-layout-item" @click="openDialog">
             <md-icon>add</md-icon>Add Agent
           </md-button>
         </div>

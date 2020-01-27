@@ -145,7 +145,7 @@
                     <md-file
                       id="image"
                       @change="onFileSelected"
-                      accept="image/x-png,image/jpeg"
+                      accept="image/x-png, image/jpeg"
                       alt="profile-image"
                     />
                   </md-field>
@@ -191,11 +191,11 @@
           </form>
         </md-dialog>
 
-        <div class="pull-right">
-          <md-button class="md-primary" @click="downloadCSV('users')">
+        <div class="pull-right md-layout">
+          <md-button class="md-primary md-layout-item" @click="downloadCSV('users')">
             <md-icon>cloud_download</md-icon>Download CSV
           </md-button>
-          <md-button class="md-primary" @click="openDialog">
+          <md-button class="md-primary md-layout-item" @click="openDialog">
             <md-icon>add</md-icon>Add User
           </md-button>
         </div>

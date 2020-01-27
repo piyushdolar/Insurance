@@ -79,15 +79,17 @@ import moment from "moment";
 export default {
   name: "FormValidation",
   mixins: [validationMixin],
-  data: () => ({
-    form: {
-      password: null,
-      email: null
-    },
-    sending: false,
-    errors: [],
-    returnUrl: ""
-  }),
+  data: () => {
+    return {
+      form: {
+        password: null,
+        email: null
+      },
+      sending: false,
+      errors: [],
+      returnUrl: ""
+    };
+  },
   validations: {
     form: {
       password: {

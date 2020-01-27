@@ -40,7 +40,7 @@ export default {
       default: () => new Date()
     }
   },
-  data() {
+  data: () => {
     return {
       elmHeight: 0
     };

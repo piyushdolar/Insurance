@@ -130,11 +130,11 @@
           </form>
         </md-dialog>
 
-        <div class="pull-right">
-          <md-button class="md-primary" @click="downloadCSV('policy')">
+        <div class="pull-right md-layout">
+          <md-button class="md-primary md-layout-item" @click="downloadCSV('policy')">
             <md-icon>cloud_download</md-icon>Download CSV
           </md-button>
-          <md-button class="md-primary" @click="openDialog">
+          <md-button class="md-primary md-layout-item" @click="openDialog">
             <md-icon>add</md-icon>Create Policy
           </md-button>
         </div>

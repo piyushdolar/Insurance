@@ -111,33 +111,40 @@ Insurance
 
 ## Change logs:
 
-## [1.26.7] 2020-01-24
+## [1.26.*] 2020-01-\*
+
+### Minor changes
+
+-   After login redirect to dashboard token wasn't updated bug fixed.
+-   API Authorization updated.
+
+## [1.26.9] 2020-01-24
 
 ### What's new
 
--   Policy's specific user profile display with popup box.
--   Manage user with edit option has finished development.
+-   Policy's specific user-profile display with a popup box.
+-   Manage users with edit options has finished development.
 -   Filter for policies.
 -   Specific user profile on navbar added.
 -   Policy's table name column on click show particular detail popup box added.
 -   Added Edit section for User/Agent/Policy profile.
 -   Added change status field for User/Agent/Customers.
 -   Added Vue Chips to vuetable for easy recognition.
--   Notification CSS updated position fixed if user is on anywhere in page it'll still show to them.
--   Download CSV file for users database/table it also can be opened with excel.
--   New Scrollbar design added relative to dashbaord theme.
+-   Notification CSS updated position fixed if a user is on anywhere in the page it'll still show to them.
+-   The download CSV file for users database/table it also can be opened with excel.
+-   New Scrollbar design added relative to dashboard theme.
 
 ### Bugs/Fixes
 
 -   Profile page on page change not getting data from API, but on refresh can.
--   Dashboard User Count including current user.
--   Image not appearing on server problem fixed.
+-   Dashboard User Count including the current user.
+-   Image not appearing on the server problem fixed.
 -   Dashboard user count including master admin fixed.
--   Profile picture alt attribute name wasn't appeared when it could find resource in server.
+-   Profile picture alt attribute name didn't appear when it could find a resource in the server.
 -   Dialog box not scrolling on small devices issue has been fixed now.
 -   CSV files column name bug fixed Title to phone.
--   When creating the Policy for customer/policy holder it's got accepted by default bug fixed.
--   User/Agent/Customer,Policy - While creating profile it created in database when image error still exist.
+-   When creating the Policy for customer/policyholder it's got accepted by default bug fixed.
+-   User/Agent/Customer, Policy - While creating a profile is created in the database when image error still exists.
 
 ## [1.15.0] 2020-01-18
 

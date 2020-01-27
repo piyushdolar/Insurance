@@ -1,6 +1,5 @@
 import axios from '../../api/config';
 import moment from 'moment';
-// axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('refreshToken')}`;
 
 const state = {
 	policies: []
