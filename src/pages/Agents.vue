@@ -2,11 +2,17 @@
   <div class="content">
     <div class="md-layout">
       <!-- dialog with button -->
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
+      >
         <!-- CREATE AGENT MODAL -->
         <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
-          <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
+          <form
+            novalidate
+            @submit.prevent="validateUser"
+            enctype="multipart/form-data"
+          >
             <md-dialog-content>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
@@ -19,8 +25,12 @@
                       v-model="form.fname"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.fname.required">The first name is required</span>
-                    <span class="md-error" v-else-if="!$v.form.fname.minlength">Invalid first name</span>
+                    <span class="md-error" v-if="!$v.form.fname.required"
+                      >The first name is required</span
+                    >
+                    <span class="md-error" v-else-if="!$v.form.fname.minlength"
+                      >Invalid first name</span
+                    >
                   </md-field>
                 </div>
 
@@ -34,8 +44,12 @@
                       v-model="form.lname"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.lname.required">The last name is required</span>
-                    <span class="md-error" v-else-if="!$v.form.lname.minlength">Invalid last name</span>
+                    <span class="md-error" v-if="!$v.form.lname.required"
+                      >The last name is required</span
+                    >
+                    <span class="md-error" v-else-if="!$v.form.lname.minlength"
+                      >Invalid last name</span
+                    >
                   </md-field>
                 </div>
               </div>
@@ -70,11 +84,12 @@
                       v-model="form.phone"
                       :disabled="sending"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.phone.required"
-                    >The phone number is required</span>
-                    <span class="md-error" v-else-if="!$v.form.phone.minlength">Invalid phone number</span>
+                    <span class="md-error" v-if="!$v.form.phone.required"
+                      >The phone number is required</span
+                    >
+                    <span class="md-error" v-else-if="!$v.form.phone.minlength"
+                      >Invalid phone number</span
+                    >
                   </md-field>
                 </div>
               </div>
@@ -91,14 +106,25 @@
                       v-model="form.email"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.email.email">Invalid email</span>
+                    <span class="md-error" v-if="!$v.form.email.email"
+                      >Invalid email</span
+                    >
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 text-center">
-                  <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
+                  <img
+                    :src="form.imagePreview"
+                    width="100"
+                    height="100"
+                    alt="profile-image"
+                  />
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
-                    <md-file id="image" @change="onFileSelected" accept="image/x-png, image/jpeg" />
+                    <md-file
+                      id="image"
+                      @change="onFileSelected"
+                      accept="image/x-png, image/jpeg"
+                    />
                   </md-field>
                 </div>
               </div>
@@ -114,31 +140,40 @@
                       v-model="form.address"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.address.required">The address is required</span>
-                    <span class="md-error" v-else-if="!$v.form.address.email">Invalid Address</span>
+                    <span class="md-error" v-if="!$v.form.address.required"
+                      >The address is required</span
+                    >
+                    <span class="md-error" v-else-if="!$v.form.address.email"
+                      >Invalid Address</span
+                    >
                   </md-field>
                 </div>
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.status" class="md-primary">Active/Deactive Status</md-switch>
+                  <md-switch v-model="form.status" class="md-primary"
+                    >Active/Deactive Status</md-switch
+                  >
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
             </md-dialog-content>
             <md-dialog-actions>
-              <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
+              <md-button class="md-danger" @click="showDialog = false"
+                >CLOSE</md-button
+              >
               <md-button type="submit" class="md-primary" :disabled="sending">
-                {{
-                formModal.btn
-                }}
+                {{ formModal.btn }}
               </md-button>
             </md-dialog-actions>
           </form>
         </md-dialog>
 
         <div class="pull-right md-layout">
-          <md-button class="md-primary md-layout-item" @click="downloadCSV('agents')">
+          <md-button
+            class="md-primary md-layout-item"
+            @click="downloadCSV('agents')"
+          >
             <md-icon>cloud_download</md-icon>Download CSV
           </md-button>
           <md-button class="md-primary md-layout-item" @click="openDialog">
@@ -148,23 +183,34 @@
       </div>
 
       <!-- vuetable -->
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable"
+      >
         <md-card class>
           <md-card-header data-background-color="purple">
             <h4 class="title">Agent's Database</h4>
-            <p class="category">Here you can find and see every agent's details</p>
+            <p class="category">
+              Here you can find and see every agent's details
+            </p>
           </md-card-header>
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item">
                 <md-field>
                   <label for="address">Search in the table</label>
-                  <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
+                  <md-input
+                    v-model="filterItem.searchText"
+                    @keyup.enter="doFilter"
+                  ></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item">
                 <md-field>
-                  <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
+                  <md-select
+                    v-model="perPage"
+                    placeholder="Item per page"
+                    style="margin:auto"
+                  >
                     <md-option :value="10">10</md-option>
                     <md-option :value="15">15</md-option>
                     <md-option :value="20">20</md-option>
@@ -212,7 +258,7 @@
                   :per-page="perPage"
                   @vuetable:load-error="handleLoadError"
                 >
-                  <template slot="picture" scope="props">
+                  <template slot="picture" slot-scope="props">
                     <img
                       v-if="props.rowData.picture != null"
                       :src="`/images/avatars/agents/${props.rowData.picture}`"
@@ -220,11 +266,13 @@
                     />
                     <img v-else :src="defaultImage" alt="profile-image" />
                   </template>
-                  <template slot="status" scope="props">
-                    <md-chip class="md-primary" v-if="props.rowData.status==1">Active</md-chip>
+                  <template slot="status" slot-scope="props">
+                    <md-chip class="md-primary" v-if="props.rowData.status == 1"
+                      >Active</md-chip
+                    >
                     <md-chip class="md-accent" v-else>Deactive</md-chip>
                   </template>
-                  <template slot="actions" scope="props">
+                  <template slot="actions" slot-scope="props">
                     <div class="custom-actions">
                       <md-button
                         class="md-primary md-just-icon"
@@ -234,14 +282,19 @@
                       </md-button>
                       <md-button
                         class="md-danger md-just-icon"
-                        @click="onAction('delete', props.rowData, props.rowIndex)"
+                        @click="
+                          onAction('delete', props.rowData, props.rowIndex)
+                        "
                       >
                         <md-icon>delete</md-icon>
                       </md-button>
                     </div>
                   </template>
                 </vuetable>
-                <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
+                <vuetable-pagination-info
+                  id="vPageInfo"
+                  ref="paginationInfo"
+                ></vuetable-pagination-info>
                 <vuetable-pagination
                   id="vPage"
                   ref="pagination"

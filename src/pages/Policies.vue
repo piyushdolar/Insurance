@@ -2,7 +2,9 @@
   <div class="content">
     <div class="md-layout">
       <!-- dialog with button -->
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
+      >
         <!-- CREATE POLICY MODAL -->
         <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
@@ -18,14 +20,14 @@
                       v-model="form.policyName"
                       :disabled="sending"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.policyName.required"
-                    >The policy name is required</span>
+                    <span class="md-error" v-if="!$v.form.policyName.required"
+                      >The policy name is required</span
+                    >
                     <span
                       class="md-error"
                       v-else-if="!$v.form.policyName.minlength"
-                    >Invalid policy name</span>
+                      >Invalid policy name</span
+                    >
                   </md-field>
                 </div>
               </div>
@@ -40,18 +42,18 @@
                     @md-selected="onSelectCustomer"
                   >
                     <label>Select Customer *</label>
-                    <template slot="md-autocomplete-item" slot-scope="{ item, term }">
+                    <template
+                      slot="md-autocomplete-item"
+                      slot-scope="{ item, term }"
+                    >
                       <md-highlight-text :md-term="term">
-                        {{
-                        item.name
-                        }}
+                        {{ item.name }}
                       </md-highlight-text>
                     </template>
 
-                    <template
-                      slot="md-autocomplete-empty"
-                      slot-scope="{ term }"
-                    >No customer matching "{{ term }}" were found.</template>
+                    <template slot="md-autocomplete-empty" slot-scope="{ term }"
+                      >No customer matching "{{ term }}" were found.</template
+                    >
                   </md-autocomplete>
                 </div>
 
@@ -97,41 +99,46 @@
                     @md-selected="onSelectAgent"
                   >
                     <label>Select Agent</label>
-                    <template slot="md-autocomplete-item" slot-scope="{ item, term }">
+                    <template
+                      slot="md-autocomplete-item"
+                      slot-scope="{ item, term }"
+                    >
                       <md-highlight-text :md-term="term">
-                        {{
-                        item.name
-                        }}
+                        {{ item.name }}
                       </md-highlight-text>
                     </template>
 
-                    <template
-                      slot="md-autocomplete-empty"
-                      slot-scope="{ term }"
-                    >No agent matching "{{ term }}" were found.</template>
+                    <template slot="md-autocomplete-empty" slot-scope="{ term }"
+                      >No agent matching "{{ term }}" were found.</template
+                    >
                   </md-autocomplete>
                 </div>
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.status" class="md-primary">UnApproved/Approved Status</md-switch>
+                  <md-switch v-model="form.status" class="md-primary"
+                    >UnApproved/Approved Status</md-switch
+                  >
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
             </md-dialog-content>
             <md-dialog-actions>
-              <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
+              <md-button class="md-danger" @click="showDialog = false"
+                >CLOSE</md-button
+              >
               <md-button type="submit" class="md-primary" :disabled="sending">
-                {{
-                formModal.btn
-                }}
+                {{ formModal.btn }}
               </md-button>
             </md-dialog-actions>
           </form>
         </md-dialog>
 
         <div class="pull-right md-layout">
-          <md-button class="md-primary md-layout-item" @click="downloadCSV('policy')">
+          <md-button
+            class="md-primary md-layout-item"
+            @click="downloadCSV('policy')"
+          >
             <md-icon>cloud_download</md-icon>Download CSV
           </md-button>
           <md-button class="md-primary md-layout-item" @click="openDialog">
@@ -207,29 +214,42 @@
           </md-list>
         </md-dialog-content>
         <md-dialog-actions>
-          <md-button class="md-primary" @click="showSingleUserDialog = false">Close</md-button>
+          <md-button class="md-primary" @click="showSingleUserDialog = false"
+            >Close</md-button
+          >
         </md-dialog-actions>
       </md-dialog>
       <!-- DIALOG BOX OVER -->
 
       <!-- vuetable -->
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable"
+      >
         <md-card class>
           <md-card-header data-background-color="purple">
             <h4 class="title">Policy's Database</h4>
-            <p class="category">Here you can find and see every policy's details</p>
+            <p class="category">
+              Here you can find and see every policy's details
+            </p>
           </md-card-header>
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item">
                 <md-field>
                   <label for="table">Search in the table</label>
-                  <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
+                  <md-input
+                    v-model="filterItem.searchText"
+                    @keyup.enter="doFilter"
+                  ></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item">
                 <md-field>
-                  <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
+                  <md-select
+                    v-model="perPage"
+                    placeholder="Item per page"
+                    style="margin:auto"
+                  >
                     <md-option :value="10">10</md-option>
                     <md-option :value="15">15</md-option>
                     <md-option :value="20">20</md-option>
@@ -277,22 +297,29 @@
                   :per-page="perPage"
                   @vuetable:load-error="handleLoadError"
                 >
-                  <template slot="policyHolder" scope="props">
+                  <template slot="policyHolder" slot-scope="props">
                     <a
                       class="md-primary"
                       href="javascript:void(0)"
                       @click="onSelectSingleUser(props.rowData.policyHolder.id)"
-                    >{{ props.rowData.policyHolder.fullName }}</a>
+                      >{{ props.rowData.policyHolder.fullName }}</a
+                    >
                   </template>
-                  <template slot="policyType" scope="props">
-                    <md-chip class="md-primary" v-if="props.rowData.policyType==1">Motor</md-chip>
+                  <template slot="policyType" slot-scope="props">
+                    <md-chip
+                      class="md-primary"
+                      v-if="props.rowData.policyType == 1"
+                      >Motor</md-chip
+                    >
                     <md-chip class="md-accent" v-else>Non-Motor</md-chip>
                   </template>
-                  <template slot="status" scope="props">
-                    <md-chip class="md-accent" v-if="props.rowData.status==1">Pending</md-chip>
+                  <template slot="status" slot-scope="props">
+                    <md-chip class="md-accent" v-if="props.rowData.status == 1"
+                      >Pending</md-chip
+                    >
                     <md-chip class="md-primary" v-else>Approved</md-chip>
                   </template>
-                  <template slot="actions" scope="props">
+                  <template slot="actions" slot-scope="props">
                     <div class="custom-actions">
                       <md-button
                         class="md-primary md-just-icon"
@@ -302,14 +329,19 @@
                       </md-button>
                       <md-button
                         class="md-danger md-just-icon"
-                        @click="onAction('delete', props.rowData, props.rowIndex)"
+                        @click="
+                          onAction('delete', props.rowData, props.rowIndex)
+                        "
                       >
                         <md-icon>delete</md-icon>
                       </md-button>
                     </div>
                   </template>
                 </vuetable>
-                <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
+                <vuetable-pagination-info
+                  id="vPageInfo"
+                  ref="paginationInfo"
+                ></vuetable-pagination-info>
                 <vuetable-pagination
                   id="vPage"
                   ref="pagination"

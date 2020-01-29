@@ -123,6 +123,7 @@ Insurance
 -   After login redirect to dashboard token wasn't updated bug fixed.
 -   API Authorization updated.
 -   Session clearing instant when it's timeout to avoid session override.
+-   Scope replaced with slot-scope with latest vue version.
 
 ## [1.26.9] 2020-01-24
 
