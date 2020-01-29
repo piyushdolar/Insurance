@@ -12,102 +12,105 @@ import Changelogs from '@/pages/Changelogs.vue';
 import Login from '@/pages/Login.vue';
 import Logout from '@/pages/Logout.vue';
 
-const routes = [{
-	path: '/',
-	component: DashboardLayout,
-	redirect: '/dashboard',
-	children: [{
-			path: 'dashboard',
-			name: 'Dashboard',
-			meta: {
-				requiresAuth: true
+const routes = [
+	{
+		path: '/',
+		component: DashboardLayout,
+		redirect: '/dashboard',
+		children: [
+			{
+				path: 'dashboard',
+				name: 'Dashboard',
+				meta: {
+					requiresAuth: true
+				},
+				component: Dashboard
 			},
-			component: Dashboard
-		},
-		{
-			path: 'my-profile',
-			name: 'User Profile',
-			meta: {
-				requiresAuth: true
+			{
+				path: 'my-profile',
+				name: 'User Profile',
+				meta: {
+					requiresAuth: true
+				},
+				component: MyProfile
 			},
-			component: MyProfile
-		},
-		{
-			path: 'users',
-			name: 'Admin Users',
-			meta: {
-				requiresAuth: true
+			{
+				path: 'users',
+				name: 'Admin Users',
+				meta: {
+					requiresAuth: true
+				},
+				component: Users
 			},
-			component: Users
-		},
-		{
-			path: 'agents',
-			name: 'Agents List',
-			meta: {
-				requiresAuth: true
+			{
+				path: 'agents',
+				name: 'Agents List',
+				meta: {
+					requiresAuth: true
+				},
+				component: Agents
 			},
-			component: Agents
-		},
-		{
-			path: 'policy-holders',
-			name: 'Policy Holders',
-			meta: {
-				requiresAuth: true
+			{
+				path: 'policy-holders',
+				name: 'Policy Holders',
+				meta: {
+					requiresAuth: true
+				},
+				component: PolicyHolders
 			},
-			component: PolicyHolders
-		},
-		{
-			path: 'policies',
-			name: 'Policies',
-			meta: {
-				requiresAuth: true
+			{
+				path: 'policies',
+				name: 'Policies',
+				meta: {
+					requiresAuth: true
+				},
+				component: Policies
 			},
-			component: Policies
-		},
-		{
-			path: 'maps',
-			name: 'Maps',
-			meta: {
-				hideFooter: true,
-				requiresAuth: true
+			{
+				path: 'maps',
+				name: 'Maps',
+				meta: {
+					hideFooter: true,
+					requiresAuth: true
+				},
+				component: Maps
 			},
-			component: Maps
-		},
-		{
-			path: '/changelogs',
-			name: 'changelogs',
-			meta: {
-				requiresAuth: true
+			{
+				path: '/changelogs',
+				name: 'changelogs',
+				meta: {
+					requiresAuth: true
+				},
+				component: Changelogs
 			},
-			component: Changelogs
-		},
 
-		// LOGIN / LOGOUT SECTION
-		{
-			path: 'login',
-			name: 'Login',
-			component: Login,
-			meta: {
-				hideNavigation: true,
-				hideSidebar: true,
-				hideFooter: true
+			// LOGIN / LOGOUT SECTION
+			{
+				path: 'login',
+				name: 'Login',
+				component: Login,
+				meta: {
+					hideNavigation: true,
+					hideSidebar: true,
+					hideFooter: true
+				}
+			},
+			{
+				path: 'logout',
+				name: 'logout',
+				component: Logout,
+				meta: {
+					hideNavigation: true,
+					hideSidebar: true,
+					hideFooter: true
+				}
 			}
-		},
-		{
-			path: 'logout',
-			name: 'logout',
-			component: Logout,
-			meta: {
-				hideNavigation: true,
-				hideSidebar: true,
-				hideFooter: true
-			}
-		},
-		{
-			path: '*',
-			component: PageNotFound
-		}
-	]
-}];
+			/* {
+				path: '*',
+				component: PageNotFound
+			} */
+		]
+	}
+];
 
 export default routes;
