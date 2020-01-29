@@ -132,9 +132,9 @@ export default {
       this.form.password = null;
       this.form.email = null;
     },
-    saveUser() {
+    async saveUser() {
       this.sending = true;
-      this.$store
+      await this.$store
         .dispatch("checkLogin", {
           userData: this.form
         })
@@ -147,7 +147,6 @@ export default {
             date: new Date(),
             limit: "60"
           });
-          this.$router.go("/dashboard");
           this.$notify({
             message: response.message,
             icon: "add_alert",
@@ -155,6 +154,7 @@ export default {
             horizontalAlign: "right",
             type: "success"
           });
+          this.$router.go("/dashboard");
         })
         .catch(error => {
           this.sending = false;

@@ -111,12 +111,18 @@ Insurance
 
 ## Change logs:
 
-## [1.26.*] 2020-01-\*
+## [1.28.12] 2020-01-29
+
+### What's new - The Final update
+
+-   404 Page was missing added.
+-   UML Diagram created.
 
 ### Minor changes
 
 -   After login redirect to dashboard token wasn't updated bug fixed.
 -   API Authorization updated.
+-   Session clearing instant when it's timeout to avoid session override.
 
 ## [1.26.9] 2020-01-24
 

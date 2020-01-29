@@ -53,6 +53,7 @@ router.beforeEach((to, from, next) => {
 		let timeNow = moment(new Date());
 		let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
 		if (timeDiff > router.app.$session.get('_timeout').limit) {
+			router.app.$session.clear();
 			router.app.$session.flash.set('sessionExpired', 'Session expired please login again.');
 			next({ path: '/login' });
 		} else {
