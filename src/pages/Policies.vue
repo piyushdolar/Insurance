@@ -486,15 +486,12 @@ export default {
           !this.$v.form.policyType.$invalid
         ) {
           this.saveUser("edit");
-        } else {
-          console.log("Edit From: ", "error");
         }
       } else {
         if (!this.$v.form.$invalid) {
           this.saveUser("add");
         }
       }
-      //   console.log(this.$v.form);
     },
     async saveUser(type) {
       this.sending = true;
