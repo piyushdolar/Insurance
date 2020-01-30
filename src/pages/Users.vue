@@ -2,17 +2,11 @@
   <div class="content">
     <div class="md-layout">
       <!-- dialog with button -->
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
-      >
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <!-- CREATE USER MODAL -->
         <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
-          <form
-            novalidate
-            @submit.prevent="validateUser"
-            enctype="multipart/form-data"
-          >
+          <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
             <md-dialog-content>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
@@ -25,14 +19,14 @@
                       v-model="form.firstName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.firstName.required"
-                      >The first name is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.firstName.required"
+                    >The first name is required</span>
                     <span
                       class="md-error"
                       v-else-if="!$v.form.firstName.minlength"
-                      >Invalid first name</span
-                    >
+                    >Invalid first name</span>
                   </md-field>
                 </div>
 
@@ -46,14 +40,11 @@
                       v-model="form.lastName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.lastName.required"
-                      >The last name is required</span
-                    >
                     <span
                       class="md-error"
-                      v-else-if="!$v.form.lastName.minlength"
-                      >Invalid last name</span
-                    >
+                      v-if="!$v.form.lastName.required"
+                    >The last name is required</span>
+                    <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
                   </md-field>
                 </div>
               </div>
@@ -88,12 +79,11 @@
                       v-model="form.phone"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.phone.required"
-                      >The phone number is required</span
-                    >
-                    <span class="md-error" v-else-if="!$v.form.phone.minlength"
-                      >Invalid phone number</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.phone.required"
+                    >The phone number is required</span>
+                    <span class="md-error" v-else-if="!$v.form.phone.minlength">Invalid phone number</span>
                   </md-field>
                 </div>
               </div>
@@ -109,9 +99,10 @@
                       v-model="form.password"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.password.minLength"
-                      >The password minimum length is 4 character long.</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.password.minLength"
+                    >The password minimum length is 4 character long.</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -124,9 +115,10 @@
                       v-model="form.repeatPassword"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.repeatPassword.sameAs"
-                      >The password dosen't match.</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.repeatPassword.sameAs"
+                    >The password dosen't match.</span>
                   </md-field>
                 </div>
               </div>
@@ -143,18 +135,11 @@
                       v-model="form.email"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.email.email"
-                      >Invalid email</span
-                    >
+                    <span class="md-error" v-if="!$v.form.email.email">Invalid email</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 text-center">
-                  <img
-                    :src="form.imagePreview"
-                    width="100"
-                    height="100"
-                    alt="profile-image"
-                  />
+                  <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
                     <md-file
@@ -178,20 +163,14 @@
                       v-model="form.address"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.address.required"
-                      >The address is required</span
-                    >
-                    <span class="md-error" v-else-if="!$v.form.address.email"
-                      >Invalid Address</span
-                    >
+                    <span class="md-error" v-if="!$v.form.address.required">The address is required</span>
+                    <span class="md-error" v-else-if="!$v.form.address.email">Invalid Address</span>
                   </md-field>
                 </div>
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.loginStatus" class="md-primary"
-                    >Login Status</md-switch
-                  >
+                  <md-switch v-model="form.loginStatus" class="md-primary">Login Status</md-switch>
                 </div>
               </div>
 
@@ -202,21 +181,14 @@
               >The user {{ lastUser }} was saved with success!</md-snackbar>-->
             </md-dialog-content>
             <md-dialog-actions>
-              <md-button class="md-danger" @click="showDialog = false"
-                >CLOSE</md-button
-              >
-              <md-button type="submit" class="md-primary" :disabled="sending">
-                {{ formModal.btn }}
-              </md-button>
+              <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
+              <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
             </md-dialog-actions>
           </form>
         </md-dialog>
 
         <div class="pull-right md-layout">
-          <md-button
-            class="md-primary md-layout-item"
-            @click="downloadCSV('users')"
-          >
+          <md-button class="md-primary md-layout-item" @click="downloadCSV('users')">
             <md-icon>cloud_download</md-icon>Download CSV
           </md-button>
           <md-button class="md-primary md-layout-item" @click="openDialog">
@@ -226,34 +198,23 @@
       </div>
 
       <!-- vuetable -->
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable"
-      >
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable">
         <md-card class>
           <md-card-header data-background-color="purple">
             <h4 class="title">User's Database</h4>
-            <p class="category">
-              Here you can find and see every user's details
-            </p>
+            <p class="category">Here you can find and see every user's details</p>
           </md-card-header>
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item">
                 <md-field>
                   <label for="address">Search in the table</label>
-                  <md-input
-                    v-model="filterItem.searchText"
-                    @keyup.enter="doFilter"
-                  ></md-input>
+                  <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item">
                 <md-field>
-                  <md-select
-                    v-model="perPage"
-                    placeholder="Item per page"
-                    style="margin:auto"
-                  >
+                  <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
                     <md-option :value="10">10</md-option>
                     <md-option :value="15">15</md-option>
                     <md-option :value="20">20</md-option>
@@ -310,11 +271,7 @@
                     <img v-else :src="defaultImage" alt="profile-image" />
                   </template>
                   <template slot="userStatus" slot-scope="props">
-                    <md-chip
-                      class="md-primary"
-                      v-if="props.rowData.userStatus == 1"
-                      >Active</md-chip
-                    >
+                    <md-chip class="md-primary" v-if="props.rowData.userStatus == 1">Active</md-chip>
                     <md-chip class="md-accent" v-else>Deactive</md-chip>
                   </template>
                   <template slot="actions" slot-scope="props">
@@ -336,10 +293,7 @@
                     </div>
                   </template>
                 </vuetable>
-                <vuetable-pagination-info
-                  id="vPageInfo"
-                  ref="paginationInfo"
-                ></vuetable-pagination-info>
+                <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
                 <vuetable-pagination
                   id="vPage"
                   ref="pagination"
@@ -592,7 +546,6 @@ export default {
           this.saveUser("add");
         }
       }
-      //   console.log(this.$v.form);
     },
     async saveUser(type, btnText) {
       this.sending = true;

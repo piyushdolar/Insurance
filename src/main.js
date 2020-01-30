@@ -30,34 +30,36 @@ const router = new VueRouter({
 });
 router.beforeEach((to, from, next) => {
 	/* const publicPages = ['/login'];
-const authRequired = !publicPages.includes(to.path);
-const token = router.app.$session.exists('userProfile');
+		const authRequired = !publicPages.includes(to.path);
+		const token = router.app.$session.exists('userProfile');
 
-var timeBefore = moment(router.app.$session.get('_timeout').date);
-var timeNow = moment(new Date());
-var timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
+		var timeBefore = moment(router.app.$session.get('_timeout').date);
+		var timeNow = moment(new Date());
+		var timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
 
-console.log(timeDiff);
-router.app.$session.remove('userProfile');
-console.log(router.app.$session.get('userProfile'));
+		router.app.$session.remove('userProfile');
 
-if (authRequired && !token) {
-return next({
-path: '/login',
-query: { returnUrl: to.path }
-});
-}
-next(); */
+		if (authRequired && !token) {
+		return next({
+		path: '/login',
+		query: { returnUrl: to.path }
+		});
+		}
+		next(); */
 	if (to.matched.some(record => record.meta.requiresAuth)) {
-		let timeBefore = moment(router.app.$session.get('_timeout').date);
-		let timeNow = moment(new Date());
-		let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
-		if (timeDiff > router.app.$session.get('_timeout').limit) {
-			router.app.$session.clear();
-			router.app.$session.flash.set('sessionExpired', 'Session expired please login again.');
-			next({ path: '/login' });
+		if (router.app.$session.get('userProfile') != undefined) {
+			let timeBefore = moment(router.app.$session.get('_timeout').date);
+			let timeNow = moment(new Date());
+			let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
+			if (timeDiff > router.app.$session.get('_timeout').limit) {
+				router.app.$session.clear();
+				router.app.$session.flash.set('sessionExpired', 'Session expired please login again.');
+				next({ path: '/login' });
+			} else {
+				next();
+			}
 		} else {
-			next();
+			next({ path: '/login' });
 		}
 	} else {
 		next();

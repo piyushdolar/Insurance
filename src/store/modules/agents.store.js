@@ -13,14 +13,9 @@ const actions = {
 			per_page: 20,
 			filter: searchWord
 		};
-		axios
-			.get('/agents', { params: params })
-			.then(response => {
-				commit('SET_AGENTS', response.data.data);
-			})
-			.catch(error => {
-				console.log('Error-vuex-actions: ', error);
-			});
+		axios.get('/agents', { params: params }).then(response => {
+			commit('SET_AGENTS', response.data.data);
+		});
 	},
 	// Create Agents user
 	addAgent: ({ commit }, { userData }) => {

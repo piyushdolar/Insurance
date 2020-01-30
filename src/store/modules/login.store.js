@@ -37,7 +37,7 @@ const mutations = {
 
 const getters = {
 	isLoggedIn: state => {
-		console.log('Login?: ' + state.user.loggedIn);
+		return state.user.loggedIn;
 	}
 };
 

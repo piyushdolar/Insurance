@@ -9,24 +9,14 @@ const state = {
 const actions = {
 	// Get all users
 	getAdminUsers: ({ commit }) => {
-		axios
-			.get('/users')
-			.then(response => {
-				commit('SET_ADMIN_USERS', response.data.data);
-			})
-			.catch(error => {
-				console.log('Error-vuex-actions: ', error);
-			});
+		axios.get('/users').then(response => {
+			commit('SET_ADMIN_USERS', response.data.data);
+		});
 	},
 	getSingleAdminUser({ commit }, userId) {
-		axios
-			.get('/users/' + userId)
-			.then(response => {
-				commit('SET_SINGLE_ADMIN_USER', response.data.data);
-			})
-			.catch(error => {
-				console.log('Error-vuex-actions: ', error);
-			});
+		axios.get('/users/' + userId).then(response => {
+			commit('SET_SINGLE_ADMIN_USER', response.data.data);
+		});
 	},
 	// Create admin user
 	addAdminUser: ({ commit }, userData) => {

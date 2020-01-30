@@ -13,14 +13,9 @@ const actions = {
 			per_page: 20,
 			filter: searchWord
 		};
-		axios
-			.get('/customers', { params: params })
-			.then(response => {
-				commit('SET_POLICY_HOLDERS', response.data.data);
-			})
-			.catch(error => {
-				console.log('Error-vuex-actions: ', error);
-			});
+		axios.get('/customers', { params: params }).then(response => {
+			commit('SET_POLICY_HOLDERS', response.data.data);
+		});
 	},
 	// Create Agents user
 	addPolicyHolder: ({ commit }, { userData }) => {
