@@ -1,7 +1,7 @@
 import DashboardLayout from '@/pages/Layout/DashboardLayout.vue';
 
 import Dashboard from '@/pages/Dashboard.vue';
-import PageNotFound from '@/pages/404.vue';
+//import PageNotFound from '@/pages/404.vue';
 import MyProfile from '@/pages/MyProfile.vue';
 import Users from '@/pages/Users.vue';
 import Agents from '@/pages/Agents.vue';
