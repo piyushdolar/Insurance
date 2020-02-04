@@ -196,7 +196,7 @@
               <div class="md-layout-item table-responsive">
                 <vuetable
                   ref="vuetable"
-                  api-url="http://119.8.40.98/api/customers"
+                  api-url="https://www.lcpi.la/api/customers"
                   :fields="fields"
                   :http-options="{ headers: { Authorization: accessToken } }"
                   pagination-path

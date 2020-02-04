@@ -111,12 +111,21 @@ Insurance
 
 ## Change logs:
 
+## [1.30.13] 2020-02-04
+
+### What's new
+
+-   All request now with encrypted SSL certificate.
+-   Minor changes updated.
+
 ## [1.28.12] 2020-01-29
 
-### What's new - The Final update
+### What's new
 
 -   404 Page was missing added.
 -   UML Diagram created.
+-   All request now with encrypted SSL certificate.
+-   Minor changes updated.
 
 ### Minor changes
 
