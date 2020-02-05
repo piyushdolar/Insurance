@@ -5,7 +5,7 @@
         <md-card>
           <md-card-header data-background-color="purple">
             <h4 class="title">Login</h4>
-            <p class="category">Enter your username and password to login with Insurance software.</p>
+            <p class="category">Enter your Email and Password to login with Insurance System.</p>
           </md-card-header>
 
           <md-card-content>
