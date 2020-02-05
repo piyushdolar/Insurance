@@ -2,7 +2,7 @@ import DashboardLayout from '@/pages/Layout/DashboardLayout.vue';
 
 import Dashboard from '@/pages/Dashboard.vue';
 import MyProfile from '@/pages/MyProfile.vue';
-import Users from '@/pages/Users.vue';
+import Admins from '@/pages/Admins.vue';
 import Agents from '@/pages/Agents.vue';
 import PolicyHolders from '@/pages/PolicyHolders.vue';
 import Policies from '@/pages/Policies.vue';
@@ -34,12 +34,12 @@ const routes = [
 				component: MyProfile
 			},
 			{
-				path: 'users',
+				path: 'admins',
 				name: 'Admin Users',
 				meta: {
 					requiresAuth: true
 				},
-				component: Users
+				component: Admins
 			},
 			{
 				path: 'agents',

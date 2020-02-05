@@ -201,7 +201,7 @@
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable">
         <md-card class>
           <md-card-header data-background-color="purple">
-            <h4 class="title">User's Database</h4>
+            <h4 class="title">Admin's Database</h4>
             <p class="category">Here you can find and see every user's details</p>
           </md-card-header>
           <md-card-content>

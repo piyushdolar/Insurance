@@ -8,9 +8,9 @@
         <md-icon>dashboard</md-icon>
         <p>Home</p>
       </sidebar-link>
-      <sidebar-link to="/users">
+      <sidebar-link to="/admins">
         <md-icon>verified_user</md-icon>
-        <p>Users</p>
+        <p>Admins</p>
       </sidebar-link>
       <sidebar-link to="/agents">
         <md-icon>accessibility_new</md-icon>
