@@ -46,10 +46,10 @@ const actions = {
 								'Content-Type': 'multipart/form-data'
 							}
 						})
-						.then(function(data) {
+						.then(function (data) {
 							return 'User has been successfully created.';
 						})
-						.catch(function(error) {
+						.catch(function (error) {
 							throw error;
 						});
 				} else {
@@ -88,10 +88,10 @@ const actions = {
 								'Content-Type': 'multipart/form-data'
 							}
 						})
-						.then(function(data) {
+						.then(function (data) {
 							return 'A User profile updated successfully.';
 						})
-						.catch(function(error) {
+						.catch(function (error) {
 							throw error;
 						});
 				} else {

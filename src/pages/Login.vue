@@ -10,7 +10,7 @@
 
           <md-card-content>
             <form novalidate class="md-layout" @submit.prevent="validateUser">
-              <div class="md-layout md-gutter">
+              <div class="md-layout" v-if="form.step">
                 <div class="md-layout-item md-size-100 md-small-size-100">
                   <md-field :class="getValidationClass('email')">
                     <label for="email">Email</label>
@@ -43,6 +43,29 @@
                     <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid password</span>
                   </md-field>
                 </div>
+              </div>
+              <div class="md-layout" v-else>
+                <div class="md-layout-item md-size-100 md-small-size-100">
+                  <img :src="form.otpImage" width="100" height="100" alt="otp-image" />
+                </div>
+
+                <div class="md-layout-item md-size-100 md-small-size-100">
+                  <md-field>
+                    <label for="otp">Google Authenticator Code</label>
+                    <md-input
+                      name="otp"
+                      id="otp"
+                      type="otp"
+                      v-model="form.otpCode"
+                      :disabled="sending"
+                    />
+                    <span class="md-error" v-if="!$v.form.otpCode.required">The OTP is required</span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.otpCode.minlength"
+                    >OTP Code length must be 6 number long.</span>
+                  </md-field>
+                </div>
 
                 <div class="md-layout-item md-size-100 md-small-size-100">
                   <ul v-if="errors && errors.length">
@@ -52,10 +75,10 @@
                 <div class="md-layout-item md-size-100 md-small-size-100">
                   <md-progress-bar md-mode="indeterminate" v-if="sending" />
                 </div>
+              </div>
 
-                <div class="md-layout-item md-size-100 md-small-size-100">
-                  <md-button type="submit" class="md-primary" :disabled="sending">Login</md-button>
-                </div>
+              <div class="md-layout-item md-size-100 md-small-size-100">
+                <md-button type="submit" class="md-primary" :disabled="sending">{{form.btn}}</md-button>
               </div>
             </form>
           </md-card-content>
@@ -83,7 +106,11 @@ export default {
     return {
       form: {
         password: null,
-        email: null
+        email: null,
+        otpImage: null,
+        otpCode: null,
+        btn: "Login",
+        step: true
       },
       sending: false,
       errors: [],
@@ -99,6 +126,11 @@ export default {
       email: {
         required,
         email
+      },
+      otpCode: {
+        required,
+        minLength: minLength(6),
+        maxLength: maxLength(6)
       }
     }
   },
@@ -127,34 +159,17 @@ export default {
         };
       }
     },
-    clearForm() {
-      this.$v.$reset();
-      this.form.password = null;
-      this.form.email = null;
-    },
-    async saveUser() {
+    async checkUser() {
       this.sending = true;
+      this.form.step = false;
+      this.form.btn = "Verify";
       await this.$store
         .dispatch("checkLogin", {
           userData: this.form
         })
-        .then(response => {
+        .then(responseQRCode => {
           this.sending = false;
-          this.clearForm();
-          this.$session.start();
-          this.$session.set("userProfile", response.data);
-          this.$session.set("_timeout", {
-            date: new Date(),
-            limit: "60"
-          });
-          this.$notify({
-            message: response.message,
-            icon: "add_alert",
-            verticalAlign: "top",
-            horizontalAlign: "right",
-            type: "success"
-          });
-          this.$router.go("/dashboard");
+          this.form.otpImage = responseQRCode;
         })
         .catch(error => {
           this.sending = false;
@@ -167,11 +182,45 @@ export default {
           });
         });
     },
+    async finalCheck() {
+      this.sending = true;
+      await this.$store
+        .dispatch("checkLoginWithQRCode", this.form.otpCode)
+        .then(responseQRCode => {
+          this.$session.start();
+          this.$session.set("userProfile", responseQRCode.data);
+          this.$session.set("_timeout", {
+            date: new Date(),
+            limit: "60"
+          });
+          this.$notify({
+            message: "You logged in successfully.",
+            icon: "add_alert",
+            verticalAlign: "top",
+            horizontalAlign: "right",
+            type: "success"
+          });
+        })
+        .catch(error => {
+          this.sending = false;
+          this.$notify({
+            message: error,
+            icon: "add_alert",
+            verticalAlign: "top",
+            horizontalAlign: "right",
+            type: "danger"
+          });
+        });
+      this.$router.go("/dashboard");
+    },
     validateUser() {
       this.$v.$touch();
-
-      if (!this.$v.$invalid) {
-        this.saveUser();
+      if (!this.$v.form.email.$invalid && !this.$v.form.password.$invalid) {
+        if (this.form.step) {
+          this.checkUser();
+        } else if (!this.$v.form.otpCode.$invalid) {
+          this.finalCheck();
+        }
       }
     }
   }
