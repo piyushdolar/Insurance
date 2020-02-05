@@ -111,6 +111,9 @@ Insurance
 
 ## Change logs:
 
+## [1.31.13] 2020-02-04
+-   Google Authenticator Added.
+
 ## [1.30.13] 2020-02-04
 
 ### What's new
