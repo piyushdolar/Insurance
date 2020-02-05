@@ -85,6 +85,26 @@
         </md-card>
       </div>
     </div>
+    <!-- Instruction -->
+    <div class="md-layout">
+      <div class="md-layout-item md-size-30 mx-auto md-small-size-100">
+        <md-dialog-alert
+          :md-active.sync="showDialog"
+          md-content="<p><strong>1.</strong> Download Google Authenticator APK <a target='_blank' href='https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en'>Click Here</a>.</p>
+                      <p><strong>2.</strong> Login with your Email and Password in above form.</p>
+                      <p><strong>3.</strong> Scan QR Code into your Google Authenticator APK.</p>
+                      <p><strong>4.</strong> Type your generated OTP code into <i>'Google Authenticator Code'</i> field.</p>
+                      <p><strong>4.</strong> Done!</p>
+                    "
+          md-confirm-text="Cool!"
+        />
+        <a
+          href="#"
+          class="md-primary md-raised"
+          @click="showDialog = true"
+        >Can't Login? Then see instruction.</a>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -114,7 +134,8 @@ export default {
       },
       sending: false,
       errors: [],
-      returnUrl: ""
+      returnUrl: "",
+      showDialog: false
     };
   },
   validations: {
