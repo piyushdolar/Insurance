@@ -200,6 +200,7 @@ export default {
             horizontalAlign: "right",
             type: "success"
           });
+          this.$router.go("/dashboard");
         })
         .catch(error => {
           this.sending = false;
@@ -211,7 +212,6 @@ export default {
             type: "danger"
           });
         });
-      this.$router.go("/dashboard");
     },
     validateUser() {
       this.$v.$touch();

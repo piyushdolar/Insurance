@@ -50,7 +50,6 @@ const mutations = {
 	},
 	LOGIN_CHECK: (state, payload) => {
 		state.token = payload.headers.token;
-		window.localStorage.setItem("refreshToken", state.token);
 	}
 };
 

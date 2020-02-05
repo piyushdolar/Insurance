@@ -47,7 +47,7 @@ router.beforeEach((to, from, next) => {
 		}
 		next(); */
 	if (to.matched.some(record => record.meta.requiresAuth)) {
-		if (router.app.$session.get('userProfile') != undefined) {
+		if (window.localStorage.getItem('refreshToken') != undefined && router.app.$session.get('_timeout')) {
 			let timeBefore = moment(router.app.$session.get('_timeout').date);
 			let timeNow = moment(new Date());
 			let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
