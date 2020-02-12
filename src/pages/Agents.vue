@@ -534,10 +534,10 @@ export default {
       }
       this.sending = false;
     }
+  },
+  mounted() {
+    console.log(this.$store.getters.getDashboard);
   }
-  /* mounted() {
-    this.$store.dispatch("getAgents");
-  },   */
 };
 </script>
 <style lang="scss" scoped>

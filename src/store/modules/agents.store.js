@@ -44,10 +44,10 @@ const actions = {
 								'Content-Type': 'multipart/form-data'
 							}
 						})
-						.then(function(data) {
+						.then(function (data) {
 							return 'Agent has been successfully created.';
 						})
-						.catch(function(error) {
+						.catch(function (error) {
 							throw error;
 						});
 				} else {
@@ -86,10 +86,10 @@ const actions = {
 								'Content-Type': 'multipart/form-data'
 							}
 						})
-						.then(function(data) {
+						.then(function (data) {
 							return 'A Agent successfully updated to database.';
 						})
-						.catch(function() {
+						.catch(function () {
 							throw error;
 						});
 				} else {
