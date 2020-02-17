@@ -24,6 +24,7 @@ const actions = {
 			lastName: userData.lname,
 			gender: userData.gender,
 			email: userData.email,
+			password: userData.password,
 			phone: userData.phone,
 			address: userData.address,
 			status: userData.status ? 1 : 2,

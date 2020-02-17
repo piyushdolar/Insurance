@@ -8,18 +8,18 @@ const state = {
 
 const actions = {
 	// Get all users
-	getAdminUsers: ({ commit }) => {
+	getUsers: ({ commit }) => {
 		axios.get('/users').then(response => {
-			commit('SET_ADMIN_USERS', response.data.data);
+			commit('SET_USERS', response.data.data);
 		});
 	},
-	getSingleAdminUser({ commit }, userId) {
+	getSingleUser({ commit }, userId) {
 		axios.get('/users/' + userId).then(response => {
-			commit('SET_SINGLE_ADMIN_USER', response.data.data);
+			commit('SET_SINGLE_USER', response.data.data);
 		});
 	},
 	// Create admin user
-	addAdminUser: ({ commit }, userData) => {
+	addUser: ({ commit }, userData) => {
 		let rowData = {
 			firstName: userData.firstName,
 			lastName: userData.lastName,
@@ -62,7 +62,7 @@ const actions = {
 	},
 
 	// Edit admin user
-	editAdminUser: ({ commit }, userData) => {
+	editUser: ({ commit }, userData) => {
 		let rowData = {
 			firstName: userData.firstName,
 			lastName: userData.lastName,
@@ -104,7 +104,7 @@ const actions = {
 	},
 
 	// Delete admin user
-	deleteAdminUser: ({ commit }, { userId }) => {
+	deleteUser: ({ commit }, { userId }) => {
 		return axios({
 			method: 'delete',
 			url: 'users/' + userId
@@ -119,7 +119,7 @@ const actions = {
 };
 
 const mutations = {
-	SET_ADMIN_USERS: (state, users) => {
+	SET_USERS: (state, users) => {
 		for (let i = 0; i < users.data.length; i++) {
 			let userAvailable = state.adminUsers.find(user => {
 				return user.email === users.data[i].email;
@@ -136,13 +136,13 @@ const mutations = {
 			}
 		}
 	},
-	SET_SINGLE_ADMIN_USER: (state, response) => {
+	SET_SINGLE_USER: (state, response) => {
 		state.singleUser = response;
 	}
 };
 
 const getters = {
-	getAdminUsers: ({ commit }) => {
+	getUsers: ({ commit }) => {
 		return [
 			{
 				id: 1,
@@ -164,7 +164,7 @@ const getters = {
 			}
 		];
 	},
-	getSingleAdminUser(state) {
+	getSingleUser(state) {
 		return state.singleUser;
 	}
 };

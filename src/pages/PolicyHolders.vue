@@ -6,8 +6,8 @@
         <!-- CREATE AGENT MODAL -->
         <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
-          <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
-            <md-dialog-content>
+          <md-dialog-content>
+            <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('fname')">
@@ -74,7 +74,10 @@
                       class="md-error"
                       v-if="!$v.form.phone.required"
                     >The phone number is required</span>
-                    <span class="md-error" v-else-if="!$v.form.phone.minlength">Invalid phone number</span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.phone.minlength"
+                    >Invalid phone number, It must be 11 digits long</span>
                   </md-field>
                 </div>
               </div>
@@ -125,19 +128,19 @@
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
-            </md-dialog-content>
-            <md-dialog-actions>
-              <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
-              <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
-            </md-dialog-actions>
-          </form>
+              <md-dialog-actions>
+                <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
+                <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
+              </md-dialog-actions>
+            </form>
+          </md-dialog-content>
         </md-dialog>
 
         <div class="pull-right md-layout">
           <md-button class="md-primary md-layout-item" @click="downloadCSV('customers')">
-            <md-icon>cloud_download</md-icon>Download CSV
+            <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
-          <md-button class="md-primary md-layout-item" @click="openDialog">
+          <md-button class="md-info md-layout-item" @click="openDialog">
             <md-icon>add</md-icon>Add Policy Holder
           </md-button>
         </div>
@@ -372,8 +375,8 @@ export default {
       },
       phone: {
         required,
-        maxLength: maxLength(10),
-        minLength: maxLength(10)
+        minLength: minLength(10),
+        maxLength: maxLength(10)
       },
       email: {
         email

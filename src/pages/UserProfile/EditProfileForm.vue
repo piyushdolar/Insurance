@@ -47,6 +47,28 @@
               <md-input v-model="form.phone" type="number"></md-input>
             </md-field>
           </div>
+
+          <div class="md-layout-item md-small-size-100 md-size-50">
+            <md-field :class="getValidationClass('password')">
+              <label>Enter Password</label>
+              <md-input v-model="form.password" type="password"></md-input>
+              <span
+                class="md-error"
+                v-if="!$v.form.password.minLength"
+              >The password minimum length is 4 character long.</span>
+            </md-field>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-50">
+            <md-field :class="getValidationClass('passwordRepeat')">
+              <label>Repeat Password</label>
+              <md-input v-model="form.passwordRepeat" type="password"></md-input>
+              <span
+                class="md-error"
+                v-if="!$v.form.passwordRepeat.sameAs"
+              >The password dosen't match.</span>
+            </md-field>
+          </div>
+
           <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
               <label for="address">Address</label>
@@ -111,6 +133,12 @@ export default {
       address: {
         required,
         minLength: minLength(4)
+      },
+      password: {
+        minLength: minLength(6)
+      },
+      passwordRepeat: {
+        sameAsPassword: sameAs("password")
       }
     }
   },

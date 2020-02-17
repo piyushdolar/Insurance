@@ -14,20 +14,24 @@
       </sidebar-link>
       <sidebar-link to="/agents">
         <md-icon>accessibility_new</md-icon>
-        <p>Agent's Information</p>
+        <p>Agents</p>
       </sidebar-link>
       <sidebar-link to="/policy-holders">
         <md-icon>emoji_people</md-icon>
-        <p>Policy Holders</p>
+        <p>Customers</p>
       </sidebar-link>
       <sidebar-link to="/policies">
         <md-icon>assignment</md-icon>
         <p>Policy</p>
       </sidebar-link>
-      <sidebar-link to="/maps">
+      <sidebar-link to="/#">
+        <md-icon>assessment</md-icon>
+        <p>Reports</p>
+      </sidebar-link>
+      <!-- <sidebar-link to="/maps">
         <md-icon>location_on</md-icon>
         <p>Maps</p>
-      </sidebar-link>
+      </sidebar-link>-->
       <sidebar-link to="/changelogs">
         <md-icon>notifications</md-icon>
         <p>Changelogs</p>

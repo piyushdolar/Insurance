@@ -6,8 +6,8 @@
         <!-- CREATE USER MODAL -->
         <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
-          <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
-            <md-dialog-content>
+          <md-dialog-content>
+            <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('firstName')">
@@ -83,7 +83,10 @@
                       class="md-error"
                       v-if="!$v.form.phone.required"
                     >The phone number is required</span>
-                    <span class="md-error" v-else-if="!$v.form.phone.minlength">Invalid phone number</span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.phone.minlength"
+                    >Invalid phone number, It must be 11 digits long.</span>
                   </md-field>
                 </div>
               </div>
@@ -179,19 +182,19 @@
               <!-- <md-snackbar
                 :md-active.sync="userSaved"
               >The user {{ lastUser }} was saved with success!</md-snackbar>-->
-            </md-dialog-content>
-            <md-dialog-actions>
-              <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
-              <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
-            </md-dialog-actions>
-          </form>
+              <md-dialog-actions>
+                <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
+                <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
+              </md-dialog-actions>
+            </form>
+          </md-dialog-content>
         </md-dialog>
 
         <div class="pull-right md-layout">
           <md-button class="md-primary md-layout-item" @click="downloadCSV('users')">
-            <md-icon>cloud_download</md-icon>Download CSV
+            <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
-          <md-button class="md-primary md-layout-item" @click="openDialog">
+          <md-button class="md-info md-layout-item" @click="openDialog">
             <md-icon>add</md-icon>Add User
           </md-button>
         </div>
@@ -429,8 +432,8 @@ export default {
       },
       phone: {
         required,
-        maxLength: maxLength(10),
-        minLength: minLength(10)
+        maxLength: maxLength(11),
+        minLength: minLength(11)
       },
       email: {
         email
@@ -474,7 +477,7 @@ export default {
       } else if (action == "delete") {
         if (confirm("Are you sure?")) {
           this.$store
-            .dispatch("deleteAdminUser", {
+            .dispatch("deleteUser", {
               userId: data.id
             })
             .then(response => {
@@ -552,7 +555,7 @@ export default {
       this.form.sessionId = this.$session.get("userProfile").id;
       if (type == "add") {
         await this.$store
-          .dispatch("addAdminUser", this.form)
+          .dispatch("addUser", this.form)
           .then(response => {
             this.$notify({
               message: response,
@@ -576,7 +579,7 @@ export default {
           });
       } else if (type == "edit") {
         await this.$store
-          .dispatch("editAdminUser", this.form)
+          .dispatch("editUser", this.form)
           .then(response => {
             this.$notify({
               message: response,

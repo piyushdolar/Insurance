@@ -20,6 +20,7 @@ import VMdDateRangePicker from 'v-md-date-range-picker';
 
 import Chartist from 'chartist';
 import moment from 'moment';
+import checkUser from './helpers/authentication'
 
 // configure router
 const router = new VueRouter({
@@ -29,25 +30,9 @@ const router = new VueRouter({
 	linkExactActiveClass: 'nav-item active'
 });
 router.beforeEach((to, from, next) => {
-	/* const publicPages = ['/login'];
-		const authRequired = !publicPages.includes(to.path);
-		const token = router.app.$session.exists('userProfile');
-
-		var timeBefore = moment(router.app.$session.get('_timeout').date);
-		var timeNow = moment(new Date());
-		var timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
-
-		router.app.$session.remove('userProfile');
-
-		if (authRequired && !token) {
-		return next({
-		path: '/login',
-		query: { returnUrl: to.path }
-		});
-		}
-		next(); */
 	if (to.matched.some(record => record.meta.requiresAuth)) {
 		if (window.localStorage.getItem('refreshToken') != undefined && router.app.$session.get('_timeout')) {
+			console.log(checkUser(router.app.$session.get('userProfile').userType));
 			let timeBefore = moment(router.app.$session.get('_timeout').date);
 			let timeNow = moment(new Date());
 			let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();

@@ -43,9 +43,13 @@
                     <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid password</span>
                   </md-field>
                 </div>
+                <div class="md-layout-item md-size-100 md-small-size-100">
+                  <md-radio v-model="form.userType" value="users">I Am Admin</md-radio>
+                  <md-radio v-model="form.userType" value="agents">I Am Agent</md-radio>
+                </div>
               </div>
               <div class="md-layout" v-else>
-                <div class="md-layout-item md-size-100 md-small-size-100">
+                <div class="md-layout-item md-size-100 md-small-size-100" v-if="form.isShowQRCode">
                   <img :src="form.otpImage" width="100" height="100" alt="otp-image" />
                 </div>
 
@@ -98,11 +102,12 @@
                     "
           md-confirm-text="Cool!"
         />
+        <h3>Need Help?</h3>
         <a
           href="#"
           class="md-primary md-raised"
           @click="showDialog = true"
-        >Can't Login? Then see instruction.</a>
+        >Can't Login? Then click here to see instruction.</a>
       </div>
     </div>
   </div>
@@ -130,7 +135,9 @@ export default {
         otpImage: null,
         otpCode: null,
         btn: "Login",
-        step: true
+        step: true,
+        userType: "users",
+        isShowQRCode: true
       },
       sending: false,
       errors: [],
@@ -182,15 +189,25 @@ export default {
     },
     async checkUser() {
       this.sending = true;
-      this.form.step = false;
-      this.form.btn = "Verify";
       await this.$store
         .dispatch("checkLogin", {
           userData: this.form
         })
-        .then(responseQRCode => {
+        .then(response => {
+          if (response.isTwoFactorAuthEnabled == "true") {
+            this.form.isShowQRCode = false;
+          }
+          this.form.step = false;
+          this.form.btn = "Verify";
           this.sending = false;
-          this.form.otpImage = responseQRCode;
+          this.form.otpImage = response.QRCode;
+          this.$notify({
+            message: "Please check your Google Authenticator Apk for OTP.",
+            icon: "add_alert",
+            verticalAlign: "top",
+            horizontalAlign: "right",
+            type: "info"
+          });
         })
         .catch(error => {
           this.sending = false;
@@ -206,7 +223,7 @@ export default {
     async finalCheck() {
       this.sending = true;
       await this.$store
-        .dispatch("checkLoginWithQRCode", this.form.otpCode)
+        .dispatch("checkLoginWithQRCode", this.form)
         .then(responseQRCode => {
           this.$session.start();
           this.$session.set("userProfile", responseQRCode.data);

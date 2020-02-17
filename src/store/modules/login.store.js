@@ -12,13 +12,13 @@ const state = {
 const actions = {
 	checkLogin: ({ commit }, { userData }) => {
 		return axios
-			.post(`/users/login`, {
+			.post(`/${userData.userType}/login`, {
 				email: userData.email,
-				password: userData.password
+				password: userData.password,
 			})
 			.then(response => {
 				commit("LOGIN_CHECK", response);
-				return response.data;
+				return response.data.data;
 			})
 			.catch(error => {
 				throw error.response.data.error;
@@ -26,9 +26,9 @@ const actions = {
 	},
 	checkLoginWithQRCode: ({ commit, state }, payload) => {
 		return axios
-			.get("/2fa", {
+			.get(`${payload.userType}2fa`, {
 				params: {
-					authCode: payload
+					authCode: payload.otpCode
 				},
 				headers: { 'Authorization': `Bearer ${state.token}` },
 			})

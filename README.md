@@ -112,6 +112,20 @@ Insurance
 ## Change logs:
 
 ## [1.31.13] 2020-02-04
+
+### What's new
+-   Added notification for OTP while login.
+-   Adding the password reset for the profile page for each users.
+-   UI/UX updated for admins/agents/customers/policy.
+-   Scrollbar color and UI updated.
+-   Database re-design according physical customer insurance form.
+
+### Fixes/Bugs
+-   Bug fixed of login page when the login and password entered but still goes to next step but it shouldn't be that way.
+-   Modal for every create admin/agent/policyholder/policy was not scrollable at some specific screen size under 950p, now it's fixed.
+
+
+## [1.31.13] 2020-02-04
 -   Google Authenticator Added.
 
 ## [1.30.13] 2020-02-04

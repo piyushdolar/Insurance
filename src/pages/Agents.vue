@@ -6,8 +6,8 @@
         <!-- CREATE AGENT MODAL -->
         <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
-          <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
-            <md-dialog-content>
+          <md-dialog-content>
+            <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('fname')">
@@ -74,7 +74,10 @@
                       class="md-error"
                       v-if="!$v.form.phone.required"
                     >The phone number is required</span>
-                    <span class="md-error" v-else-if="!$v.form.phone.minlength">Invalid phone number</span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.phone.minlength"
+                    >Invalid phone number, It must be 11 digits long.</span>
                   </md-field>
                 </div>
               </div>
@@ -103,6 +106,45 @@
                 </div>
               </div>
 
+              <div class="md-layout md-gutter" v-if="!formModal.isEdit">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('password')">
+                    <label for="password">Password</label>
+                    <md-input
+                      type="password"
+                      id="password"
+                      name="password"
+                      v-model="form.password"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.password.required"
+                    >The password field is required.</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.password.minLength"
+                    >The password minimum length is 4 character long.</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('repeatPassword')">
+                    <label for="repeatPassword">Repeat Password</label>
+                    <md-input
+                      type="password"
+                      id="repeatPassword"
+                      name="repeatPassword"
+                      v-model="form.repeatPassword"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.repeatPassword.sameAs"
+                    >The password dosen't match.</span>
+                  </md-field>
+                </div>
+              </div>
+
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('address')">
@@ -121,23 +163,23 @@
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.status" class="md-primary">Active/Deactive Status</md-switch>
+                  <md-switch v-model="form.status" class="md-primary">Active This Agent</md-switch>
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
-            </md-dialog-content>
-            <md-dialog-actions>
-              <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
-              <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
-            </md-dialog-actions>
-          </form>
+              <md-dialog-actions>
+                <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
+                <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
+              </md-dialog-actions>
+            </form>
+          </md-dialog-content>
         </md-dialog>
 
         <div class="pull-right md-layout">
           <md-button class="md-primary md-layout-item" @click="downloadCSV('agents')">
-            <md-icon>cloud_download</md-icon>Download CSV
+            <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
-          <md-button class="md-primary md-layout-item" @click="openDialog">
+          <md-button class="md-info md-layout-item" @click="openDialog">
             <md-icon>add</md-icon>Add Agent
           </md-button>
         </div>
@@ -216,10 +258,12 @@
                     />
                     <img v-else :src="defaultImage" alt="profile-image" />
                   </template>
+
                   <template slot="status" slot-scope="props">
                     <md-chip class="md-primary" v-if="props.rowData.status == 1">Active</md-chip>
                     <md-chip class="md-accent" v-else>Deactive</md-chip>
                   </template>
+
                   <template slot="actions" slot-scope="props">
                     <div class="custom-actions">
                       <md-button
@@ -278,6 +322,8 @@ export default {
       gender: null,
       phone: null,
       email: null,
+      password: null,
+      repeatPassword: null,
       address: null,
       status: false,
       image: null,
@@ -368,8 +414,8 @@ export default {
       },
       phone: {
         required,
-        maxLength: maxLength(10),
-        minLength: maxLength(10)
+        minLength: minLength(11),
+        maxLength: maxLength(11)
       },
       email: {
         email
@@ -377,6 +423,14 @@ export default {
       address: {
         required,
         minLength: minLength(4)
+      },
+      password: {
+        required,
+        minLength: minLength(4),
+        maxLength: maxLength(20)
+      },
+      repeatPassword: {
+        sameAsPassword: sameAs("password")
       }
     }
   },
@@ -453,6 +507,8 @@ export default {
       this.form.phone = null;
       this.form.gender = null;
       this.form.email = null;
+      this.form.password = null;
+      this.form.repeatPassword = null;
       this.form.address = null;
       this.form.image = null;
       this.form.status = false;
@@ -534,9 +590,6 @@ export default {
       }
       this.sending = false;
     }
-  },
-  mounted() {
-    console.log(this.$store.getters.getDashboard);
   }
 };
 </script>

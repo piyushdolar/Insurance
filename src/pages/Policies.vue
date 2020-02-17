@@ -6,8 +6,8 @@
         <!-- CREATE POLICY MODAL -->
         <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
-          <form novalidate @submit.prevent="validateUser">
-            <md-dialog-content>
+          <md-dialog-content>
+            <form novalidate @submit.prevent="validateUser">
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('policyName')">
@@ -110,19 +110,19 @@
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
-            </md-dialog-content>
-            <md-dialog-actions>
-              <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
-              <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
-            </md-dialog-actions>
-          </form>
+              <md-dialog-actions>
+                <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
+                <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
+              </md-dialog-actions>
+            </form>
+          </md-dialog-content>
         </md-dialog>
 
         <div class="pull-right md-layout">
           <md-button class="md-primary md-layout-item" @click="downloadCSV('policy')">
-            <md-icon>cloud_download</md-icon>Download CSV
+            <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
-          <md-button class="md-primary md-layout-item" @click="openDialog">
+          <md-button class="md-info md-layout-item" @click="openDialog">
             <md-icon>add</md-icon>Create Policy
           </md-button>
         </div>
