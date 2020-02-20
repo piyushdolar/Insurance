@@ -9,6 +9,7 @@ import Policies from '@/pages/Policies.vue';
 import Maps from '@/pages/Maps.vue';
 import Changelogs from '@/pages/Changelogs.vue';
 import Login from '@/pages/Login.vue';
+import LoginMaster from '@/pages/LoginMaster.vue';
 import Logout from '@/pages/Logout.vue';
 
 const routes = [
@@ -28,7 +29,7 @@ const routes = [
 			},
 			{
 				path: 'my-profile',
-				name: 'User Profile',
+				name: 'My Profile',
 				meta: {
 					requiresAuth: true
 				},
@@ -36,7 +37,7 @@ const routes = [
 			},
 			{
 				path: 'admins',
-				name: 'Admin Users',
+				name: 'Admins',
 				meta: {
 					requiresAuth: true
 				},
@@ -44,7 +45,7 @@ const routes = [
 			},
 			{
 				path: 'agents',
-				name: 'Agents List',
+				name: 'Agents',
 				meta: {
 					requiresAuth: true
 				},
@@ -52,7 +53,7 @@ const routes = [
 			},
 			{
 				path: 'policy-holders',
-				name: 'Policy Holders',
+				name: 'Customers',
 				meta: {
 					requiresAuth: true
 				},
@@ -77,7 +78,7 @@ const routes = [
 			},
 			{
 				path: '/changelogs',
-				name: 'changelogs',
+				name: 'Change logs',
 				meta: {
 					requiresAuth: true
 				},
@@ -86,7 +87,17 @@ const routes = [
 
 			// LOGIN / LOGOUT SECTION
 			{
-				path: 'login',
+				path: '/administrator',
+				name: 'Administrator Login',
+				component: LoginMaster,
+				meta: {
+					hideNavigation: true,
+					hideSidebar: true,
+					hideFooter: true
+				}
+			},
+			{
+				path: '/login',
 				name: 'Login',
 				component: Login,
 				meta: {
@@ -96,8 +107,8 @@ const routes = [
 				}
 			},
 			{
-				path: 'logout',
-				name: 'logout',
+				path: '/logout',
+				name: 'Logout',
 				component: Logout,
 				meta: {
 					hideNavigation: true,

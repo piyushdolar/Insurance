@@ -9,33 +9,51 @@
           <md-dialog-content>
             <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
               <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100 text-center">
+                  <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
+                  <md-field :class="getValidationClass('image')">
+                    <label for="image">Profile Picture</label>
+                    <md-file id="image" @change="onFileSelected" accept="image/x-png, image/jpeg" />
+                  </md-field>
+                </div>
+              </div>
+              <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('fname')">
+                  <md-field :class="getValidationClass('firstName')">
                     <label for="first-name">First Name</label>
                     <md-input
                       name="first-name"
                       id="first-name"
                       autocomplete="first-name"
-                      v-model="form.fname"
+                      v-model="form.firstName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.fname.required">The first name is required</span>
-                    <span class="md-error" v-else-if="!$v.form.fname.minlength">Invalid first name</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.firstName.required"
+                    >The first name is required</span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.firstName.minlength"
+                    >Invalid first name</span>
                   </md-field>
                 </div>
 
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('lname')">
+                  <md-field :class="getValidationClass('lastName')">
                     <label for="last-name">Last Name</label>
                     <md-input
                       name="last-name"
                       id="last-name"
-                      autocomplete="family-name"
-                      v-model="form.lname"
+                      autocomplete="last-name"
+                      v-model="form.lastName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.lname.required">The last name is required</span>
-                    <span class="md-error" v-else-if="!$v.form.lname.minlength">Invalid last name</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.lastName.required"
+                    >The last name is required</span>
+                    <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
                   </md-field>
                 </div>
               </div>
@@ -97,12 +115,158 @@
                     <span class="md-error" v-if="!$v.form.email.email">Invalid email</span>
                   </md-field>
                 </div>
-                <div class="md-layout-item md-small-size-100 text-center">
-                  <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
-                  <md-field :class="getValidationClass('image')">
-                    <label for="image">Profile Picture</label>
-                    <md-file id="image" @change="onFileSelected" accept="image/x-png, image/jpeg" />
+              </div>
+
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('provinceId')">
+                    <label for="locationProvince">Select Province</label>
+                    <md-select
+                      name="locationProvince"
+                      id="locationProvince"
+                      v-model="form.provinceId"
+                      md-dense
+                      :disabled="sending"
+                      @md-selected="onProvinceSelect"
+                    >
+                      <md-option
+                        v-for="province in getLocationProvince"
+                        :key="province.id"
+                        :value="province.id"
+                      >{{province.nameEng}}</md-option>
+                    </md-select>
+                    <span class="md-error" v-if="!$v.form.provinceId.required">Province Required</span>
                   </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('provinceId')">
+                    <label for="locationDistrict">Select District</label>
+                    <md-select
+                      name="locationDistrict"
+                      id="locationDistrict"
+                      v-model="form.districtId"
+                      md-dense
+                      :disabled="sending"
+                    >
+                      <md-option
+                        v-for="district in getLocationDistrict"
+                        :key="district.id"
+                        :value="district.id"
+                      >{{district.nameEng}}</md-option>
+                    </md-select>
+                    <span class="md-error" v-if="!$v.form.districtId.required">District Required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('villageName')">
+                    <label for="village-name">Village Name</label>
+                    <md-input
+                      name="village-name"
+                      id="village-name"
+                      autocomplete="village-name"
+                      v-model="form.villageName"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.villageName.required"
+                    >The village name is required</span>
+                  </md-field>
+                </div>
+              </div>
+
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field>
+                    <label for="fax-number">FAX Number</label>
+                    <md-input
+                      name="fax-number"
+                      id="fax-number"
+                      autocomplete="fax-number"
+                      v-model="form.faxNumber"
+                      :disabled="sending"
+                    />
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field>
+                    <label for="bank-name">Bank Name</label>
+                    <md-input
+                      name="bank-name"
+                      id="bank-name"
+                      autocomplete="bank-name"
+                      v-model="form.bankName"
+                      :disabled="sending"
+                    />
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field>
+                    <label for="bank-ac-number">Bank A/c Number</label>
+                    <md-input
+                      name="bank-ac-number"
+                      id="bank-ac-number"
+                      autocomplete="bank-ac-number"
+                      v-model="form.bankAcNumber"
+                      :disabled="sending"
+                    />
+                  </md-field>
+                </div>
+              </div>
+
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('familyBookNumber')">
+                    <label for="family-book-number">Family Book Number</label>
+                    <md-input
+                      name="family-book-number"
+                      id="family-book-number"
+                      autocomplete="family-book-number"
+                      v-model="form.familyBookNumber"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.familyBookNumber.required"
+                    >The family book number is required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-datepicker
+                    v-model="form.familyBookDOI"
+                    :md-disabled-dates="form.familyBookDOIConfig"
+                    md-immediately
+                  >
+                    <label>Family Book Date of Issue</label>
+                  </md-datepicker>
+                </div>
+              </div>
+
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('personalIdNumber')">
+                    <label for="personal-id-number">Personal ID Number</label>
+                    <md-input
+                      name="personal-id-number"
+                      id="personal-id-number"
+                      autocomplete="personal-id-number"
+                      v-model="form.personalIdNumber"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.personalIdNumber.required"
+                    >The Personal ID number is required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-datepicker
+                    v-model="form.personalIdDOI"
+                    :md-disabled-dates="form.personalIdDOIConfig"
+                    md-immediately
+                  >
+                    <label>Personal ID Card Date of Issue</label>
+                  </md-datepicker>
                 </div>
               </div>
 
@@ -175,7 +339,7 @@
           </md-dialog-content>
         </md-dialog>
 
-        <div class="pull-right md-layout">
+        <div class="pull-right md-layout" v-if="checkAuthorization('write')">
           <md-button class="md-primary md-layout-item" @click="downloadCSV('agents')">
             <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
@@ -238,7 +402,7 @@
               <div class="md-layout-item table-responsive">
                 <vuetable
                   ref="vuetable"
-                  api-url="https://www.lcpi.la/api/agents"
+                  api-url="https://www.lcpi.la/api/users?user_type=3"
                   :fields="fields"
                   :http-options="{ headers: { Authorization: accessToken } }"
                   pagination-path
@@ -309,6 +473,8 @@ import {
 import { validationMixin } from "vuelidate";
 import { VuetableMixin } from "../mixins/VuetableMixin";
 import moment from "moment";
+import checkAuth from "../helpers/authentication";
+import { mapGetters } from "vuex";
 
 export default {
   name: "AgentComponent",
@@ -317,8 +483,8 @@ export default {
     showDialog: false,
     defaultImage: "/images/avatars/default.png",
     form: {
-      fname: null,
-      lname: null,
+      firstName: null,
+      lastName: null,
       gender: null,
       phone: null,
       email: null,
@@ -327,7 +493,32 @@ export default {
       address: null,
       status: false,
       image: null,
-      imagePreview: null
+      imagePreview: null,
+      dob: null,
+      provinceId: null,
+      districtId: null,
+      faxNumber: null,
+      bankName: null,
+      bankAcNumber: null,
+      familyBookNumber: null,
+      familyBookDOI: null,
+      familyBookDOIConfig: date => {
+        const fetchDate = date.getDate();
+        const currentDate = new Date();
+        if (currentDate.getDate() < fetchDate) {
+          return true;
+        }
+      },
+      personalIdNumber: null,
+      personalIdDOI: null,
+      personalIdDOIConfig: date => {
+        const fetchDate = date.getDate();
+        const currentDate = new Date();
+        if (currentDate.getDate() < fetchDate) {
+          return true;
+        }
+      },
+      villageName: null
     },
     formModal: {
       title: "CREATE NEW AGENT",
@@ -378,6 +569,34 @@ export default {
         sortField: "status"
       },
       {
+        name: "faxNumber",
+        title: "faxNumber"
+      },
+      {
+        name: "bankName",
+        title: "bankName"
+      },
+      {
+        name: "bankAcNumber",
+        title: "bankAcNumber"
+      },
+      {
+        name: "familyBookNumber",
+        title: "familyBookNumber"
+      },
+      {
+        name: "familyBookDOI",
+        title: "familyBookDOI"
+      },
+      {
+        name: "personalIdNumber",
+        title: "personalIdNumber"
+      },
+      {
+        name: "personalIdDOI",
+        title: "personalIdDOI"
+      },
+      {
         name: "createdAt",
         title: "Created Date",
         sortField: "createdAt",
@@ -401,11 +620,11 @@ export default {
   }),
   validations: {
     form: {
-      fname: {
+      firstName: {
         required,
         minLength: minLength(3)
       },
-      lname: {
+      lastName: {
         required,
         minLength: minLength(3)
       },
@@ -431,10 +650,41 @@ export default {
       },
       repeatPassword: {
         sameAsPassword: sameAs("password")
+      },
+      provinceId: {
+        required
+      },
+      districtId: {
+        required
+      },
+      villageName: {
+        required
+      },
+      familyBookNumber: {
+        required
+      },
+      familyBookDOI: {
+        required
+      },
+      personalIdNumber: {
+        required
+      },
+      personalIdDOI: {
+        required
       }
     }
   },
   methods: {
+    onProvinceSelect(provinceId) {
+      this.$store.dispatch("getLocation", provinceId);
+    },
+    checkAuthorization(rule) {
+      return checkAuth(
+        rule,
+        this.$route.path,
+        this.$session.get("userProfile").userType
+      );
+    },
     onFileSelected(event) {
       this.form.image = event.target.files[0];
       this.form.imagePreview = URL.createObjectURL(this.form.image);
@@ -442,11 +692,18 @@ export default {
     onAction(action, data, index) {
       if (action == "edit") {
         this.form.id = data.id;
-        this.form.fname = data.firstName;
-        this.form.lname = data.lastName;
+        this.form.firstName = data.firstName;
+        this.form.lastName = data.lastName;
         this.form.gender = data.gender;
         this.form.phone = data.phone;
         this.form.email = data.email;
+        this.form.faxNumber = data.faxNumber;
+        this.form.bankName = data.bankName;
+        this.form.bankAcNumber = data.bankAcNumber;
+        this.form.familyBookNumber = data.familyBookNumber;
+        this.form.familyBookDOI = data.familyBookDOI;
+        this.form.personalIdNumber = data.personalIdNumber;
+        this.form.personalIdDOI = data.personalIdDOI;
         this.form.address = data.address;
         this.form.status = data.status == 1 ? true : false;
         if (data.picture != null) {
@@ -459,7 +716,7 @@ export default {
       } else if (action == "delete") {
         if (confirm("Are you sure?")) {
           this.$store
-            .dispatch("deleteAgent", {
+            .dispatch("deleteUser", {
               userId: data.id
             })
             .then(response => {
@@ -502,8 +759,8 @@ export default {
     },
     clearForm() {
       this.$v.$reset();
-      this.form.fname = null;
-      this.form.lname = null;
+      this.form.firstName = null;
+      this.form.lastName = null;
       this.form.phone = null;
       this.form.gender = null;
       this.form.email = null;
@@ -517,8 +774,8 @@ export default {
       this.$v.$touch();
       if (this.formModal.isEdit) {
         if (
-          !this.$v.form.fname.$invalid &&
-          !this.$v.form.lname.$invalid &&
+          !this.$v.form.firstName.$invalid &&
+          !this.$v.form.lastName.$invalid &&
           !this.$v.form.gender.$invalid &&
           !this.$v.form.phone.$invalid &&
           !this.$v.form.email.$invalid &&
@@ -537,9 +794,7 @@ export default {
       this.form.sessionId = this.$session.get("userProfile").id;
       if (type == "add") {
         await this.$store
-          .dispatch("addAgent", {
-            userData: this.form
-          })
+          .dispatch("addAgent", this.form)
           .then(response => {
             this.$notify({
               message: response,
@@ -563,9 +818,7 @@ export default {
           });
       } else if (type == "edit") {
         await this.$store
-          .dispatch("editAgent", {
-            userData: this.form
-          })
+          .dispatch("editAgent", this.form)
           .then(response => {
             this.$notify({
               message: response,
@@ -590,6 +843,12 @@ export default {
       }
       this.sending = false;
     }
+  },
+  mounted() {
+    this.$store.dispatch("getLocation", 0);
+  },
+  computed: {
+    ...mapGetters(["getLocationProvince", "getLocationDistrict"])
   }
 };
 </script>

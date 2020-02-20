@@ -27,7 +27,7 @@ const actions = {
 			phone: userData.phone,
 			address: userData.address,
 			status: userData.status ? 1 : 2,
-			createdBy: userData.sessionId
+			createdBy: userData.sessionId,
 		};
 		return axios({
 			method: 'post',
@@ -44,10 +44,10 @@ const actions = {
 								'Content-Type': 'multipart/form-data'
 							}
 						})
-						.then(function(data) {
+						.then(function (data) {
 							return 'Policy Holder has been successfully created.';
 						})
-						.catch(function(error) {
+						.catch(function (error) {
 							throw error;
 						});
 				} else {
@@ -86,10 +86,10 @@ const actions = {
 								'Content-Type': 'multipart/form-data'
 							}
 						})
-						.then(function(data) {
+						.then(function (data) {
 							return 'A Policy Holder successfully updated to database.';
 						})
-						.catch(function() {
+						.catch(function () {
 							throw error;
 						});
 				} else {

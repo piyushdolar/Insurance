@@ -22,5 +22,5 @@ export default new Vuex.Store({
 		PolicyHolders,
 		Policies
 	},
-	plugins: [createPersistedState()]
+	// plugins: [createPersistedState()]
 });

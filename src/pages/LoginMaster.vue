@@ -3,9 +3,11 @@
     <div class="md-layout">
       <div class="md-layout-item md-size-30 mx-auto md-small-size-100">
         <md-card>
-          <md-card-header data-background-color="purple">
-            <h4 class="title">Login</h4>
-            <p class="category">Enter your Email and Password to login with Insurance System.</p>
+          <md-card-header data-background-color="red">
+            <h4 class="title">Master System Administrator Login</h4>
+            <p
+              class="category"
+            >Enter your master administrator Email and Password to login with Root System.</p>
           </md-card-header>
 
           <md-card-content>
@@ -43,10 +45,6 @@
                     <span class="md-error" v-else-if="!$v.form.password.minlength">Invalid password</span>
                   </md-field>
                 </div>
-                <div class="md-layout-item md-size-100 md-small-size-100">
-                  <md-radio v-model="form.userType" value="2">I Am Admin</md-radio>
-                  <md-radio v-model="form.userType" value="3">I Am Agent</md-radio>
-                </div>
               </div>
               <div class="md-layout" v-else>
                 <div class="md-layout-item md-size-100 md-small-size-100" v-if="form.isShowQRCode">
@@ -82,7 +80,7 @@
               </div>
 
               <div class="md-layout-item md-size-100 md-small-size-100">
-                <md-button type="submit" class="md-primary" :disabled="sending">{{form.btn}}</md-button>
+                <md-button type="submit" class="md-danger" :disabled="sending">{{form.btn}}</md-button>
               </div>
             </form>
           </md-card-content>
@@ -105,7 +103,7 @@
         <h3>Need Help?</h3>
         <a
           href="#"
-          class="md-primary md-raised"
+          class="md-danger md-raised"
           @click="showDialog = true"
         >Can't Login? Then click here to see instruction.</a>
       </div>
@@ -136,7 +134,7 @@ export default {
         otpCode: null,
         btn: "Login",
         step: true,
-        userType: "2",
+        userType: 1,
         isShowQRCode: true
       },
       sending: false,

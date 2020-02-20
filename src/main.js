@@ -20,7 +20,7 @@ import VMdDateRangePicker from 'v-md-date-range-picker';
 
 import Chartist from 'chartist';
 import moment from 'moment';
-import checkUser from './helpers/authentication'
+import checkAuth from './helpers/authentication'
 
 // configure router
 const router = new VueRouter({
@@ -29,27 +29,34 @@ const router = new VueRouter({
 	base: process.env.BASE_URL,
 	linkExactActiveClass: 'nav-item active'
 });
+
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
 		if (window.localStorage.getItem('refreshToken') != undefined && router.app.$session.get('_timeout')) {
-			console.log(checkUser(router.app.$session.get('userProfile').userType));
-			let timeBefore = moment(router.app.$session.get('_timeout').date);
-			let timeNow = moment(new Date());
-			let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
-			if (timeDiff > router.app.$session.get('_timeout').limit) {
-				router.app.$session.clear();
-				router.app.$session.flash.set('sessionExpired', 'Session expired please login again.');
-				next({ path: '/login' });
+			if (checkAuth('read', to.path, router.app.$session.get('userProfile').userType)) {
+				let timeBefore = moment(router.app.$session.get('_timeout').date);
+				let timeNow = moment(new Date());
+				let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
+				if (timeDiff > router.app.$session.get('_timeout').limit) {
+					router.app.$session.clear();
+					router.app.$session.flash.set('error', 'Session expired please login again.');
+					return false;
+				} else {
+					next();
+				}
 			} else {
-				next();
+				router.app.$session.flash.set('error', "You are not authorized to access requested page.");
+				next({ path: '/login' });
 			}
 		} else {
+			router.app.$session.flash.set('error', "Session timed out.");
 			next({ path: '/login' });
 		}
 	} else {
 		next();
 	}
 });
+
 Vue.prototype.$Chartist = Chartist;
 
 Vue.use(VueRouter);

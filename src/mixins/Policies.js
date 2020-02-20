@@ -27,6 +27,9 @@ export const Policies = {
 					id: null,
 					name: null
 				},
+				sumInsured: null,
+				currencyType: null,
+				policyNumber: null,
 				status: false,
 				searchedList: []
 			},
@@ -51,10 +54,32 @@ export const Policies = {
 					title: 'Customer Name'
 				},
 				{
+					name: 'sumInsured',
+					sortField: 'sumInsured',
+					title: 'Sum Insured'
+				},
+				{
+					name: 'currencyType',
+					sortField: 'currencyType',
+					title: 'Currency Type'
+				},
+				{
+					name: 'renew',
+					sortField: 'renew',
+					title: 'Contract',
+					callback: function (value) {
+						if (value != null) {
+							return "Renewed";
+						} else {
+							return "New";
+						}
+					}
+				},
+				{
 					name: 'startDate',
 					sortField: 'startDate',
 					title: 'Start Date',
-					callback: function(value) {
+					callback: function (value) {
 						return moment(String(value)).format('DD/MM/YYYY');
 					}
 				},
@@ -62,7 +87,7 @@ export const Policies = {
 					name: 'endDate',
 					sortField: 'endDate',
 					title: 'End Date',
-					callback: function(value) {
+					callback: function (value) {
 						return moment(String(value)).format('DD/MM/YYYY');
 					}
 				},
@@ -75,7 +100,7 @@ export const Policies = {
 					name: 'agent',
 					sortField: 'agent.id',
 					title: 'Agent Name',
-					callback: function(value) {
+					callback: function (value) {
 						return value.fullName;
 					}
 				},
@@ -88,7 +113,7 @@ export const Policies = {
 					name: 'createdAt',
 					sortField: 'createdAt',
 					title: 'Created Date',
-					callback: function(value) {
+					callback: function (value) {
 						return moment(String(value)).format('DD/MM/YYYY hh:mm a');
 					}
 				},
@@ -96,7 +121,7 @@ export const Policies = {
 					name: 'createdBy',
 					sortField: 'createdBy.id',
 					title: 'Created By',
-					callback: function(value) {
+					callback: function (value) {
 						return value.name;
 					}
 				},
@@ -104,7 +129,7 @@ export const Policies = {
 					name: 'updatedAt',
 					sortField: 'updatedAt',
 					title: 'Updated Date',
-					callback: function(value) {
+					callback: function (value) {
 						return moment(String(value)).format('DD/MM/YYYY hh:mm a');
 					}
 				},
@@ -112,7 +137,7 @@ export const Policies = {
 					name: 'updatedBy',
 					sortField: 'updatedBy.id',
 					title: 'Updated By',
-					callback: function(value) {
+					callback: function (value) {
 						return value.name;
 					}
 				},
@@ -151,7 +176,7 @@ export const Policies = {
 		},
 		onSelectAgent(selectedSearch) {
 			this.form.agentSearched.id = selectedSearch.id;
-			this.form.agentSearched.name = selectedSearch.name;
+			this.form.agentSearched.name = selectedSearch.fullName;
 		},
 		onSelectSingleUser(id) {
 			this.showSingleUserDialog = true;

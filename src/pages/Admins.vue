@@ -157,6 +157,64 @@
 
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('provinceId')">
+                    <label for="locationProvince">Select Province</label>
+                    <md-select
+                      name="locationProvince"
+                      id="locationProvince"
+                      v-model="form.provinceId"
+                      md-dense
+                      :disabled="sending"
+                      @md-selected="onProvinceSelect"
+                    >
+                      <md-option
+                        v-for="province in getLocationProvince"
+                        :key="province.id"
+                        :value="province.id"
+                      >{{province.nameEng}}</md-option>
+                    </md-select>
+                    <span class="md-error" v-if="!$v.form.provinceId.required">Province Required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('provinceId')">
+                    <label for="locationDistrict">Select District</label>
+                    <md-select
+                      name="locationDistrict"
+                      id="locationDistrict"
+                      v-model="form.districtId"
+                      md-dense
+                      :disabled="sending"
+                    >
+                      <md-option
+                        v-for="district in getLocationDistrict"
+                        :key="district.id"
+                        :value="district.id"
+                      >{{district.nameEng}}</md-option>
+                    </md-select>
+                    <span class="md-error" v-if="!$v.form.districtId.required">District Required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('villageName')">
+                    <label for="village-name">Village Name</label>
+                    <md-input
+                      name="village-name"
+                      id="village-name"
+                      autocomplete="village-name"
+                      v-model="form.villageName"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.villageName.required"
+                    >The village name is required</span>
+                  </md-field>
+                </div>
+              </div>
+
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('address')">
                     <label for="address">Address</label>
                     <md-textarea
@@ -195,7 +253,7 @@
             <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
           <md-button class="md-info md-layout-item" @click="openDialog">
-            <md-icon>add</md-icon>Add User
+            <md-icon>add</md-icon>Add Admin
           </md-button>
         </div>
       </div>
@@ -247,13 +305,11 @@
                 </md-button>
               </div>
             </div>
-            <!-- :api-mode="false"
-            :data="tableData"-->
             <div class="md-layout">
               <div class="md-layout-item table-responsive">
                 <vuetable
                   ref="vuetable"
-                  api-url="https://www.lcpi.la/api/users"
+                  api-url="https://www.lcpi.la/api/users?user_type=2"
                   :fields="fields"
                   :http-options="{ headers: { Authorization: accessToken } }"
                   pagination-path
@@ -321,7 +377,9 @@ import {
 } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import { VuetableMixin } from "../mixins/VuetableMixin";
+import { AdminMixin } from "../mixins/AdminUsers";
 import moment from "moment";
+import { mapGetters } from "vuex";
 
 export default {
   name: "UsersComponent",
@@ -341,7 +399,10 @@ export default {
       repeatPassword: null,
       loginStatus: false,
       image: null,
-      imagePreview: null
+      imagePreview: null,
+      provinceId: null,
+      districtId: null,
+      villageName: null
     },
     formModal: {
       title: "CREATE NEW USER",
@@ -390,6 +451,16 @@ export default {
         name: "__slot:userStatus",
         title: "Status",
         sortField: "userStatus"
+      },
+      {
+        name: "email",
+        sortField: "email",
+        title: "Email"
+      },
+      {
+        name: "villageName",
+        sortField: "villageName",
+        title: "Village"
       },
       {
         name: "createdAt",
@@ -449,10 +520,22 @@ export default {
       },
       repeatPassword: {
         sameAsPassword: sameAs("password")
+      },
+      provinceId: {
+        required
+      },
+      districtId: {
+        required
+      },
+      villageName: {
+        required
       }
     }
   },
   methods: {
+    onProvinceSelect(provinceId) {
+      this.$store.dispatch("getLocation", provinceId);
+    },
     onFileSelected(event) {
       this.form.image = event.target.files[0];
       this.form.imagePreview = URL.createObjectURL(this.form.image);
@@ -604,6 +687,12 @@ export default {
       }
       this.sending = false;
     }
+  },
+  mounted() {
+    this.$store.dispatch("getLocation", 0);
+  },
+  computed: {
+    ...mapGetters(["getLocationProvince", "getLocationDistrict"])
   }
 };
 </script>

@@ -28,6 +28,25 @@
                     >Invalid policy name</span>
                   </md-field>
                 </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('policyNumber')">
+                    <label for="policy-number">Policy Number</label>
+                    <md-input
+                      name="policy-number"
+                      id="policy-number"
+                      v-model="form.policyNumber"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.policyNumber.required"
+                    >The policy number is required</span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.policyNumber.numeric"
+                    >Invalid policy number</span>
+                  </md-field>
+                </div>
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
@@ -49,6 +68,10 @@
                       slot-scope="{ term }"
                     >No customer matching "{{ term }}" were found.</template>
                   </md-autocomplete>
+                  <span
+                    class="md-error text-danger"
+                    v-if="!$v.form.customerSearched.name.required"
+                  >Select the customer to proceed further</span>
                 </div>
 
                 <div class="md-layout-item md-small-size-100">
@@ -92,9 +115,9 @@
                     @md-opened="getAgents"
                     @md-selected="onSelectAgent"
                   >
-                    <label>Select Agent</label>
+                    <label>Assign the agent</label>
                     <template slot="md-autocomplete-item" slot-scope="{ item, term }">
-                      <md-highlight-text :md-term="term">{{ item.name }}</md-highlight-text>
+                      <md-highlight-text :md-term="term">{{ item.fullName }}</md-highlight-text>
                     </template>
 
                     <template
@@ -102,6 +125,42 @@
                       slot-scope="{ term }"
                     >No agent matching "{{ term }}" were found.</template>
                   </md-autocomplete>
+                  <span
+                    class="md-error text-danger"
+                    v-if="!$v.form.agentSearched.name.required"
+                  >You must have to assign the agent to this customer.</span>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('sumInsured')">
+                    <label for="sum-insured">Sum Insured</label>
+                    <md-input
+                      name="sum-insured"
+                      id="sum-insured"
+                      v-model="form.sumInsured"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.sumInsured.required"
+                    >The Sum insured is required</span>
+                  </md-field>
+                </div>
+              </div>
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('currencyType')">
+                    <label for="currency-type">Currency Type (USD,LAK,BAHT or Other)</label>
+                    <md-input
+                      name="currency-type"
+                      id="currency-type"
+                      v-model="form.currencyType"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.currencyType.required"
+                    >The Currency Type is required</span>
+                  </md-field>
                 </div>
               </div>
               <div class="md-layout md-gutter">
@@ -319,7 +378,8 @@ import {
   required,
   minLength,
   maxLength,
-  sameAs
+  sameAs,
+  numeric
 } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import { VuetableMixin } from "../mixins/VuetableMixin";
@@ -366,6 +426,26 @@ export default {
         id: {
           required
         }
+      },
+      sumInsured: {
+        required
+      },
+      currencyType: {
+        required
+      },
+      policyNumber: {
+        required,
+        numeric
+      },
+      customerSearched: {
+        name: {
+          required
+        }
+      },
+      agentSearched: {
+        name: {
+          required
+        }
       }
     }
   },
@@ -376,10 +456,13 @@ export default {
         this.form.id = data.id;
         this.form.policyName = data.policyName;
         this.form.policyType = data.policyType;
+        this.form.policyNumber = data.policyNumber;
         this.form.customerSearched.id = data.policyHolder.id;
         this.form.customerSearched.name = data.policyHolder.fullName;
         this.form.agentSearched.id = data.agent.id;
         this.form.agentSearched.name = data.agent.fullName;
+        this.form.currencyType = data.currencyType;
+        this.form.sumInsured = data.sumInsured;
         this.form.startDate = new Date(data.startDate);
         this.form.endDate = new Date(data.endDate);
         this.form.status = data.status == 1 ? false : true;
@@ -441,7 +524,8 @@ export default {
       if (this.formModal.isEdit) {
         if (
           !this.$v.form.policyName.$invalid &&
-          !this.$v.form.policyType.$invalid
+          !this.$v.form.policyType.$invalid &&
+          !this.$v.form.policyNumber.$invalid
         ) {
           this.saveUser("edit");
         }
@@ -507,7 +591,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getAgents", "");
+    this.$store.dispatch("getUsers", { user_type: 3, searchWord: "" });
     this.$store.dispatch("getPolicyHolders", "");
   },
   computed: {

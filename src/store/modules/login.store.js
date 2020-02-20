@@ -3,7 +3,7 @@ import axios from "../../api/config";
 
 const state = {
 	user: {
-		userLogin: null,
+		data: null,
 		loggedIn: false
 	},
 	token: null
@@ -12,9 +12,10 @@ const state = {
 const actions = {
 	checkLogin: ({ commit }, { userData }) => {
 		return axios
-			.post(`/${userData.userType}/login`, {
+			.post(`/users/login`, {
 				email: userData.email,
 				password: userData.password,
+				user_type: userData.userType
 			})
 			.then(response => {
 				commit("LOGIN_CHECK", response);
@@ -26,7 +27,7 @@ const actions = {
 	},
 	checkLoginWithQRCode: ({ commit, state }, payload) => {
 		return axios
-			.get(`${payload.userType}2fa`, {
+			.get(`users2fa`, {
 				params: {
 					authCode: payload.otpCode
 				},
@@ -45,7 +46,7 @@ const mutations = {
 	SET_LOGIN: (state, userData) => {
 		state.token = userData.headers.token;
 		window.localStorage.setItem("refreshToken", state.token);
-		state.user.userLogin = userData.data.data;
+		state.user.data = userData.data.data;
 		state.user.loggedIn = true;
 	},
 	LOGIN_CHECK: (state, payload) => {

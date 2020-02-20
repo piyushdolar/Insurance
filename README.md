@@ -111,7 +111,7 @@ Insurance
 
 ## Change logs:
 
-## [1.31.13] 2020-02-04
+## [1.31.13] 2020-02-20
 
 ### What's new
 -   Added notification for OTP while login.
@@ -119,11 +119,15 @@ Insurance
 -   UI/UX updated for admins/agents/customers/policy.
 -   Scrollbar color and UI updated.
 -   Database re-design according physical customer insurance form.
+-   Login page updated with RBAC Control.
+-   Route restricted for admins and agents.
+-   Login page modified with different(admins, agents) users login access.
+-   Master admin separated component created.
 
 ### Fixes/Bugs
 -   Bug fixed of login page when the login and password entered but still goes to next step but it shouldn't be that way.
 -   Modal for every create admin/agent/policyholder/policy was not scrollable at some specific screen size under 950p, now it's fixed.
-
+-   Error message showing while it's not even triggered issue fixed.
 
 ## [1.31.13] 2020-02-04
 -   Google Authenticator Added.

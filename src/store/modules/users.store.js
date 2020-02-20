@@ -2,14 +2,23 @@ import axios from '../../api/config';
 import moment from 'moment';
 
 const state = {
-	adminUsers: [],
+	users: [],
 	singleUser: {}
 };
 
 const actions = {
 	// Get all users
-	getUsers: ({ commit }) => {
-		axios.get('/users').then(response => {
+	getUsers: ({ commit }, payload) => {
+		const params = {
+			sort: 'id|desc',
+			page: 1,
+			per_page: 20,
+			filter: payload.searchWord,
+			user_type: payload.user_type
+		};
+		axios.get('/users', {
+			params: params
+		}).then(response => {
 			commit('SET_USERS', response.data.data);
 		});
 	},
@@ -18,7 +27,7 @@ const actions = {
 			commit('SET_SINGLE_USER', response.data.data);
 		});
 	},
-	// Create admin user
+	// Create admin/agent user
 	addUser: ({ commit }, userData) => {
 		let rowData = {
 			firstName: userData.firstName,
@@ -27,6 +36,8 @@ const actions = {
 			email: userData.email,
 			phone: userData.phone,
 			password: userData.repeatPassword,
+			locationId: userData.districtId,
+			villageName: userData.villageName,
 			address: userData.address,
 			userType: 2,
 			userStatus: userData.loginStatus ? 1 : 2
@@ -61,7 +72,7 @@ const actions = {
 			});
 	},
 
-	// Edit admin user
+	// Edit admin/agent user
 	editUser: ({ commit }, userData) => {
 		let rowData = {
 			firstName: userData.firstName,
@@ -70,7 +81,8 @@ const actions = {
 			email: userData.email,
 			phone: userData.phone,
 			address: userData.address,
-			userStatus: userData.loginStatus,
+			villageName: userData.villageName,
+			userStatus: (userData.loginStatus) ? 1 : 2,
 			updatedBy: userData.sessionId
 		};
 		return axios({
@@ -103,7 +115,108 @@ const actions = {
 			});
 	},
 
-	// Delete admin user
+	addAgent: ({ commit }, userData) => {
+		let rowData = {
+			firstName: userData.firstName,
+			lastName: userData.lastName,
+			gender: userData.gender,
+			email: userData.email,
+			phone: userData.phone,
+			password: userData.repeatPassword,
+			locationId: userData.districtId,
+			villageName: userData.villageName,
+			address: userData.address,
+			faxNumber: userData.faxNumber,
+			bankName: userData.bankName,
+			bankAcNumber: userData.bankAcNumber,
+			familyBookNumber: userData.familyBookNumber,
+			familyBookDOI: userData.familyBookDOI,
+			personalIdNumber: userData.personalId,
+			personalIdDOI: userData.personalIdDOI,
+			userType: 3,
+			userStatus: userData.loginStatus ? 1 : 2
+		};
+		return axios({
+			method: 'post',
+			url: 'users',
+			data: rowData
+		})
+			.then(response => {
+				if (userData.image != null) {
+					let formData = new FormData();
+					formData.append('avatar', userData.image);
+					return axios
+						.post('users/avatar/' + response.data.data.id, formData, {
+							headers: {
+								'Content-Type': 'multipart/form-data'
+							}
+						})
+						.then(function (data) {
+							return 'User has been successfully created.';
+						})
+						.catch(function (error) {
+							throw error;
+						});
+				} else {
+					return 'User has been successfully created.';
+				}
+			})
+			.catch(error => {
+				throw error.response;
+			});
+	},
+
+	editAgent: ({ commit }, userData) => {
+		let rowData = {
+			firstName: userData.firstName,
+			lastName: userData.lastName,
+			gender: userData.gender,
+			email: userData.email,
+			phone: userData.phone,
+			locationId: userData.districtId,
+			villageName: userData.villageName,
+			address: userData.address,
+			faxNumber: userData.faxNumber,
+			bankName: userData.bankName,
+			bankAcNumber: userData.bankAcNumber,
+			familyBookNumber: userData.familyBookNumber,
+			familyBookDOI: userData.familyBookDOI,
+			personalIdNumber: userData.personalIdNumber,
+			personalIdDOI: userData.personalIdDOI,
+			userType: 3,
+			userStatus: userData.loginStatus ? 1 : 2,
+			updatedBy: userData.sessionId
+		};
+		return axios({
+			method: 'put',
+			url: 'users/' + userData.id,
+			data: rowData
+		})
+			.then(response => {
+				if (userData.image != null && response.status == 200) {
+					let formData = new FormData();
+					formData.append('avatar', userData.image);
+					return axios
+						.post('users/avatar/' + userData.id, formData, {
+							headers: {
+								'Content-Type': 'multipart/form-data'
+							}
+						})
+						.then(function (data) {
+							return 'A User profile updated successfully.';
+						})
+						.catch(function (error) {
+							throw error;
+						});
+				} else {
+					return 'A User profile updated successfully.';
+				}
+			})
+			.catch(error => {
+				throw error.response;
+			});
+	},
+	// Delete admin/agent user
 	deleteUser: ({ commit }, { userId }) => {
 		return axios({
 			method: 'delete',
@@ -120,21 +233,22 @@ const actions = {
 
 const mutations = {
 	SET_USERS: (state, users) => {
-		for (let i = 0; i < users.data.length; i++) {
-			let userAvailable = state.adminUsers.find(user => {
-				return user.email === users.data[i].email;
+		state.users = users;
+		/* for (let i = 0; i < users.length; i++) {
+			let userAvailable = state.users.find(user => {
+				return user.email === users[i].email;
 			});
 			if (!userAvailable) {
-				state.adminUsers.push({
+				state.users.push({
 					id: i + 1,
-					fullName: users.data[i].firstName + ' ' + users.data[i].lastName,
-					email: users.data[i].email,
-					gender: users.data[i].gender,
-					createdAt: moment(String(users.data[i].createdAt)).format('DD/MM/YYYY hh:mm A'),
-					updatedAt: moment(String(users.data[i].updatedAt)).format('DD/MM/YYYY hh:mm A')
+					names: users[i].firstName + ' ' + users[i].lastName,
+					email: users[i].email,
+					gender: users[i].gender,
+					createdAt: moment(String(users[i].createdAt)).format('DD/MM/YYYY hh:mm A'),
+					updatedAt: moment(String(users[i].updatedAt)).format('DD/MM/YYYY hh:mm A')
 				});
 			}
-		}
+		} */
 	},
 	SET_SINGLE_USER: (state, response) => {
 		state.singleUser = response;
@@ -142,27 +256,11 @@ const mutations = {
 };
 
 const getters = {
-	getUsers: ({ commit }) => {
-		return [
-			{
-				id: 1,
-				name: "Noelia O'Kon",
-				nickname: 'asperiores',
-				email: 'otho.smitham@example.com',
-				birthdate: '1978-06-28 00:00:00',
-				gender: 'F',
-				salary: '13098.00',
-				group_id: 2,
-				created_at: '2017-01-01 07:21:10',
-				updated_at: '2017-01-01 07:21:10',
-				age: 41,
-				group: {
-					id: 2,
-					name: 'Exec',
-					description: 'Executives'
-				}
-			}
-		];
+	getUsers: (state) => {
+		return state.users;
+	},
+	getAgents: (state) => {
+		return state.users;
 	},
 	getSingleUser(state) {
 		return state.singleUser;

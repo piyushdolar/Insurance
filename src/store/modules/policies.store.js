@@ -24,6 +24,9 @@ const actions = {
 			endDate: moment(String(payload.endDate)).format('YYYY/MM/DD HH:mm:ss'),
 			policyType: payload.policyType,
 			agentId: payload.agentSearched.id,
+			sumInsured: payload.sumInsured,
+			currencyType: payload.currencyType,
+			policyNumber: payload.policyNumber,
 			status: 1,
 			createdBy: payload.sessionId,
 			updatedBy: payload.sessionId
@@ -44,11 +47,14 @@ const actions = {
 	editPolicy: ({ commit }, payload) => {
 		let rowData = {
 			customerId: payload.customerSearched.id,
-			name: payload.policyName,
+			policyName: payload.policyName,
+			policyNumber: payload.policyNumber,
 			startDate: moment(String(payload.startDate)).format('YYYY/MM/DD HH:mm:ss'),
 			endDate: moment(String(payload.endDate)).format('YYYY/MM/DD HH:mm:ss'),
 			policyType: payload.policyType,
 			agentId: payload.agentSearched.id,
+			sumInsured: payload.sumInsured,
+			currencyType: payload.currencyType,
 			status: payload.status == false ? 1 : 2,
 			updatedBy: payload.sessionId
 		};

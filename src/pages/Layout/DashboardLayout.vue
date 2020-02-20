@@ -4,27 +4,27 @@
 
     <side-bar v-if="!$route.meta.hideSidebar">
       <mobile-menu slot="content"></mobile-menu>
-      <sidebar-link to="/dashboard">
+      <sidebar-link to="/dashboard" v-if="checkAuthorization('/dashboard')">
         <md-icon>dashboard</md-icon>
         <p>Home</p>
       </sidebar-link>
-      <sidebar-link to="/admins">
+      <sidebar-link to="/admins" v-if="checkAuthorization('/admins')">
         <md-icon>verified_user</md-icon>
         <p>Admins</p>
       </sidebar-link>
-      <sidebar-link to="/agents">
+      <sidebar-link to="/agents" v-if="checkAuthorization('/agents')">
         <md-icon>accessibility_new</md-icon>
         <p>Agents</p>
       </sidebar-link>
-      <sidebar-link to="/policy-holders">
+      <sidebar-link to="/policy-holders" v-if="checkAuthorization('/policy-holders')">
         <md-icon>emoji_people</md-icon>
         <p>Customers</p>
       </sidebar-link>
-      <sidebar-link to="/policies">
+      <sidebar-link to="/policies" v-if="checkAuthorization('/policies')">
         <md-icon>assignment</md-icon>
         <p>Policy</p>
       </sidebar-link>
-      <sidebar-link to="/#">
+      <sidebar-link to="/#" v-if="checkAuthorization('/reports')">
         <md-icon>assessment</md-icon>
         <p>Reports</p>
       </sidebar-link>
@@ -32,7 +32,7 @@
         <md-icon>location_on</md-icon>
         <p>Maps</p>
       </sidebar-link>-->
-      <sidebar-link to="/changelogs">
+      <sidebar-link to="/changelogs" v-if="checkAuthorization('/changelogs')">
         <md-icon>notifications</md-icon>
         <p>Changelogs</p>
       </sidebar-link>
@@ -57,6 +57,7 @@ import TopNavbar from "./TopNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import MobileMenu from "@/pages/Layout/MobileMenu.vue";
+import checkAuth from "../../helpers/authentication";
 
 export default {
   components: {
@@ -64,6 +65,11 @@ export default {
     DashboardContent,
     ContentFooter,
     MobileMenu
+  },
+  methods: {
+    checkAuthorization(url) {
+      return checkAuth("read", url, this.$session.get("userProfile").userType);
+    }
   }
 };
 </script>
