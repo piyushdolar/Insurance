@@ -162,22 +162,10 @@ export default {
       await this.$store
         .dispatch("editAdminUser", this.form)
         .then(response => {
-          this.$notify({
-            message: response,
-            icon: "add_alert",
-            verticalAlign: "top",
-            horizontalAlign: "right",
-            type: "success"
-          });
+          this.$alert.notify("success", response);
         })
         .catch(error => {
-          this.$notify({
-            message: error.data.error,
-            icon: "add_alert",
-            verticalAlign: "top",
-            horizontalAlign: "right",
-            type: "danger"
-          });
+          this.$alert.notify("danger", error);
         });
       this.sending = false;
     }

@@ -1,13 +1,12 @@
 <template>
   <div>
-    <md-table
-      v-model="getDashboardRecentPolicyHolders"
-      :table-header-color="tableHeaderColor"
-    >
+    <md-table v-model="getDashboardRecentCustomers" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="Name">{{
+        <md-table-cell md-label="Name">
+          {{
           item.firstName + " " + item.lastName
-        }}</md-table-cell>
+          }}
+        </md-table-cell>
         <md-table-cell md-label="Phone">{{ item.phone }}</md-table-cell>
         <md-table-cell md-label="Address">{{ item.address }}</md-table-cell>
       </md-table-row>
@@ -30,7 +29,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["getDashboardRecentPolicyHolders"])
+    ...mapGetters(["getDashboardRecentCustomers"])
   }
 };
 </script>

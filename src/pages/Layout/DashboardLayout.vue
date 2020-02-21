@@ -16,7 +16,7 @@
         <md-icon>accessibility_new</md-icon>
         <p>Agents</p>
       </sidebar-link>
-      <sidebar-link to="/policy-holders" v-if="checkAuthorization('/policy-holders')">
+      <sidebar-link to="/customers" v-if="checkAuthorization('/customers')">
         <md-icon>emoji_people</md-icon>
         <p>Customers</p>
       </sidebar-link>

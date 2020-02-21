@@ -167,13 +167,7 @@ export default {
     }
     let error = this.$session.flash.get("error");
     if (error != undefined) {
-      this.$notify({
-        message: error,
-        icon: "add_alert",
-        verticalAlign: "top",
-        horizontalAlign: "right",
-        type: "danger"
-      });
+      this.$alert.notify("info", error);
     }
   },
   methods: {
@@ -200,23 +194,14 @@ export default {
           this.form.btn = "Verify";
           this.sending = false;
           this.form.otpImage = response.QRCode;
-          this.$notify({
-            message: "Please check your Google Authenticator Apk for OTP.",
-            icon: "add_alert",
-            verticalAlign: "top",
-            horizontalAlign: "right",
-            type: "info"
-          });
+          this.$alert.notify(
+            "info",
+            "Please check your Google Authenticator Apk for OTP."
+          );
         })
         .catch(error => {
           this.sending = false;
-          this.$notify({
-            message: error,
-            icon: "add_alert",
-            verticalAlign: "top",
-            horizontalAlign: "right",
-            type: "danger"
-          });
+          this.$alert.notify("danger", error);
         });
     },
     async finalCheck() {
@@ -230,24 +215,15 @@ export default {
             date: new Date(),
             limit: "60"
           });
-          this.$notify({
-            message: "You logged in successfully.",
-            icon: "add_alert",
-            verticalAlign: "top",
-            horizontalAlign: "right",
-            type: "success"
-          });
+          this.$alert.notify(
+            "success",
+            "You successfully logged in as a Master Admin."
+          );
           this.$router.go("/dashboard");
         })
         .catch(error => {
           this.sending = false;
-          this.$notify({
-            message: error,
-            icon: "add_alert",
-            verticalAlign: "top",
-            horizontalAlign: "right",
-            type: "danger"
-          });
+          this.$alert.notify("danger", error);
         });
     },
     validateUser() {

@@ -9,7 +9,7 @@ import Global from './modules/global.store';
 import Dashboard from './modules/dashboard.store';
 import Users from './modules/users.store';
 import Agents from './modules/agents.store';
-import PolicyHolders from './modules/policyHolders.store';
+import Customers from './modules/customer.store';
 import Policies from './modules/policies.store';
 
 export default new Vuex.Store({
@@ -19,7 +19,7 @@ export default new Vuex.Store({
 		Dashboard,
 		Users,
 		Agents,
-		PolicyHolders,
+		Customers,
 		Policies
 	},
 	// plugins: [createPersistedState()]

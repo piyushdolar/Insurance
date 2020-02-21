@@ -8,12 +8,16 @@ const state = {
 };
 
 const actions = {
-	downloadCSV({ commit }, apiUrlEndpoint) {
-		axios.get('/' + apiUrlEndpoint + '/csv').then(response => {
+	downloadCSV({ commit }, payload) {
+		axios.get('/' + payload.url + '/csv', {
+			params: {
+				user_type: payload.userType
+			}
+		}).then(response => {
 			let blob = new Blob([response.data], { type: 'application/csv' });
 			let link = document.createElement('a');
 			link.href = window.URL.createObjectURL(blob);
-			link.download = apiUrlEndpoint + '.csv';
+			link.download = payload.url + '.csv';
 			link.click();
 		});
 	},

@@ -1,12 +1,12 @@
 import axios from '../../api/config';
 
 const state = {
-	policyHolders: []
+	customers: []
 };
 
 const actions = {
 	// Get all Policy Holders
-	getPolicyHolders: ({ commit }, searchWord = '') => {
+	getCustomers: ({ commit }, searchWord = '') => {
 		const params = {
 			sort: 'id|desc',
 			page: 1,
@@ -18,7 +18,7 @@ const actions = {
 		});
 	},
 	// Create Agents user
-	addPolicyHolder: ({ commit }, { userData }) => {
+	addCustomers: ({ commit }, { userData }) => {
 		let rowData = {
 			firstName: userData.fname,
 			lastName: userData.lname,
@@ -55,12 +55,12 @@ const actions = {
 				}
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	},
 
 	// Edit Agents user
-	editPolicyHolder: ({ commit }, { userData }) => {
+	editCustomer: ({ commit }, { userData }) => {
 		let rowData = {
 			firstName: userData.fname,
 			lastName: userData.lname,
@@ -97,12 +97,12 @@ const actions = {
 				}
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	},
 
 	// Delete Agents user
-	deletePolicyHolder: ({ commit }, { userId }) => {
+	deleteCustomer: ({ commit }, { userId }) => {
 		return axios({
 			method: 'delete',
 			url: 'customers/' + userId
@@ -111,7 +111,7 @@ const actions = {
 				return response.data.message + ': ' + 'A Policy Holder successfully removed from the database.';
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	}
 };
@@ -119,11 +119,11 @@ const actions = {
 const mutations = {
 	SET_POLICY_HOLDERS: (state, users) => {
 		for (let i = 0; i < users.length; i++) {
-			let userAvailable = state.policyHolders.find(user => {
+			let userAvailable = state.customers.find(user => {
 				return user.id === users[i].id;
 			});
 			if (!userAvailable) {
-				state.policyHolders.push({
+				state.customers.push({
 					id: users[i].id,
 					name: users[i].firstName + ' ' + users[i].lastName,
 					picture: users[i].picture,
@@ -144,10 +144,10 @@ const mutations = {
 
 const getters = {
 	getCustomers: state => {
-		return state.policyHolders;
+		return state.customers;
 	},
 	getSingleCustomer: state => id => {
-		return state.policyHolders.find(customer => customer.id === id);
+		return state.customers.find(customer => customer.id === id);
 	}
 };
 

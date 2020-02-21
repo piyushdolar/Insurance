@@ -68,7 +68,7 @@ const actions = {
 				}
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	},
 
@@ -111,7 +111,7 @@ const actions = {
 				}
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	},
 
@@ -131,7 +131,7 @@ const actions = {
 			bankAcNumber: userData.bankAcNumber,
 			familyBookNumber: userData.familyBookNumber,
 			familyBookDOI: userData.familyBookDOI,
-			personalIdNumber: userData.personalId,
+			personalIdNumber: userData.personalIdNumber,
 			personalIdDOI: userData.personalIdDOI,
 			userType: 3,
 			userStatus: userData.loginStatus ? 1 : 2
@@ -162,7 +162,7 @@ const actions = {
 				}
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	},
 
@@ -213,7 +213,7 @@ const actions = {
 				}
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	},
 	// Delete admin/agent user
@@ -226,29 +226,28 @@ const actions = {
 				return response.data.message + ': ' + 'A User successfully removed from the database.';
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	}
 };
 
 const mutations = {
 	SET_USERS: (state, users) => {
-		state.users = users;
-		/* for (let i = 0; i < users.length; i++) {
+		for (let i = 0; i < users.length; i++) {
 			let userAvailable = state.users.find(user => {
 				return user.email === users[i].email;
 			});
 			if (!userAvailable) {
 				state.users.push({
 					id: i + 1,
-					names: users[i].firstName + ' ' + users[i].lastName,
+					name: users[i].firstName + ' ' + users[i].lastName,
 					email: users[i].email,
 					gender: users[i].gender,
 					createdAt: moment(String(users[i].createdAt)).format('DD/MM/YYYY hh:mm A'),
 					updatedAt: moment(String(users[i].updatedAt)).format('DD/MM/YYYY hh:mm A')
 				});
 			}
-		} */
+		}
 	},
 	SET_SINGLE_USER: (state, response) => {
 		state.singleUser = response;
@@ -257,9 +256,6 @@ const mutations = {
 
 const getters = {
 	getUsers: (state) => {
-		return state.users;
-	},
-	getAgents: (state) => {
 		return state.users;
 	},
 	getSingleUser(state) {

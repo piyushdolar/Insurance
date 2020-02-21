@@ -139,7 +139,7 @@
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('provinceId')">
+                  <md-field :class="getValidationClass('districtId')">
                     <label for="locationDistrict">Select District</label>
                     <md-select
                       name="locationDistrict"
@@ -189,7 +189,7 @@
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
-                  <md-field>
+                  <md-field :class="getValidationClass('bankName')">
                     <label for="bank-name">Bank Name</label>
                     <md-input
                       name="bank-name"
@@ -198,10 +198,14 @@
                       v-model="form.bankName"
                       :disabled="sending"
                     />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.bankName.required"
+                    >The bank account name is required</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
-                  <md-field>
+                  <md-field :class="getValidationClass('bankAcNumber')">
                     <label for="bank-ac-number">Bank A/c Number</label>
                     <md-input
                       name="bank-ac-number"
@@ -210,6 +214,10 @@
                       v-model="form.bankAcNumber"
                       :disabled="sending"
                     />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.bankAcNumber.required"
+                    >The bank account number is required</span>
                   </md-field>
                 </div>
               </div>
@@ -236,8 +244,13 @@
                     v-model="form.familyBookDOI"
                     :md-disabled-dates="form.familyBookDOIConfig"
                     md-immediately
+                    :class="getValidationClass('familyBookDOI')"
                   >
                     <label>Family Book Date of Issue</label>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.familyBookDOI.required"
+                    >The family book date of issue is required</span>
                   </md-datepicker>
                 </div>
               </div>
@@ -264,8 +277,13 @@
                     v-model="form.personalIdDOI"
                     :md-disabled-dates="form.personalIdDOIConfig"
                     md-immediately
+                    :class="getValidationClass('personalIdDOI')"
                   >
                     <label>Personal ID Card Date of Issue</label>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.personalIdDOI.required"
+                    >The family book date of issue is required</span>
                   </md-datepicker>
                 </div>
               </div>
@@ -340,7 +358,10 @@
         </md-dialog>
 
         <div class="pull-right md-layout" v-if="checkAuthorization('write')">
-          <md-button class="md-primary md-layout-item" @click="downloadCSV('agents')">
+          <md-button
+            class="md-primary md-layout-item"
+            @click="downloadCSV({url: 'users',userType: 2})"
+          >
             <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
           <md-button class="md-info md-layout-item" @click="openDialog">
@@ -428,6 +449,12 @@
                     <md-chip class="md-accent" v-else>Deactive</md-chip>
                   </template>
 
+                  <template
+                    slot="location"
+                    slot-scope="props"
+                    v-if="props.rowData.locationId != null"
+                  >{{props.rowData.provinceNameEng}}, {{props.rowData.districtNameEng}}, {{props.rowData.villageName}}</template>
+
                   <template slot="actions" slot-scope="props">
                     <div class="custom-actions">
                       <md-button
@@ -463,6 +490,9 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { VuetableMixin } from "../mixins/VuetableMixin";
+import { AgentMixin } from "../mixins/AgentMixin";
 import {
   required,
   email,
@@ -470,154 +500,11 @@ import {
   maxLength,
   sameAs
 } from "vuelidate/lib/validators";
-import { validationMixin } from "vuelidate";
-import { VuetableMixin } from "../mixins/VuetableMixin";
-import moment from "moment";
-import checkAuth from "../helpers/authentication";
-import { mapGetters } from "vuex";
 
 export default {
   name: "AgentComponent",
-  mixins: [validationMixin, VuetableMixin],
-  data: () => ({
-    showDialog: false,
-    defaultImage: "/images/avatars/default.png",
-    form: {
-      firstName: null,
-      lastName: null,
-      gender: null,
-      phone: null,
-      email: null,
-      password: null,
-      repeatPassword: null,
-      address: null,
-      status: false,
-      image: null,
-      imagePreview: null,
-      dob: null,
-      provinceId: null,
-      districtId: null,
-      faxNumber: null,
-      bankName: null,
-      bankAcNumber: null,
-      familyBookNumber: null,
-      familyBookDOI: null,
-      familyBookDOIConfig: date => {
-        const fetchDate = date.getDate();
-        const currentDate = new Date();
-        if (currentDate.getDate() < fetchDate) {
-          return true;
-        }
-      },
-      personalIdNumber: null,
-      personalIdDOI: null,
-      personalIdDOIConfig: date => {
-        const fetchDate = date.getDate();
-        const currentDate = new Date();
-        if (currentDate.getDate() < fetchDate) {
-          return true;
-        }
-      },
-      villageName: null
-    },
-    formModal: {
-      title: "CREATE NEW AGENT",
-      btn: "CREATE",
-      isEdit: false
-    },
-    sending: false,
-    image: null,
-    // vuetable
-    fireEvent: null,
-    sortOrder: [
-      {
-        field: "id",
-        sortField: "id",
-        direction: "desc"
-      }
-    ],
-    fields: [
-      {
-        name: "id",
-        title: "Agent ID"
-      },
-      {
-        name: "__slot:picture",
-        title: "Image"
-      },
-      {
-        name: "fullName",
-        sortField: "firstName",
-        title: "Full Name"
-      },
-      {
-        name: "gender",
-        sortField: "gender",
-        title: "Gender",
-        callback: function(value) {
-          return value == 1 ? "Male" : value == 2 ? "Female" : "Other";
-        }
-      },
-      {
-        name: "email",
-        sortField: "email",
-        title: "Email"
-      },
-      {
-        name: "__slot:status",
-        title: "Status",
-        sortField: "status"
-      },
-      {
-        name: "faxNumber",
-        title: "faxNumber"
-      },
-      {
-        name: "bankName",
-        title: "bankName"
-      },
-      {
-        name: "bankAcNumber",
-        title: "bankAcNumber"
-      },
-      {
-        name: "familyBookNumber",
-        title: "familyBookNumber"
-      },
-      {
-        name: "familyBookDOI",
-        title: "familyBookDOI"
-      },
-      {
-        name: "personalIdNumber",
-        title: "personalIdNumber"
-      },
-      {
-        name: "personalIdDOI",
-        title: "personalIdDOI"
-      },
-      {
-        name: "createdAt",
-        title: "Created Date",
-        sortField: "createdAt",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY hh:mm a");
-        }
-      },
-      {
-        name: "updatedAt",
-        title: "Updated Date",
-        sortField: "updatedAt",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY hh:mm a");
-        }
-      },
-      {
-        name: "__slot:actions", // <----
-        title: "Actions"
-      }
-    ]
-  }),
+  mixins: [validationMixin, VuetableMixin, AgentMixin],
+  data: () => ({}),
   validations: {
     form: {
       firstName: {
@@ -671,184 +558,14 @@ export default {
       },
       personalIdDOI: {
         required
+      },
+      bankName: {
+        required
+      },
+      bankAcNumber: {
+        required
       }
     }
-  },
-  methods: {
-    onProvinceSelect(provinceId) {
-      this.$store.dispatch("getLocation", provinceId);
-    },
-    checkAuthorization(rule) {
-      return checkAuth(
-        rule,
-        this.$route.path,
-        this.$session.get("userProfile").userType
-      );
-    },
-    onFileSelected(event) {
-      this.form.image = event.target.files[0];
-      this.form.imagePreview = URL.createObjectURL(this.form.image);
-    },
-    onAction(action, data, index) {
-      if (action == "edit") {
-        this.form.id = data.id;
-        this.form.firstName = data.firstName;
-        this.form.lastName = data.lastName;
-        this.form.gender = data.gender;
-        this.form.phone = data.phone;
-        this.form.email = data.email;
-        this.form.faxNumber = data.faxNumber;
-        this.form.bankName = data.bankName;
-        this.form.bankAcNumber = data.bankAcNumber;
-        this.form.familyBookNumber = data.familyBookNumber;
-        this.form.familyBookDOI = data.familyBookDOI;
-        this.form.personalIdNumber = data.personalIdNumber;
-        this.form.personalIdDOI = data.personalIdDOI;
-        this.form.address = data.address;
-        this.form.status = data.status == 1 ? true : false;
-        if (data.picture != null) {
-          this.form.imagePreview = `/images/avatars/agents/${data.picture}`;
-        }
-        this.formModal.title = "EDIT AGENT DATA";
-        this.formModal.btn = "UPDATE";
-        this.formModal.isEdit = true;
-        this.showDialog = true;
-      } else if (action == "delete") {
-        if (confirm("Are you sure?")) {
-          this.$store
-            .dispatch("deleteUser", {
-              userId: data.id
-            })
-            .then(response => {
-              this.$notify({
-                message: response,
-                icon: "add_alert",
-                verticalAlign: "top",
-                horizontalAlign: "right",
-                type: "success"
-              });
-              this.onFilterReset();
-            })
-            .catch(error => {
-              this.$notify({
-                message: error.data.error,
-                icon: "add_alert",
-                verticalAlign: "top",
-                horizontalAlign: "right",
-                type: "danger"
-              });
-            });
-        }
-      }
-    },
-    // validation only
-    getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
-      if (field) {
-        return {
-          "md-invalid": field.$invalid && field.$dirty
-        };
-      }
-    },
-    openDialog() {
-      this.showDialog = true;
-      this.formModal.btn = "CREATE";
-      this.formModal.isEdit = false;
-      this.form.imagePreview = this.defaultImage;
-      this.clearForm();
-    },
-    clearForm() {
-      this.$v.$reset();
-      this.form.firstName = null;
-      this.form.lastName = null;
-      this.form.phone = null;
-      this.form.gender = null;
-      this.form.email = null;
-      this.form.password = null;
-      this.form.repeatPassword = null;
-      this.form.address = null;
-      this.form.image = null;
-      this.form.status = false;
-    },
-    validateUser(e) {
-      this.$v.$touch();
-      if (this.formModal.isEdit) {
-        if (
-          !this.$v.form.firstName.$invalid &&
-          !this.$v.form.lastName.$invalid &&
-          !this.$v.form.gender.$invalid &&
-          !this.$v.form.phone.$invalid &&
-          !this.$v.form.email.$invalid &&
-          !this.$v.form.address.$invalid
-        ) {
-          this.saveUser("edit");
-        }
-      } else {
-        if (!this.$v.form.$invalid) {
-          this.saveUser("add");
-        }
-      }
-    },
-    async saveUser(type) {
-      this.sending = true;
-      this.form.sessionId = this.$session.get("userProfile").id;
-      if (type == "add") {
-        await this.$store
-          .dispatch("addAgent", this.form)
-          .then(response => {
-            this.$notify({
-              message: response,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "success"
-            });
-            this.showDialog = false;
-            this.clearForm();
-            this.onFilterReset();
-          })
-          .catch(error => {
-            this.$notify({
-              message: error.data.error,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "danger"
-            });
-          });
-      } else if (type == "edit") {
-        await this.$store
-          .dispatch("editAgent", this.form)
-          .then(response => {
-            this.$notify({
-              message: response,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "success"
-            });
-            this.showDialog = false;
-            this.onFilterReset();
-            this.clearForm();
-          })
-          .catch(error => {
-            this.$notify({
-              message: error.data.error,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "danger"
-            });
-          });
-      }
-      this.sending = false;
-    }
-  },
-  mounted() {
-    this.$store.dispatch("getLocation", 0);
-  },
-  computed: {
-    ...mapGetters(["getLocationProvince", "getLocationDistrict"])
   }
 };
 </script>

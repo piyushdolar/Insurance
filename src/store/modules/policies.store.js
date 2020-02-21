@@ -13,7 +13,7 @@ const actions = {
 				commit('SET_POLICY_DATA', response.data.data);
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	},
 	addPolicy: ({ commit }, payload) => {
@@ -41,7 +41,7 @@ const actions = {
 				return `Policy for ${payload.customerSearched.name} has been successfully created.`;
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	},
 	editPolicy: ({ commit }, payload) => {
@@ -67,7 +67,7 @@ const actions = {
 				return 'A Policy successfully updated.';
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	},
 	deletePolicy: ({ commit }, { policyId }) => {
@@ -79,7 +79,7 @@ const actions = {
 				return response.data.message + ': ' + 'A Policy successfully removed from the database.';
 			})
 			.catch(error => {
-				throw error.response;
+				throw error.response.data.error;
 			});
 	}
 };

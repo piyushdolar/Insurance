@@ -1,9 +1,20 @@
 import moment from 'moment';
 import { mapGetters } from 'vuex';
 
-export const Policies = {
+export const PoliciesMixin = {
 	data() {
 		return {
+			showDialog: false,
+			sending: false,
+			// vuetable
+			fireEvent: null,
+			sortOrder: [
+				{
+					field: "id",
+					sortField: "id",
+					direction: "desc"
+				}
+			],
 			showSingleUserDialog: false,
 			singleUserForm: {
 				name: null,
@@ -49,7 +60,7 @@ export const Policies = {
 					title: 'Policy Name'
 				},
 				{
-					name: '__slot:policyHolder',
+					name: '__slot:customer',
 					sortField: 'firstName',
 					title: 'Customer Name'
 				},
@@ -149,6 +160,109 @@ export const Policies = {
 		};
 	},
 	methods: {
+		// md select over...
+		onAction(action, data, index) {
+			if (action == "edit") {
+				this.form.id = data.id;
+				this.form.policyName = data.policyName;
+				this.form.policyType = data.policyType;
+				this.form.policyNumber = data.policyNumber;
+				this.form.customerSearched.id = data.customer.id;
+				this.form.customerSearched.name = data.customer.fullName;
+				this.form.agentSearched.id = data.agent.id;
+				this.form.agentSearched.name = data.agent.fullName;
+				this.form.currencyType = data.currencyType;
+				this.form.sumInsured = data.sumInsured;
+				this.form.startDate = new Date(data.startDate);
+				this.form.endDate = new Date(data.endDate);
+				this.form.status = data.status == 1 ? false : true;
+				this.formModal.title = "EDIT POLICY";
+				this.formModal.btn = "UPDATE";
+				this.formModal.isEdit = true;
+				this.showDialog = true;
+			} else if (action == "delete") {
+				if (confirm("Are you sure?")) {
+					this.$store
+						.dispatch("deletePolicy", {
+							policyId: data.id
+						})
+						.then(response => {
+							this.$alert.notify("success", response);
+							this.onFilterReset();
+						})
+						.catch(error => {
+							this.$alert.notify("danger", error);
+						});
+				}
+			}
+		},
+		// validation only
+		getValidationClass(fieldName) {
+			const field = this.$v.form[fieldName];
+			if (field) {
+				return {
+					"md-invalid": field.$invalid && field.$dirty
+				};
+			}
+		},
+		openDialog() {
+			this.showDialog = true;
+			this.formModal.btn = "CREATE";
+			this.formModal.isEdit = false;
+			this.clearForm();
+		},
+		clearForm() {
+			this.$v.$reset();
+			this.form.policyName = null;
+			this.form.policyType = null;
+			this.form.status = false;
+		},
+		validateUser(e) {
+			this.$v.$touch();
+			if (this.formModal.isEdit) {
+				if (
+					!this.$v.form.policyName.$invalid &&
+					!this.$v.form.policyType.$invalid &&
+					!this.$v.form.policyNumber.$invalid
+				) {
+					this.saveUser("edit");
+				}
+			} else {
+				if (!this.$v.form.$invalid) {
+					this.saveUser("add");
+				}
+			}
+		},
+		async saveUser(type) {
+			this.sending = true;
+			this.form.sessionId = this.$session.get("userProfile").id;
+			if (type == "add") {
+				await this.$store
+					.dispatch("addPolicy", this.form)
+					.then(response => {
+						this.$alert.notify("success", response);
+						this.showDialog = false;
+						this.clearForm();
+						this.onFilterReset();
+					})
+					.catch(error => {
+						this.$alert.notify("danger", error);
+					});
+			} else if (type == "edit") {
+				await this.$store
+					.dispatch("editPolicy", this.form)
+					.then(response => {
+						this.$alert.notify("success", response);
+						this.showDialog = false;
+						this.onFilterReset();
+						this.clearForm();
+					})
+					.catch(error => {
+						this.$alert.notify("danger", error);
+					});
+			}
+			this.sending = false;
+		},
 		// md select
 		getCustomers(searchTerm) {
 			this.form.searchedList = new Promise(resolve => {
@@ -176,7 +290,7 @@ export const Policies = {
 		},
 		onSelectAgent(selectedSearch) {
 			this.form.agentSearched.id = selectedSearch.id;
-			this.form.agentSearched.name = selectedSearch.fullName;
+			this.form.agentSearched.name = selectedSearch.name;
 		},
 		onSelectSingleUser(id) {
 			this.showSingleUserDialog = true;
@@ -184,6 +298,14 @@ export const Policies = {
 		}
 	},
 	computed: {
-		...mapGetters(['getSingleCustomer'])
+		...mapGetters({
+			customersList: "getCustomers",
+			agentsList: "getUsers",
+			getSingleCustomer: "getSingleCustomer"
+		})
+	},
+	mounted() {
+		this.$store.dispatch("getUsers", { user_type: 3, searchWord: "" });
+		this.$store.dispatch("getCustomers", "");
 	}
 };

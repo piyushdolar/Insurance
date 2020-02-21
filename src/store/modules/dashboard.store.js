@@ -89,7 +89,7 @@ const getters = {
 	getDashboardRecentPolicies: state => {
 		return state.recent.policies;
 	},
-	getDashboardRecentPolicyHolders: state => {
+	getDashboardRecentCustomers: state => {
 		return state.recent.policy_holders;
 	},
 	getDashboardCharts: state => {

@@ -4,7 +4,7 @@ import Dashboard from '@/pages/Dashboard.vue';
 import MyProfile from '@/pages/MyProfile.vue';
 import Admins from '@/pages/Admins.vue';
 import Agents from '@/pages/Agents.vue';
-import PolicyHolders from '@/pages/PolicyHolders.vue';
+import Customers from '@/pages/Customers.vue';
 import Policies from '@/pages/Policies.vue';
 import Maps from '@/pages/Maps.vue';
 import Changelogs from '@/pages/Changelogs.vue';
@@ -52,12 +52,12 @@ const routes = [
 				component: Agents
 			},
 			{
-				path: 'policy-holders',
+				path: 'customers',
 				name: 'Customers',
 				meta: {
 					requiresAuth: true
 				},
-				component: PolicyHolders
+				component: Customers
 			},
 			{
 				path: 'policies',

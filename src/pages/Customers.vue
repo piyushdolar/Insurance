@@ -137,7 +137,7 @@
         </md-dialog>
 
         <div class="pull-right md-layout">
-          <md-button class="md-primary md-layout-item" @click="downloadCSV('customers')">
+          <md-button class="md-primary md-layout-item" @click="downloadCSV({url: 'customers'})">
             <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
           <md-button class="md-info md-layout-item" @click="openDialog">
@@ -277,7 +277,7 @@ import { VuetableMixin } from "../mixins/VuetableMixin";
 import moment from "moment";
 
 export default {
-  name: "PolicyHolderComponent",
+  name: "CustomerComponent",
   mixins: [validationMixin, VuetableMixin],
   data: () => ({
     showDialog: false,
@@ -412,27 +412,15 @@ export default {
       } else if (action == "delete") {
         if (confirm("Are you sure?")) {
           this.$store
-            .dispatch("deletePolicyHolder", {
+            .dispatch("deleteCustomer", {
               userId: data.id
             })
             .then(response => {
-              this.$notify({
-                message: response,
-                icon: "add_alert",
-                verticalAlign: "top",
-                horizontalAlign: "right",
-                type: "success"
-              });
+              this.$alert.notify("success", response);
               this.onFilterReset();
             })
             .catch(error => {
-              this.$notify({
-                message: error.data.error,
-                icon: "add_alert",
-                verticalAlign: "top",
-                horizontalAlign: "right",
-                type: "danger"
-              });
+              this.$alert.notify("danger", error);
             });
         }
       }
@@ -488,53 +476,29 @@ export default {
       this.form.sessionId = this.$session.get("userProfile").id;
       if (type == "add") {
         await this.$store
-          .dispatch("addPolicyHolder", {
+          .dispatch("addCustomers", {
             userData: this.form
           })
           .then(response => {
-            this.$notify({
-              message: response,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "success"
-            });
+            this.$alert.notify("success", response);
             this.showDialog = false;
             this.clearForm();
           })
           .catch(error => {
-            this.$notify({
-              message: error.data.error,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "danger"
-            });
+            this.$alert.notify("danger", error);
           });
       } else if (type == "edit") {
         await this.$store
-          .dispatch("editPolicyHolder", {
+          .dispatch("editCustomer", {
             userData: this.form
           })
           .then(response => {
-            this.$notify({
-              message: response,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "success"
-            });
+            this.$alert.notify("success", response);
             this.showDialog = false;
             this.clearForm();
           })
           .catch(error => {
-            this.$notify({
-              message: error.data.error,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "danger"
-            });
+            this.$alert.notify("danger", error);
           });
       }
       this.onFilterReset();

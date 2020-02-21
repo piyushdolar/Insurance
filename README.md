@@ -79,7 +79,7 @@ Insurance
     │   │   ├── global.store.js
     │   │   ├── login.store.js
     │   │   ├── policies.store.js
-    │   │   ├── policyHolders.store.js
+    │   │   ├── customer.store.js
     │   │   └── users.store.js
     │   └── index.js
     ├── pages
@@ -102,7 +102,7 @@ Insurance
     │   ├── Logout.vue
     │   ├── MyProfile.vue
     │   ├── Policies.vue
-    │   ├── PolicyHolders.vue
+    │   ├── Customer.vue
     │   ├── Users.vue
     │   └── index.js
     └── routes
@@ -111,7 +111,21 @@ Insurance
 
 ## Change logs:
 
-## [1.31.13] 2020-02-20
+## [1.42.20] 2020-02-21
+
+### What's new
+-   Agent table added the location selection (Province and District).
+-   Code reformating for server performance/speed.
+
+### Patches & Enhancements
+-   Login route now auto redirected to dashboard when any request failed to authorized.
+-   Administrator login, Need to logout current session if you want to access this module.
+
+### Fixes & Bugs
+-   Redirection bug fixed when it's auto logout.
+-   Policies agent list and customer list throwing console error (undefined constructor) randomly while selecting, it's fixed now.
+
+## [1.40.16] 2020-02-20
 
 ### What's new
 -   Added notification for OTP while login.
@@ -126,10 +140,10 @@ Insurance
 
 ### Fixes/Bugs
 -   Bug fixed of login page when the login and password entered but still goes to next step but it shouldn't be that way.
--   Modal for every create admin/agent/policyholder/policy was not scrollable at some specific screen size under 950p, now it's fixed.
+-   Modal for every create admin/agent/customer/policy was not scrollable at some specific screen size under 950p, now it's fixed.
 -   Error message showing while it's not even triggered issue fixed.
 
-## [1.31.13] 2020-02-04
+## [1.31.14] 2020-02-04
 -   Google Authenticator Added.
 
 ## [1.30.13] 2020-02-04
@@ -180,7 +194,7 @@ Insurance
 -   Profile picture alt attribute name didn't appear when it could find a resource in the server.
 -   Dialog box not scrolling on small devices issue has been fixed now.
 -   CSV files column name bug fixed Title to phone.
--   When creating the Policy for customer/policyholder it's got accepted by default bug fixed.
+-   When creating the Policy for customer/customer it's got accepted by default bug fixed.
 -   User/Agent/Customer, Policy - While creating a profile is created in the database when image error still exists.
 
 ## [1.15.0] 2020-01-18

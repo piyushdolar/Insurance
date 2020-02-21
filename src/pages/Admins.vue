@@ -157,64 +157,6 @@
 
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('provinceId')">
-                    <label for="locationProvince">Select Province</label>
-                    <md-select
-                      name="locationProvince"
-                      id="locationProvince"
-                      v-model="form.provinceId"
-                      md-dense
-                      :disabled="sending"
-                      @md-selected="onProvinceSelect"
-                    >
-                      <md-option
-                        v-for="province in getLocationProvince"
-                        :key="province.id"
-                        :value="province.id"
-                      >{{province.nameEng}}</md-option>
-                    </md-select>
-                    <span class="md-error" v-if="!$v.form.provinceId.required">Province Required</span>
-                  </md-field>
-                </div>
-                <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('provinceId')">
-                    <label for="locationDistrict">Select District</label>
-                    <md-select
-                      name="locationDistrict"
-                      id="locationDistrict"
-                      v-model="form.districtId"
-                      md-dense
-                      :disabled="sending"
-                    >
-                      <md-option
-                        v-for="district in getLocationDistrict"
-                        :key="district.id"
-                        :value="district.id"
-                      >{{district.nameEng}}</md-option>
-                    </md-select>
-                    <span class="md-error" v-if="!$v.form.districtId.required">District Required</span>
-                  </md-field>
-                </div>
-                <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('villageName')">
-                    <label for="village-name">Village Name</label>
-                    <md-input
-                      name="village-name"
-                      id="village-name"
-                      autocomplete="village-name"
-                      v-model="form.villageName"
-                      :disabled="sending"
-                    />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.villageName.required"
-                    >The village name is required</span>
-                  </md-field>
-                </div>
-              </div>
-
-              <div class="md-layout md-gutter">
-                <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('address')">
                     <label for="address">Address</label>
                     <md-textarea
@@ -249,7 +191,10 @@
         </md-dialog>
 
         <div class="pull-right md-layout">
-          <md-button class="md-primary md-layout-item" @click="downloadCSV('users')">
+          <md-button
+            class="md-primary md-layout-item"
+            @click="downloadCSV({url: 'users',userType: 2})"
+          >
             <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
           <md-button class="md-info md-layout-item" @click="openDialog">
@@ -368,6 +313,9 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { VuetableMixin } from "../mixins/VuetableMixin";
+import { AdminMixin } from "../mixins/AdminMixin";
 import {
   required,
   email,
@@ -375,119 +323,11 @@ import {
   maxLength,
   sameAs
 } from "vuelidate/lib/validators";
-import { validationMixin } from "vuelidate";
-import { VuetableMixin } from "../mixins/VuetableMixin";
-import { AdminMixin } from "../mixins/AdminUsers";
-import moment from "moment";
-import { mapGetters } from "vuex";
 
 export default {
-  name: "UsersComponent",
-  mixins: [validationMixin, VuetableMixin],
-  data: () => ({
-    showDialog: false,
-    defaultImage: "/images/avatars/default.png",
-    // users: [],
-    form: {
-      firstName: null,
-      lastName: null,
-      gender: null,
-      phone: null,
-      email: null,
-      address: null,
-      password: null,
-      repeatPassword: null,
-      loginStatus: false,
-      image: null,
-      imagePreview: null,
-      provinceId: null,
-      districtId: null,
-      villageName: null
-    },
-    formModal: {
-      title: "CREATE NEW USER",
-      btn: "CREATE",
-      isEdit: false
-    },
-    sending: false,
-    image: null,
-    // vuetable
-    fireEvent: null,
-    sortOrder: [
-      {
-        field: "id",
-        sortField: "id",
-        direction: "desc"
-      }
-    ],
-    fields: [
-      {
-        name: "id",
-        title: "User ID"
-      },
-      {
-        name: "__slot:picture",
-        title: "Image"
-      },
-      {
-        name: "fullName",
-        sortField: "firstName",
-        title: "Full Name"
-      },
-      {
-        name: "gender",
-        sortField: "gender",
-        title: "Gender",
-        callback: function(value) {
-          return value == 1 ? "Male" : value == 2 ? "Female" : "Other";
-        }
-      },
-      {
-        name: "email",
-        sortField: "email",
-        title: "Email"
-      },
-      {
-        name: "__slot:userStatus",
-        title: "Status",
-        sortField: "userStatus"
-      },
-      {
-        name: "email",
-        sortField: "email",
-        title: "Email"
-      },
-      {
-        name: "villageName",
-        sortField: "villageName",
-        title: "Village"
-      },
-      {
-        name: "createdAt",
-        title: "Created Date",
-        sortField: "createdAt",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY hh:mm a");
-        }
-      },
-      {
-        name: "updatedAt",
-        title: "Updated Date",
-        sortField: "updatedAt",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY hh:mm a");
-        }
-      },
-      {
-        name: "__slot:actions", // <----
-        title: "Actions"
-      }
-      /* {
-        name: "__component:custom-actions", // <----
-        title: "Actions"
-      } */
-    ]
-  }),
+  name: "AdminComponent",
+  mixins: [validationMixin, VuetableMixin, AdminMixin],
+  data: () => ({}),
   validations: {
     form: {
       firstName: {
@@ -520,180 +360,10 @@ export default {
       },
       repeatPassword: {
         sameAsPassword: sameAs("password")
-      },
-      provinceId: {
-        required
-      },
-      districtId: {
-        required
-      },
-      villageName: {
-        required
       }
     }
   },
-  methods: {
-    onProvinceSelect(provinceId) {
-      this.$store.dispatch("getLocation", provinceId);
-    },
-    onFileSelected(event) {
-      this.form.image = event.target.files[0];
-      this.form.imagePreview = URL.createObjectURL(this.form.image);
-    },
-    onAction(action, data, index) {
-      if (action == "edit") {
-        this.form.id = data.id;
-        this.form.firstName = data.firstName;
-        this.form.lastName = data.lastName;
-        this.form.gender = data.gender;
-        this.form.phone = data.phone;
-        this.form.email = data.email;
-        this.form.address = data.address;
-        this.form.loginStatus = data.userStatus == 1 ? true : false;
-        if (data.picture != null) {
-          this.form.imagePreview = `/images/avatars/users/${data.picture}`;
-        }
-        this.formModal.title = "EDIT USER DATA";
-        this.formModal.btn = "UPDATE";
-        this.formModal.isEdit = true;
-        this.showDialog = true;
-      } else if (action == "delete") {
-        if (confirm("Are you sure?")) {
-          this.$store
-            .dispatch("deleteUser", {
-              userId: data.id
-            })
-            .then(response => {
-              this.$notify({
-                message: response,
-                icon: "add_alert",
-                verticalAlign: "top",
-                horizontalAlign: "right",
-                type: "success"
-              });
-              this.onFilterReset();
-            })
-            .catch(error => {
-              this.$notify({
-                message: error.data.error,
-                icon: "add_alert",
-                verticalAlign: "top",
-                horizontalAlign: "right",
-                type: "danger"
-              });
-            });
-        }
-      }
-    },
-    // validation only
-    getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
-      if (field) {
-        return {
-          "md-invalid": field.$invalid && field.$dirty
-        };
-      }
-    },
-    openDialog() {
-      this.showDialog = true;
-      this.formModal.btn = "CREATE";
-      this.formModal.isEdit = false;
-      this.form.imagePreview = this.defaultImage;
-      this.clearForm();
-    },
-    clearForm() {
-      this.$v.$reset();
-      this.form.firstName = null;
-      this.form.lastName = null;
-      this.form.phone = null;
-      this.form.gender = null;
-      this.form.email = null;
-      this.form.address = null;
-      this.form.password = null;
-      this.form.repeatPassword = null;
-      this.form.image = null;
-      this.form.loginStatus = false;
-    },
-    validateUser(e) {
-      this.$v.$touch();
-      if (this.formModal.isEdit) {
-        if (
-          !this.$v.form.firstName.$invalid &&
-          !this.$v.form.lastName.$invalid &&
-          !this.$v.form.gender.$invalid &&
-          !this.$v.form.phone.$invalid &&
-          !this.$v.form.email.$invalid &&
-          !this.$v.form.address.$invalid
-        ) {
-          this.saveUser("edit");
-        }
-      } else {
-        if (!this.$v.form.$invalid) {
-          this.saveUser("add");
-        }
-      }
-    },
-    async saveUser(type, btnText) {
-      this.sending = true;
-      this.form.sessionId = this.$session.get("userProfile").id;
-      if (type == "add") {
-        await this.$store
-          .dispatch("addUser", this.form)
-          .then(response => {
-            this.$notify({
-              message: response,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "success"
-            });
-            this.showDialog = false;
-            this.clearForm();
-            this.onFilterReset();
-          })
-          .catch(error => {
-            this.$notify({
-              message: error.data.error,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "danger"
-            });
-          });
-      } else if (type == "edit") {
-        await this.$store
-          .dispatch("editUser", this.form)
-          .then(response => {
-            this.$notify({
-              message: response,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "success"
-            });
-            this.showDialog = false;
-            this.clearForm();
-            this.onFilterReset();
-          })
-          .catch(error => {
-            this.$notify({
-              message: error.data.error,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "danger"
-            });
-          });
-      }
-      this.sending = false;
-    }
-  },
-  mounted() {
-    this.$store.dispatch("getLocation", 0);
-  },
-  computed: {
-    ...mapGetters(["getLocationProvince", "getLocationDistrict"])
-  }
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>

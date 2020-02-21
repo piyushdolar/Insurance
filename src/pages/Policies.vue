@@ -117,7 +117,7 @@
                   >
                     <label>Assign the agent</label>
                     <template slot="md-autocomplete-item" slot-scope="{ item, term }">
-                      <md-highlight-text :md-term="term">{{ item.fullName }}</md-highlight-text>
+                      <md-highlight-text :md-term="term">{{ item.name }}</md-highlight-text>
                     </template>
 
                     <template
@@ -178,7 +178,7 @@
         </md-dialog>
 
         <div class="pull-right md-layout">
-          <md-button class="md-primary md-layout-item" @click="downloadCSV('policy')">
+          <md-button class="md-primary md-layout-item" @click="downloadCSV({url: 'policy'})">
             <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
           <md-button class="md-info md-layout-item" @click="openDialog">
@@ -383,25 +383,12 @@ import {
 } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import { VuetableMixin } from "../mixins/VuetableMixin";
-import { Policies } from "../mixins/Policies";
+import { PoliciesMixin } from "../mixins/PoliciesMixin";
 import { mapGetters } from "vuex";
 
 export default {
   name: "PolicyComponent",
-  mixins: [validationMixin, VuetableMixin, Policies],
-  data: () => ({
-    showDialog: false,
-    sending: false,
-    // vuetable
-    fireEvent: null,
-    sortOrder: [
-      {
-        field: "id",
-        sortField: "id",
-        direction: "desc"
-      }
-    ]
-  }),
+  mixins: [validationMixin, VuetableMixin, PoliciesMixin],
   validations: {
     form: {
       policyName: {
@@ -448,157 +435,6 @@ export default {
         }
       }
     }
-  },
-  methods: {
-    // md select over...
-    onAction(action, data, index) {
-      if (action == "edit") {
-        this.form.id = data.id;
-        this.form.policyName = data.policyName;
-        this.form.policyType = data.policyType;
-        this.form.policyNumber = data.policyNumber;
-        this.form.customerSearched.id = data.policyHolder.id;
-        this.form.customerSearched.name = data.policyHolder.fullName;
-        this.form.agentSearched.id = data.agent.id;
-        this.form.agentSearched.name = data.agent.fullName;
-        this.form.currencyType = data.currencyType;
-        this.form.sumInsured = data.sumInsured;
-        this.form.startDate = new Date(data.startDate);
-        this.form.endDate = new Date(data.endDate);
-        this.form.status = data.status == 1 ? false : true;
-        this.formModal.title = "EDIT POLICY";
-        this.formModal.btn = "UPDATE";
-        this.formModal.isEdit = true;
-        this.showDialog = true;
-      } else if (action == "delete") {
-        if (confirm("Are you sure?")) {
-          this.$store
-            .dispatch("deletePolicy", {
-              policyId: data.id
-            })
-            .then(response => {
-              this.$notify({
-                message: response,
-                icon: "add_alert",
-                verticalAlign: "top",
-                horizontalAlign: "right",
-                type: "success"
-              });
-              this.onFilterReset();
-            })
-            .catch(error => {
-              this.$notify({
-                message: error.data.error,
-                icon: "add_alert",
-                verticalAlign: "top",
-                horizontalAlign: "right",
-                type: "danger"
-              });
-            });
-        }
-      }
-    },
-    // validation only
-    getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
-      if (field) {
-        return {
-          "md-invalid": field.$invalid && field.$dirty
-        };
-      }
-    },
-    openDialog() {
-      this.showDialog = true;
-      this.formModal.btn = "CREATE";
-      this.formModal.isEdit = false;
-      this.clearForm();
-    },
-    clearForm() {
-      this.$v.$reset();
-      this.form.policyName = null;
-      this.form.policyType = null;
-      this.form.status = false;
-    },
-    validateUser(e) {
-      this.$v.$touch();
-      if (this.formModal.isEdit) {
-        if (
-          !this.$v.form.policyName.$invalid &&
-          !this.$v.form.policyType.$invalid &&
-          !this.$v.form.policyNumber.$invalid
-        ) {
-          this.saveUser("edit");
-        }
-      } else {
-        if (!this.$v.form.$invalid) {
-          this.saveUser("add");
-        }
-      }
-    },
-    async saveUser(type) {
-      this.sending = true;
-      this.form.sessionId = this.$session.get("userProfile").id;
-      if (type == "add") {
-        await this.$store
-          .dispatch("addPolicy", this.form)
-          .then(response => {
-            this.$notify({
-              message: response,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "success"
-            });
-            this.showDialog = false;
-            this.clearForm();
-            this.onFilterReset();
-          })
-          .catch(error => {
-            this.$notify({
-              message: error.data.error,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "danger"
-            });
-          });
-      } else if (type == "edit") {
-        await this.$store
-          .dispatch("editPolicy", this.form)
-          .then(response => {
-            this.$notify({
-              message: response,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "success"
-            });
-            this.showDialog = false;
-            this.onFilterReset();
-            this.clearForm();
-          })
-          .catch(error => {
-            this.$notify({
-              message: error.data.error,
-              icon: "add_alert",
-              verticalAlign: "top",
-              horizontalAlign: "right",
-              type: "danger"
-            });
-          });
-      }
-      this.sending = false;
-    }
-  },
-  mounted() {
-    this.$store.dispatch("getUsers", { user_type: 3, searchWord: "" });
-    this.$store.dispatch("getPolicyHolders", "");
-  },
-  computed: {
-    ...mapGetters({
-      customersList: "getCustomers",
-      agentsList: "getAgents"
-    })
   }
 };
 </script>

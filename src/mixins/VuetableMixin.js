@@ -83,7 +83,7 @@ export const VuetableMixin = {
 	},
 	watch: {
 		perPage(val, oldVal) {
-			this.$nextTick(function() {
+			this.$nextTick(function () {
 				this.$refs.vuetable.refresh();
 			});
 		}

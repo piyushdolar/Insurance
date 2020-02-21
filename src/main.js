@@ -40,13 +40,11 @@ router.beforeEach((to, from, next) => {
 				if (timeDiff > router.app.$session.get('_timeout').limit) {
 					router.app.$session.clear();
 					router.app.$session.flash.set('error', 'Session expired please login again.');
-					return false;
-				} else {
-					next();
-				}
+					next({ path: '/login' });
+				} else { next(); }
 			} else {
 				router.app.$session.flash.set('error', "You are not authorized to access requested page.");
-				next({ path: '/login' });
+				next({ path: '/dashboard' });
 			}
 		} else {
 			router.app.$session.flash.set('error', "Session timed out.");
@@ -69,7 +67,7 @@ Vue.use(VueSession, { persist: true });
 Vue.use(VMdDateRangePicker);
 
 /* eslint-disable no-new */
-new Vue({
+let VueJS = new Vue({
 	el: '#app',
 	render: h => h(App),
 	router,
@@ -78,3 +76,15 @@ new Vue({
 		Chartist: Chartist
 	}
 });
+
+Vue.prototype.$alert = {
+	notify: (type, message) => {
+		VueJS.$notify({
+			message: message,
+			icon: "add_alert",
+			verticalAlign: "top",
+			horizontalAlign: "right",
+			type: type
+		});
+	},
+};
