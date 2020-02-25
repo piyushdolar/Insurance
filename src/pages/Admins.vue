@@ -179,9 +179,6 @@
 
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
 
-              <!-- <md-snackbar
-                :md-active.sync="userSaved"
-              >The user {{ lastUser }} was saved with success!</md-snackbar>-->
               <md-dialog-actions>
                 <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
                 <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
@@ -236,6 +233,7 @@
                   <v-md-date-range-picker
                     v-bind:start-date="filterItem.startDate"
                     v-bind:end-date="filterItem.endDate"
+                    time-picker="true"
                     opens="right"
                     @change="handleDateChange"
                   ></v-md-date-range-picker>

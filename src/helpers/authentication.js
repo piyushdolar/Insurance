@@ -13,6 +13,14 @@ const rules = [
         }
     },
     {
+        path: '/my-profile',
+        roles: {
+            read: [1, 2, 3],
+            write: [1, 2, 3],
+            delete: [1, 2]
+        }
+    },
+    {
         path: '/admins',
         roles: {
             read: [1, 2],

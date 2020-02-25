@@ -167,7 +167,7 @@ export default {
     }
     let error = this.$session.flash.get("error");
     if (error != undefined) {
-      this.$alert.notify("info", error);
+      this.$alert("info", error);
     }
   },
   methods: {
@@ -194,14 +194,14 @@ export default {
           this.form.btn = "Verify";
           this.sending = false;
           this.form.otpImage = response.QRCode;
-          this.$alert.notify(
+          this.$alert(
             "info",
             "Please check your Google Authenticator Apk for OTP."
           );
         })
         .catch(error => {
           this.sending = false;
-          this.$alert.notify("danger", error);
+          this.$alert("danger", error);
         });
     },
     async finalCheck() {
@@ -215,7 +215,7 @@ export default {
             date: new Date(),
             limit: "60"
           });
-          this.$alert.notify(
+          this.$alert(
             "success",
             "You successfully logged in as a Master Admin."
           );
@@ -223,7 +223,7 @@ export default {
         })
         .catch(error => {
           this.sending = false;
-          this.$alert.notify("danger", error);
+          this.$alert("danger", error);
         });
     },
     validateUser() {

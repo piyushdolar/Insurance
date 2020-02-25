@@ -10,32 +10,41 @@
             <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('fname')">
+                  <md-field :class="getValidationClass('firstName')">
                     <label for="first-name">First Name</label>
                     <md-input
                       name="first-name"
                       id="first-name"
                       autocomplete="first-name"
-                      v-model="form.fname"
+                      v-model="form.firstName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.fname.required">The first name is required</span>
-                    <span class="md-error" v-else-if="!$v.form.fname.minlength">Invalid first name</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.firstName.required"
+                    >The first name is required</span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.firstName.minlength"
+                    >Invalid first name</span>
                   </md-field>
                 </div>
 
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('lname')">
+                  <md-field :class="getValidationClass('lastName')">
                     <label for="last-name">Last Name</label>
                     <md-input
                       name="last-name"
                       id="last-name"
                       autocomplete="family-name"
-                      v-model="form.lname"
+                      v-model="form.lastName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.lname.required">The last name is required</span>
-                    <span class="md-error" v-else-if="!$v.form.lname.minlength">Invalid last name</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.lastName.required"
+                    >The last name is required</span>
+                    <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
                   </md-field>
                 </div>
               </div>
@@ -274,99 +283,19 @@ import {
 } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
 import { VuetableMixin } from "../mixins/VuetableMixin";
-import moment from "moment";
+import { CustomerMixin } from "../mixins/CustomerMixin";
 
 export default {
   name: "CustomerComponent",
-  mixins: [validationMixin, VuetableMixin],
-  data: () => ({
-    showDialog: false,
-    defaultImage: "/images/avatars/default.png",
-    form: {
-      fname: null,
-      lname: null,
-      gender: null,
-      phone: null,
-      email: null,
-      address: null,
-      image: null,
-      status: false,
-      imagePreview: null
-    },
-    formModal: {
-      title: "CREATE NEW CUSTOMER",
-      btn: "CREATE",
-      isEdit: false
-    },
-    sending: false,
-    image: null,
-    // vuetable
-    fireEvent: null,
-    sortOrder: [
-      {
-        field: "id",
-        sortField: "id",
-        direction: "desc"
-      }
-    ],
-    fields: [
-      {
-        name: "id",
-        title: "Customer ID"
-      },
-      {
-        name: "__slot:picture",
-        title: "Image"
-      },
-      {
-        name: "fullName",
-        sortField: "firstName",
-        title: "Full Name"
-      },
-      {
-        name: "__slot:gender",
-        sortField: "gender",
-        title: "Gender"
-      },
-      {
-        name: "email",
-        sortField: "email",
-        title: "Email"
-      },
-      {
-        name: "__slot:status",
-        sortField: "status",
-        title: "Status"
-      },
-      {
-        name: "createdAt",
-        title: "Created Date",
-        sortField: "createdAt",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY hh:mm a");
-        }
-      },
-      {
-        name: "updatedAt",
-        title: "Updated Date",
-        sortField: "updatedAt",
-        callback: function(value) {
-          return moment(String(value)).format("DD/MM/YYYY hh:mm a");
-        }
-      },
-      {
-        name: "__slot:actions", // <----
-        title: "Actions"
-      }
-    ]
-  }),
+  mixins: [validationMixin, VuetableMixin, CustomerMixin],
+  data: () => ({}),
   validations: {
     form: {
-      fname: {
+      firstName: {
         required,
         minLength: minLength(3)
       },
-      lname: {
+      lastName: {
         required,
         minLength: minLength(3)
       },
@@ -385,124 +314,6 @@ export default {
         required,
         minLength: minLength(4)
       }
-    }
-  },
-  methods: {
-    onFileSelected(event) {
-      this.form.image = event.target.files[0];
-      this.form.imagePreview = URL.createObjectURL(this.form.image);
-    },
-    onAction(action, data, index) {
-      if (action == "edit") {
-        this.form.id = data.id;
-        this.form.fname = data.firstName;
-        this.form.lname = data.lastName;
-        this.form.gender = data.gender;
-        this.form.phone = data.phone;
-        this.form.email = data.email;
-        this.form.address = data.address;
-        this.form.status = data.status == 1 ? true : false;
-        if (data.picture != null) {
-          this.form.imagePreview = `/images/avatars/${data.picture}`;
-        }
-        this.formModal.title = "EDIT CUSTOMER DATA";
-        this.formModal.btn = "UPDATE";
-        this.formModal.isEdit = true;
-        this.showDialog = true;
-      } else if (action == "delete") {
-        if (confirm("Are you sure?")) {
-          this.$store
-            .dispatch("deleteCustomer", {
-              userId: data.id
-            })
-            .then(response => {
-              this.$alert.notify("success", response);
-              this.onFilterReset();
-            })
-            .catch(error => {
-              this.$alert.notify("danger", error);
-            });
-        }
-      }
-    },
-    // validation only
-    getValidationClass(fieldName) {
-      const field = this.$v.form[fieldName];
-      if (field) {
-        return {
-          "md-invalid": field.$invalid && field.$dirty
-        };
-      }
-    },
-    openDialog() {
-      this.showDialog = true;
-      this.formModal.btn = "CREATE";
-      this.formModal.isEdit = false;
-      this.form.imagePreview = this.defaultImage;
-      this.clearForm();
-    },
-    clearForm() {
-      this.$v.$reset();
-      this.form.fname = null;
-      this.form.lname = null;
-      this.form.phone = null;
-      this.form.gender = null;
-      this.form.email = null;
-      this.form.address = null;
-      this.form.image = null;
-      this.form.status = false;
-    },
-    validateUser(e) {
-      this.$v.$touch();
-      if (this.formModal.isEdit) {
-        if (
-          !this.$v.form.fname.$invalid &&
-          !this.$v.form.lname.$invalid &&
-          !this.$v.form.gender.$invalid &&
-          !this.$v.form.phone.$invalid &&
-          !this.$v.form.email.$invalid &&
-          !this.$v.form.address.$invalid
-        ) {
-          this.saveUser("edit");
-        }
-      } else {
-        if (!this.$v.form.$invalid) {
-          this.saveUser("add");
-        }
-      }
-    },
-    async saveUser(type) {
-      this.sending = true;
-      this.form.sessionId = this.$session.get("userProfile").id;
-      if (type == "add") {
-        await this.$store
-          .dispatch("addCustomers", {
-            userData: this.form
-          })
-          .then(response => {
-            this.$alert.notify("success", response);
-            this.showDialog = false;
-            this.clearForm();
-          })
-          .catch(error => {
-            this.$alert.notify("danger", error);
-          });
-      } else if (type == "edit") {
-        await this.$store
-          .dispatch("editCustomer", {
-            userData: this.form
-          })
-          .then(response => {
-            this.$alert.notify("success", response);
-            this.showDialog = false;
-            this.clearForm();
-          })
-          .catch(error => {
-            this.$alert.notify("danger", error);
-          });
-      }
-      this.onFilterReset();
-      this.sending = false;
     }
   }
 };

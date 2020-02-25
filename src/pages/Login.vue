@@ -192,14 +192,14 @@ export default {
           this.form.btn = "Verify";
           this.sending = false;
           this.form.otpImage = response.QRCode;
-          this.$alert.notify(
+          this.$alert(
             "info",
             "Please check your Google Authenticator Apk for OTP."
           );
         })
         .catch(error => {
           this.sending = false;
-          this.$alert.notify("danger", error);
+          this.$alert("danger", error);
         });
     },
     async finalCheck() {
@@ -213,12 +213,12 @@ export default {
             date: new Date(),
             limit: "60"
           });
-          this.$alert.notify("success", "You successfully logged in.");
+          this.$alert("success", "OTP verified successfully.");
           this.$router.go("/dashboard");
         })
         .catch(error => {
           this.sending = false;
-          this.$alert.notify("danger", error);
+          this.$alert("danger", error);
         });
     },
     validateUser() {

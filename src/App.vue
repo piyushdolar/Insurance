@@ -1,10 +1,11 @@
 <template>
   <router-view></router-view>
+  <!-- <md-snackbar :md-active.sync="snackbar.sync">{{ snackbar.message }}</md-snackbar> -->
 </template>
 
 <script>
 export default {
-  created() {
+  updated() {
     // Error
     let error = this.$session.flash.get("error");
     if (error != undefined) {

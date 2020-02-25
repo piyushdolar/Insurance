@@ -11,28 +11,33 @@
             <md-field :class="getValidationClass('firstName')">
               <label>First Name</label>
               <md-input v-model="form.firstName" type="text"></md-input>
+              <span class="md-error" v-if="!$v.form.firstName.required">First name is required.</span>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
-            <md-field>
+            <md-field :class="getValidationClass('lastName')">
               <label>Last Name</label>
               <md-input v-model="form.lastName" type="text"></md-input>
+              <span class="md-error" v-if="!$v.form.lastName.required">Last name is required.</span>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
-            <md-field>
+            <md-field :class="getValidationClass('gender')">
               <label>Gender</label>
               <md-select v-model="form.gender" name="gender" id="gender">
                 <md-option value="1">Male</md-option>
                 <md-option value="2">Female</md-option>
                 <md-option value="3">Other</md-option>
               </md-select>
+              <span class="md-error" v-if="!$v.form.gender.required">Gender is required.</span>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
-            <md-field>
+            <md-field :class="getValidationClass('email')">
               <label>Email Address</label>
               <md-input v-model="form.email" type="email"></md-input>
+              <span class="md-error" v-if="!$v.form.email.required">Email is required.</span>
+              <span class="md-error" v-else-if="!$v.form.email.email">Enter valid email format.</span>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
@@ -42,9 +47,14 @@
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
-            <md-field>
+            <md-field :class="getValidationClass('phone')">
               <label>Phone</label>
               <md-input v-model="form.phone" type="number"></md-input>
+              <span class="md-error" v-if="!$v.form.phone.required">Phone number is required.</span>
+              <span
+                class="md-error"
+                v-else-if="!$v.form.phone.minlength"
+              >Invalid phone number, It must be 11 digits long.</span>
             </md-field>
           </div>
 
@@ -70,7 +80,7 @@
           </div>
 
           <div class="md-layout-item md-small-size-100 md-size-100">
-            <md-field>
+            <md-field :class="getValidationClass('address')">
               <label for="address">Address</label>
               <md-textarea
                 name="address"
@@ -78,6 +88,7 @@
                 autocomplete="address"
                 v-model="form.address"
               />
+              <span class="md-error" v-if="!$v.form.address.required">Address is required.</span>
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-right">
@@ -124,10 +135,11 @@ export default {
       },
       phone: {
         required,
-        maxLength: maxLength(10),
-        minLength: maxLength(10)
+        maxLength: maxLength(11),
+        minLength: maxLength(11)
       },
       email: {
+        required,
         email
       },
       address: {
@@ -160,24 +172,21 @@ export default {
     async saveUser(type) {
       this.sending = true;
       await this.$store
-        .dispatch("editAdminUser", this.form)
+        .dispatch("editUser", this.form)
         .then(response => {
-          this.$alert.notify("success", response);
+          this.$alert("success", response);
         })
         .catch(error => {
-          this.$alert.notify("danger", error);
+          this.$alert("danger", error);
         });
       this.sending = false;
     }
   },
   created() {
-    this.$store.dispatch(
-      "getSingleAdminUser",
-      this.$session.get("userProfile").id
-    );
+    this.$store.dispatch("getSingleUser", this.$session.get("userProfile").id);
   },
   computed: {
-    ...mapGetters({ form: "getSingleAdminUser" })
+    ...mapGetters({ form: "getSingleUser" })
   }
 };
 </script>

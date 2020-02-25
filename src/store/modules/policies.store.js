@@ -27,6 +27,7 @@ const actions = {
 			sumInsured: payload.sumInsured,
 			currencyType: payload.currencyType,
 			policyNumber: payload.policyNumber,
+			comment: payload.comment,
 			status: 1,
 			createdBy: payload.sessionId,
 			updatedBy: payload.sessionId
@@ -54,6 +55,7 @@ const actions = {
 			policyType: payload.policyType,
 			agentId: payload.agentSearched.id,
 			sumInsured: payload.sumInsured,
+			comment: payload.comment,
 			currencyType: payload.currencyType,
 			status: payload.status == false ? 1 : 2,
 			updatedBy: payload.sessionId
@@ -64,7 +66,7 @@ const actions = {
 			data: rowData
 		})
 			.then(response => {
-				return 'A Policy successfully updated.';
+				return 'Policy successfully updated.';
 			})
 			.catch(error => {
 				throw error.response.data.error;

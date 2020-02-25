@@ -28,194 +28,58 @@ const actions = {
 		});
 	},
 	// Create admin/agent user
-	addUser: ({ commit }, userData) => {
-		let rowData = {
-			firstName: userData.firstName,
-			lastName: userData.lastName,
-			gender: userData.gender,
-			email: userData.email,
-			phone: userData.phone,
-			password: userData.repeatPassword,
-			locationId: userData.districtId,
-			villageName: userData.villageName,
-			address: userData.address,
-			userType: 2,
-			userStatus: userData.loginStatus ? 1 : 2
-		};
+	addUser: ({ dispatch }, userData) => {
+		userData.locationId = userData.districtId ? userData.districtId : null;
+		userData.userStatus = userData.loginStatus ? 1 : 2;
 		return axios({
 			method: 'post',
 			url: 'users',
-			data: rowData
+			data: userData
 		})
 			.then(response => {
 				if (userData.image != null) {
-					let formData = new FormData();
-					formData.append('avatar', userData.image);
-					return axios
-						.post('users/avatar/' + response.data.data.id, formData, {
-							headers: {
-								'Content-Type': 'multipart/form-data'
-							}
-						})
-						.then(function (data) {
-							return 'User has been successfully created.';
-						})
-						.catch(function (error) {
-							throw error;
-						});
-				} else {
-					return 'User has been successfully created.';
+					let parsedData = {
+						id: response.data.data.id,
+						image: userData.image
+					}
+					dispatch('uploadImage', parsedData);
 				}
+				return 'Admin has been successfully created.';
 			})
 			.catch(error => {
 				throw error.response.data.error;
 			});
 	},
-
+	// Upload profile picture
+	uploadImage: (context, payload) => {
+		let formData = new FormData();
+		formData.append('avatar', payload.image);
+		axios.post('users/avatar/' + payload.id, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		})
+	},
 	// Edit admin/agent user
-	editUser: ({ commit }, userData) => {
-		let rowData = {
-			firstName: userData.firstName,
-			lastName: userData.lastName,
-			gender: userData.gender,
-			email: userData.email,
-			phone: userData.phone,
-			address: userData.address,
-			villageName: userData.villageName,
-			userStatus: (userData.loginStatus) ? 1 : 2,
-			updatedBy: userData.sessionId
-		};
+	editUser: ({ dispatch }, userData) => {
+		userData.userStatus = (userData.loginStatus) ? 1 : 2;
+		userData.updatedBy = userData.sessionId;
 		return axios({
 			method: 'put',
 			url: 'users/' + userData.id,
-			data: rowData
+			data: userData
 		})
 			.then(response => {
 				if (userData.image != null && response.status == 200) {
-					let formData = new FormData();
-					formData.append('avatar', userData.image);
-					return axios
-						.post('users/avatar/' + userData.id, formData, {
-							headers: {
-								'Content-Type': 'multipart/form-data'
-							}
-						})
-						.then(function (data) {
-							return 'A User profile updated successfully.';
-						})
-						.catch(function (error) {
-							throw error;
-						});
-				} else {
-					return 'A User profile updated successfully.';
+					dispatch('uploadImage', userData);
 				}
+				return 'User successfully updated.';
 			})
 			.catch(error => {
 				throw error.response.data.error;
 			});
 	},
 
-	addAgent: ({ commit }, userData) => {
-		let rowData = {
-			firstName: userData.firstName,
-			lastName: userData.lastName,
-			gender: userData.gender,
-			email: userData.email,
-			phone: userData.phone,
-			password: userData.repeatPassword,
-			locationId: userData.districtId,
-			villageName: userData.villageName,
-			address: userData.address,
-			faxNumber: userData.faxNumber,
-			bankName: userData.bankName,
-			bankAcNumber: userData.bankAcNumber,
-			familyBookNumber: userData.familyBookNumber,
-			familyBookDOI: userData.familyBookDOI,
-			personalIdNumber: userData.personalIdNumber,
-			personalIdDOI: userData.personalIdDOI,
-			userType: 3,
-			userStatus: userData.loginStatus ? 1 : 2
-		};
-		return axios({
-			method: 'post',
-			url: 'users',
-			data: rowData
-		})
-			.then(response => {
-				if (userData.image != null) {
-					let formData = new FormData();
-					formData.append('avatar', userData.image);
-					return axios
-						.post('users/avatar/' + response.data.data.id, formData, {
-							headers: {
-								'Content-Type': 'multipart/form-data'
-							}
-						})
-						.then(function (data) {
-							return 'User has been successfully created.';
-						})
-						.catch(function (error) {
-							throw error;
-						});
-				} else {
-					return 'User has been successfully created.';
-				}
-			})
-			.catch(error => {
-				throw error.response.data.error;
-			});
-	},
-
-	editAgent: ({ commit }, userData) => {
-		let rowData = {
-			firstName: userData.firstName,
-			lastName: userData.lastName,
-			gender: userData.gender,
-			email: userData.email,
-			phone: userData.phone,
-			locationId: userData.districtId,
-			villageName: userData.villageName,
-			address: userData.address,
-			faxNumber: userData.faxNumber,
-			bankName: userData.bankName,
-			bankAcNumber: userData.bankAcNumber,
-			familyBookNumber: userData.familyBookNumber,
-			familyBookDOI: userData.familyBookDOI,
-			personalIdNumber: userData.personalIdNumber,
-			personalIdDOI: userData.personalIdDOI,
-			userType: 3,
-			userStatus: userData.loginStatus ? 1 : 2,
-			updatedBy: userData.sessionId
-		};
-		return axios({
-			method: 'put',
-			url: 'users/' + userData.id,
-			data: rowData
-		})
-			.then(response => {
-				if (userData.image != null && response.status == 200) {
-					let formData = new FormData();
-					formData.append('avatar', userData.image);
-					return axios
-						.post('users/avatar/' + userData.id, formData, {
-							headers: {
-								'Content-Type': 'multipart/form-data'
-							}
-						})
-						.then(function (data) {
-							return 'A User profile updated successfully.';
-						})
-						.catch(function (error) {
-							throw error;
-						});
-				} else {
-					return 'A User profile updated successfully.';
-				}
-			})
-			.catch(error => {
-				throw error.response.data.error;
-			});
-	},
 	// Delete admin/agent user
 	deleteUser: ({ commit }, { userId }) => {
 		return axios({
@@ -223,7 +87,7 @@ const actions = {
 			url: 'users/' + userId
 		})
 			.then(response => {
-				return response.data.message + ': ' + 'A User successfully removed from the database.';
+				return response.data.message + ': ' + 'Admin successfully removed from the database.';
 			})
 			.catch(error => {
 				throw error.response.data.error;
@@ -239,7 +103,7 @@ const mutations = {
 			});
 			if (!userAvailable) {
 				state.users.push({
-					id: i + 1,
+					id: users[i].id,
 					name: users[i].firstName + ' ' + users[i].lastName,
 					email: users[i].email,
 					gender: users[i].gender,

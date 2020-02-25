@@ -111,6 +111,19 @@ Insurance
 
 ## Change logs:
 
+## [1.44.26] 2020-02-25
+### What's new
+-   Edit profile page has been updated for agents.
+-   Image validation added to frontend.
+
+### Bugs/Fixes
+-   Update Policy validation was missing for few component which is cause to push data without any validation checking.
+-   Agents edit problem with password fixed.
+-   Admin edit required password fixed.
+-   Policy wrong agents ID listing.
+-   Date format fixed for modals and listing.
+-   Image stabilization fixed to max up to 5mb.
+
 ## [1.42.20] 2020-02-21
 
 ### What's new
@@ -121,7 +134,7 @@ Insurance
 -   Login route now auto redirected to dashboard when any request failed to authorized.
 -   Administrator login, Need to logout current session if you want to access this module.
 
-### Fixes & Bugs
+### Bugs/Fixes
 -   Redirection bug fixed when it's auto logout.
 -   Policies agent list and customer list throwing console error (undefined constructor) randomly while selecting, it's fixed now.
 
@@ -138,7 +151,7 @@ Insurance
 -   Login page modified with different(admins, agents) users login access.
 -   Master admin separated component created.
 
-### Fixes/Bugs
+### Bugs/Fixes
 -   Bug fixed of login page when the login and password entered but still goes to next step but it shouldn't be that way.
 -   Modal for every create admin/agent/customer/policy was not scrollable at some specific screen size under 950p, now it's fixed.
 -   Error message showing while it's not even triggered issue fixed.

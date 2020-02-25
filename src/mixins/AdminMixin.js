@@ -16,7 +16,8 @@ export const AdminMixin = {
                 repeatPassword: null,
                 loginStatus: false,
                 image: null,
-                imagePreview: null
+                imagePreview: null,
+                userType: 2
             },
             formModal: {
                 title: "CREATE NEW USER",
@@ -35,8 +36,8 @@ export const AdminMixin = {
             ],
             fields: [
                 {
-                    name: "id",
-                    title: "User ID"
+                    name: "__sequence",
+                    title: "#"
                 },
                 {
                     name: "__slot:picture",
@@ -75,7 +76,7 @@ export const AdminMixin = {
                     title: "Created Date",
                     sortField: "createdAt",
                     callback: function (value) {
-                        return moment(String(value)).format("DD/MM/YYYY hh:mm a");
+                        return moment(String(value)).format("MM/DD/YYYY hh:mm a");
                     }
                 },
                 {
@@ -83,7 +84,7 @@ export const AdminMixin = {
                     title: "Updated Date",
                     sortField: "updatedAt",
                     callback: function (value) {
-                        return moment(String(value)).format("DD/MM/YYYY hh:mm a");
+                        return moment(String(value)).format("MM/DD/YYYY hh:mm a");
                     }
                 },
                 {
@@ -122,11 +123,11 @@ export const AdminMixin = {
                             userId: data.id
                         })
                         .then(response => {
-                            this.$alert.notify("success", response);
+                            this.$alert("success", response);
                             this.onFilterReset();
                         })
                         .catch(error => {
-                            this.$alert.notify("danger", error);
+                            this.$alert("danger", error);
                         });
                 }
             }
@@ -162,20 +163,25 @@ export const AdminMixin = {
         },
         validateUser(e) {
             this.$v.$touch();
-            if (this.formModal.isEdit) {
-                if (
-                    !this.$v.form.firstName.$invalid &&
-                    !this.$v.form.lastName.$invalid &&
-                    !this.$v.form.gender.$invalid &&
-                    !this.$v.form.phone.$invalid &&
-                    !this.$v.form.email.$invalid &&
-                    !this.$v.form.address.$invalid
-                ) {
-                    this.saveUser("edit");
-                }
+            if (this.form.image != null && this.form.image.size >= 5000000) {
+                this.$alert("info", "Image maximum file size is 5Mb");
+                return false;
             } else {
-                if (!this.$v.form.$invalid) {
-                    this.saveUser("add");
+                if (this.formModal.isEdit) {
+                    if (
+                        !this.$v.form.firstName.$invalid &&
+                        !this.$v.form.lastName.$invalid &&
+                        !this.$v.form.gender.$invalid &&
+                        !this.$v.form.phone.$invalid &&
+                        !this.$v.form.email.$invalid &&
+                        !this.$v.form.address.$invalid
+                    ) {
+                        this.saveUser("edit");
+                    }
+                } else {
+                    if (!this.$v.form.$invalid) {
+                        this.saveUser("add");
+                    }
                 }
             }
         },
@@ -186,25 +192,26 @@ export const AdminMixin = {
                 await this.$store
                     .dispatch("addUser", this.form)
                     .then(response => {
-                        this.$alert.notify("success", response);
+                        this.$alert("success", response);
                         this.showDialog = false;
                         this.clearForm();
                         this.onFilterReset();
                     })
                     .catch(error => {
-                        this.$alert.notify("error", error);
+                        this.$alert("danger", error);
                     });
             } else if (type == "edit") {
+                delete this.form['password'];
                 await this.$store
                     .dispatch("editUser", this.form)
                     .then(response => {
-                        this.$alert.notify("success", response);
+                        this.$alert("success", response);
                         this.showDialog = false;
                         this.clearForm();
                         this.onFilterReset();
                     })
                     .catch(error => {
-                        this.$alert.notify("danger", error);
+                        this.$alert("danger", error);
                     });
             }
             this.sending = false;

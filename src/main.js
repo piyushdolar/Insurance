@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
 				} else { next(); }
 			} else {
 				router.app.$session.flash.set('error', "You are not authorized to access requested page.");
-				next({ path: '/dashboard' });
+				next({ path: '/login' });
 			}
 		} else {
 			router.app.$session.flash.set('error', "Session timed out.");
@@ -56,6 +56,15 @@ router.beforeEach((to, from, next) => {
 });
 
 Vue.prototype.$Chartist = Chartist;
+Vue.prototype.$alert = (type, message) => {
+	VueJS.$notify({
+		message: message,
+		icon: "add_alert",
+		verticalAlign: "top",
+		horizontalAlign: "right",
+		type: type
+	});
+};
 
 Vue.use(VueRouter);
 Vue.use(MaterialDashboard);
@@ -77,14 +86,3 @@ let VueJS = new Vue({
 	}
 });
 
-Vue.prototype.$alert = {
-	notify: (type, message) => {
-		VueJS.$notify({
-			message: message,
-			icon: "add_alert",
-			verticalAlign: "top",
-			horizontalAlign: "right",
-			type: type
-		});
-	},
-};

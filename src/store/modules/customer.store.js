@@ -18,85 +18,55 @@ const actions = {
 		});
 	},
 	// Create Agents user
-	addCustomers: ({ commit }, { userData }) => {
-		let rowData = {
-			firstName: userData.fname,
-			lastName: userData.lname,
-			gender: userData.gender,
-			email: userData.email,
-			phone: userData.phone,
-			address: userData.address,
-			status: userData.status ? 1 : 2,
-			createdBy: userData.sessionId,
-		};
+	addCustomers: ({ dispatch }, userData) => {
+		userData.status = userData.status ? 1 : 2;
+		userData.createdBy = userData.sessionId;
 		return axios({
 			method: 'post',
 			url: 'customers',
-			data: rowData
+			data: userData
 		})
 			.then(response => {
 				if (userData.image != null) {
-					let formData = new FormData();
-					formData.append('avatar', userData.image);
-					return axios
-						.post('customers/avatar/' + response.data.data.id, formData, {
-							headers: {
-								'Content-Type': 'multipart/form-data'
-							}
-						})
-						.then(function (data) {
-							return 'Policy Holder has been successfully created.';
-						})
-						.catch(function (error) {
-							throw error;
-						});
-				} else {
-					return 'Policy Holder has been successfully created.';
+					let parsedData = {
+						id: response.data.data.id,
+						image: userData.image
+					}
+					dispatch('uploadImage', parsedData);
 				}
+				return 'Policy Holder has been successfully created.';
 			})
 			.catch(error => {
 				throw error.response.data.error;
 			});
 	},
-
+	// Upload profile picture
+	uploadImage: (context, payload) => {
+		let formData = new FormData();
+		formData.append('avatar', payload.image);
+		axios.post('customers/avatar/' + payload.id, formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		})
+	},
 	// Edit Agents user
-	editCustomer: ({ commit }, { userData }) => {
-		let rowData = {
-			firstName: userData.fname,
-			lastName: userData.lname,
-			gender: userData.gender,
-			email: userData.email,
-			phone: userData.phone,
-			status: userData.status ? 1 : 2,
-			address: userData.address,
-			updatedBy: userData.sessionId
-		};
+	editCustomer: ({ dispatch }, userData) => {
+		userData.status = userData.status ? 1 : 2;
+		userData.updatedBy = userData.sessionId;
 		return axios({
 			method: 'put',
 			url: 'customers/' + userData.id,
-			data: rowData
+			data: userData
 		})
 			.then(response => {
-				if (userData.image != null) {
-					let formData = new FormData();
-					formData.append('avatar', userData.image);
-					return axios
-						.post('customers/avatar/' + userData.id, formData, {
-							headers: {
-								'Content-Type': 'multipart/form-data'
-							}
-						})
-						.then(function (data) {
-							return 'A Policy Holder successfully updated to database.';
-						})
-						.catch(function () {
-							throw error;
-						});
-				} else {
-					return 'A Policy Holder successfully updated to database.';
+				if (userData.image != null && response.status == 200) {
+					dispatch('uploadImage', userData);
 				}
+				return 'Policy Holder successfully updated to database.';
 			})
 			.catch(error => {
+				console.log(error);
 				throw error.response.data.error;
 			});
 	},

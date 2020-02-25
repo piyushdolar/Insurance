@@ -95,12 +95,20 @@
 
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-datepicker v-model="form.startDate" md-immediately>
+                  <md-datepicker
+                    v-model="form.startDate"
+                    md-immediately
+                    :md-disabled-dates="form.startDateConfig"
+                  >
                     <label>Policy Start Date</label>
                   </md-datepicker>
                 </div>
                 <div class="md-layout-item md-small-size-100">
-                  <md-datepicker v-model="form.endDate" md-immediately>
+                  <md-datepicker
+                    v-model="form.endDate"
+                    md-immediately
+                    :md-disabled-dates="form.endDateConfig"
+                  >
                     <label>Policy End Date</label>
                   </md-datepicker>
                 </div>
@@ -160,6 +168,25 @@
                       class="md-error"
                       v-if="!$v.form.currencyType.required"
                     >The Currency Type is required</span>
+                  </md-field>
+                </div>
+              </div>
+              <div class="md-layout md-gutter" v-if="formModal.isEdit">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('comment')">
+                    <label for="address">Why are you here?</label>
+                    <md-textarea
+                      name="comment"
+                      id="comment"
+                      autocomplete="comment"
+                      v-model="form.comment"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.comment.required"
+                    >The comment is required while updating policy.</span>
+                    <span class="md-error" v-else-if="!$v.form.comment.email">Invalid comment</span>
                   </md-field>
                 </div>
               </div>
@@ -324,12 +351,12 @@
                   :per-page="perPage"
                   @vuetable:load-error="handleLoadError"
                 >
-                  <template slot="policyHolder" slot-scope="props">
+                  <template slot="customer" slot-scope="props">
                     <a
                       class="md-primary"
                       href="javascript:void(0)"
-                      @click="onSelectSingleUser(props.rowData.policyHolder.id)"
-                    >{{ props.rowData.policyHolder.fullName }}</a>
+                      @click="onSelectSingleUser(props.rowData.customer.id)"
+                    >{{ props.rowData.customer.fullName }}</a>
                   </template>
                   <template slot="policyType" slot-scope="props">
                     <md-chip class="md-primary" v-if="props.rowData.policyType == 1">Motor</md-chip>
@@ -384,7 +411,6 @@ import {
 import { validationMixin } from "vuelidate";
 import { VuetableMixin } from "../mixins/VuetableMixin";
 import { PoliciesMixin } from "../mixins/PoliciesMixin";
-import { mapGetters } from "vuex";
 
 export default {
   name: "PolicyComponent",
@@ -433,6 +459,9 @@ export default {
         name: {
           required
         }
+      },
+      comment: {
+        required
       }
     }
   }

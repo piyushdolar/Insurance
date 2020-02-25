@@ -28,22 +28,21 @@ export const AgentMixin = {
                 familyBookNumber: null,
                 familyBookDOI: null,
                 familyBookDOIConfig: date => {
-                    const fetchDate = date.getDate();
-                    const currentDate = new Date();
-                    if (currentDate.getDate() < fetchDate) {
+                    const today = new Date();
+                    if (today < date) {
                         return true;
                     }
                 },
                 personalIdNumber: null,
                 personalIdDOI: null,
                 personalIdDOIConfig: date => {
-                    const fetchDate = date.getDate();
-                    const currentDate = new Date();
-                    if (currentDate.getDate() < fetchDate) {
+                    const today = new Date();
+                    if (today < date) {
                         return true;
                     }
                 },
-                villageName: null
+                villageName: null,
+                userType: 3
             },
             formModal: {
                 title: "CREATE NEW AGENT",
@@ -63,8 +62,8 @@ export const AgentMixin = {
             ],
             fields: [
                 {
-                    name: "id",
-                    title: "Agent ID"
+                    name: "__sequence",
+                    title: "#"
                 },
                 {
                     name: "__slot:picture",
@@ -134,7 +133,7 @@ export const AgentMixin = {
                     title: "Created Date",
                     sortField: "createdAt",
                     callback: function (value) {
-                        return moment(String(value)).format("DD/MM/YYYY hh:mm a");
+                        return moment(String(value)).format("MM/DD/YYYY hh:mm a");
                     }
                 },
                 {
@@ -142,7 +141,7 @@ export const AgentMixin = {
                     title: "Updated Date",
                     sortField: "updatedAt",
                     callback: function (value) {
-                        return moment(String(value)).format("DD/MM/YYYY hh:mm a");
+                        return moment(String(value)).format("MM/DD/YYYY hh:mm a");
                     }
                 },
                 {
@@ -202,11 +201,11 @@ export const AgentMixin = {
                             userId: data.id
                         })
                         .then(response => {
-                            this.$alert.notify("success", response);
+                            this.$alert("success", response);
                             this.onFilterReset();
                         })
                         .catch(error => {
-                            this.$alert.notify("danger", error);
+                            this.$alert("danger", error);
                         });
                 }
             }
@@ -283,27 +282,28 @@ export const AgentMixin = {
             this.form.sessionId = this.$session.get("userProfile").id;
             if (type == "add") {
                 await this.$store
-                    .dispatch("addAgent", this.form)
+                    .dispatch("addUser", this.form)
                     .then(response => {
-                        this.$alert.notify("success", response);
+                        this.$alert("success", response);
                         this.showDialog = false;
                         this.clearForm();
                         this.onFilterReset();
                     })
                     .catch(error => {
-                        this.$alert.notify("danger", error);
+                        this.$alert("danger", error);
                     });
             } else if (type == "edit") {
+                delete this.form['password'];
                 await this.$store
-                    .dispatch("editAgent", this.form)
+                    .dispatch("editUser", this.form)
                     .then(response => {
-                        this.$alert.notify("success", response);
+                        this.$alert("success", response);
                         this.showDialog = false;
                         this.onFilterReset();
                         this.clearForm();
                     })
                     .catch(error => {
-                        this.$alert.notify("danger", error);
+                        this.$alert("danger", error);
                     });
             }
             this.sending = false;

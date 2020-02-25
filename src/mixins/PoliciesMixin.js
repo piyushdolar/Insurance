@@ -6,7 +6,6 @@ export const PoliciesMixin = {
 		return {
 			showDialog: false,
 			sending: false,
-			// vuetable
 			fireEvent: null,
 			sortOrder: [
 				{
@@ -42,7 +41,18 @@ export const PoliciesMixin = {
 				currencyType: null,
 				policyNumber: null,
 				status: false,
-				searchedList: []
+				searchedList: [],
+				comment: '-',
+				startDateConfig: (date) => {
+					if (this.form.endDate != null && date > this.form.endDate) {
+						return true;
+					}
+				},
+				endDateConfig: (date) => {
+					if (this.form.startDate != null && this.form.startDate > date) {
+						return true;
+					}
+				}
 			},
 			formModal: {
 				title: 'CREATE NEW POLICY FOR POLICY HOLDER',
@@ -91,7 +101,7 @@ export const PoliciesMixin = {
 					sortField: 'startDate',
 					title: 'Start Date',
 					callback: function (value) {
-						return moment(String(value)).format('DD/MM/YYYY');
+						return moment(String(value)).format('MM/DD/YYYY');
 					}
 				},
 				{
@@ -99,7 +109,7 @@ export const PoliciesMixin = {
 					sortField: 'endDate',
 					title: 'End Date',
 					callback: function (value) {
-						return moment(String(value)).format('DD/MM/YYYY');
+						return moment(String(value)).format('MM/DD/YYYY');
 					}
 				},
 				{
@@ -125,7 +135,7 @@ export const PoliciesMixin = {
 					sortField: 'createdAt',
 					title: 'Created Date',
 					callback: function (value) {
-						return moment(String(value)).format('DD/MM/YYYY hh:mm a');
+						return moment(String(value)).format('MM/DD/YYYY hh:mm a');
 					}
 				},
 				{
@@ -141,7 +151,7 @@ export const PoliciesMixin = {
 					sortField: 'updatedAt',
 					title: 'Updated Date',
 					callback: function (value) {
-						return moment(String(value)).format('DD/MM/YYYY hh:mm a');
+						return moment(String(value)).format('MM/DD/YYYY hh:mm a');
 					}
 				},
 				{
@@ -173,6 +183,7 @@ export const PoliciesMixin = {
 				this.form.agentSearched.name = data.agent.fullName;
 				this.form.currencyType = data.currencyType;
 				this.form.sumInsured = data.sumInsured;
+				this.form.comment = data.comment;
 				this.form.startDate = new Date(data.startDate);
 				this.form.endDate = new Date(data.endDate);
 				this.form.status = data.status == 1 ? false : true;
@@ -187,11 +198,11 @@ export const PoliciesMixin = {
 							policyId: data.id
 						})
 						.then(response => {
-							this.$alert.notify("success", response);
+							this.$alert("success", response);
 							this.onFilterReset();
 						})
 						.catch(error => {
-							this.$alert.notify("danger", error);
+							this.$alert("danger", error);
 						});
 				}
 			}
@@ -215,6 +226,14 @@ export const PoliciesMixin = {
 			this.$v.$reset();
 			this.form.policyName = null;
 			this.form.policyType = null;
+			this.form.policyNumber = null;
+			this.form.customerSearched.name = null;
+			this.form.agentSearched.name = null;
+			this.form.startDate = null;
+			this.form.endDate = null;
+			this.form.comment = '-';
+			this.form.sumInsured = null;
+			this.form.currencyType = null;
 			this.form.status = false;
 		},
 		validateUser(e) {
@@ -223,7 +242,12 @@ export const PoliciesMixin = {
 				if (
 					!this.$v.form.policyName.$invalid &&
 					!this.$v.form.policyType.$invalid &&
-					!this.$v.form.policyNumber.$invalid
+					!this.$v.form.policyNumber.$invalid &&
+					!this.$v.form.startDate.$invalid &&
+					!this.$v.form.endDate.$invalid &&
+					!this.$v.form.sumInsured.$invalid &&
+					!this.$v.form.comment.$invalid &&
+					!this.$v.form.currencyType.$invalid
 				) {
 					this.saveUser("edit");
 				}
@@ -240,25 +264,25 @@ export const PoliciesMixin = {
 				await this.$store
 					.dispatch("addPolicy", this.form)
 					.then(response => {
-						this.$alert.notify("success", response);
+						this.$alert("success", response);
 						this.showDialog = false;
 						this.clearForm();
 						this.onFilterReset();
 					})
 					.catch(error => {
-						this.$alert.notify("danger", error);
+						this.$alert("danger", error);
 					});
 			} else if (type == "edit") {
 				await this.$store
 					.dispatch("editPolicy", this.form)
 					.then(response => {
-						this.$alert.notify("success", response);
+						this.$alert("success", response);
 						this.showDialog = false;
 						this.onFilterReset();
 						this.clearForm();
 					})
 					.catch(error => {
-						this.$alert.notify("danger", error);
+						this.$alert("danger", error);
 					});
 			}
 			this.sending = false;
