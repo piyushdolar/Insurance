@@ -162,9 +162,7 @@ export default {
   },
   created() {
     let url = this.$route.query.returnUrl || "/";
-    if (localStorage.getItem("refreshToken")) {
-      this.$router.push("/dashboard");
-    }
+    localStorage.setItem("refreshToken", "");
     let error = this.$session.flash.get("error");
     if (error != undefined) {
       this.$alert("info", error);

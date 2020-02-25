@@ -123,6 +123,7 @@ Insurance
 -   Policy wrong agents ID listing.
 -   Date format fixed for modals and listing.
 -   Image stabilization fixed to max up to 5mb.
+-   Administrator login redirection fixed some fixes for logins (Can't able to provide more details).
 
 ## [1.42.20] 2020-02-21
 
