@@ -5,6 +5,7 @@ export const PoliciesMixin = {
 	data() {
 		return {
 			showDialog: false,
+			showHistoryModal: false,
 			sending: false,
 			fireEvent: null,
 			sortOrder: [
@@ -14,8 +15,8 @@ export const PoliciesMixin = {
 					direction: "desc"
 				}
 			],
-			showSingleUserDialog: false,
-			singleUserForm: {
+			showSingleCustomerDialog: false,
+			singleCustomerForm: {
 				name: null,
 				gender: null,
 				address: null,
@@ -52,13 +53,23 @@ export const PoliciesMixin = {
 					if (this.form.startDate != null && this.form.startDate > date) {
 						return true;
 					}
-				}
+				},
+				vehicleType: null,
+				make: null,
+				plateNo: null,
+				vehicleColor: null,
+				powerInCC: null,
+				engineNo: null,
+				chassisNo: null,
+				grossWeightInTon: null,
+				seats: null
 			},
 			formModal: {
 				title: 'CREATE NEW POLICY FOR POLICY HOLDER',
 				btn: 'CREATE',
 				isEdit: false
 			},
+			historyModalTitle: null,
 			fields: [
 				{
 					name: 'policyNumber',
@@ -205,6 +216,10 @@ export const PoliciesMixin = {
 							this.$alert("danger", error);
 						});
 				}
+			} else if (action == 'history') {
+				this.showHistoryModal = true;
+				this.historyModalTitle = data.updatedBy.name;
+				this.$store.dispatch("getPolicyHistory", data.id);
 			}
 		},
 		// validation only
@@ -316,16 +331,18 @@ export const PoliciesMixin = {
 			this.form.agentSearched.id = selectedSearch.id;
 			this.form.agentSearched.name = selectedSearch.name;
 		},
-		onSelectSingleUser(id) {
-			this.showSingleUserDialog = true;
-			this.singleUserForm = this.getSingleCustomer(id);
-		}
+		onSelectSingleCustomer(id) {
+			this.showSingleCustomerDialog = true;
+			this.singleCustomerForm = this.getSingleCustomer(id);
+		},
 	},
 	computed: {
 		...mapGetters({
 			customersList: "getCustomers",
 			agentsList: "getUsers",
-			getSingleCustomer: "getSingleCustomer"
+			getSingleCustomer: "getSingleCustomer",
+			getPolicyHistory: "getPolicyHistory"
+
 		})
 	},
 	mounted() {

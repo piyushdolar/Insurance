@@ -10,7 +10,9 @@
             <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100 text-center">
-                  <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
+                  <md-avatar class="md-large">
+                    <img :src="form.imagePreview" alt="profile-image" />
+                  </md-avatar>
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
                     <md-file id="image" @change="onFileSelected" accept="image/x-png, image/jpeg" />

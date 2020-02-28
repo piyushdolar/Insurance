@@ -3,7 +3,8 @@ import moment from 'moment';
 
 const state = {
 	users: [],
-	singleUser: {}
+	singleUser: {},
+	userReports: []
 };
 
 const actions = {
@@ -20,6 +21,20 @@ const actions = {
 			params: params
 		}).then(response => {
 			commit('SET_USERS', response.data.data);
+		});
+	},
+	getUserReports: ({ commit }, payload) => {
+		const params = {
+			sort: 'id|desc',
+			page: 1,
+			per_page: 20,
+			filter: payload.searchWord,
+			user_type: payload.user_type
+		};
+		axios.get('/reports', {
+			params: params
+		}).then(response => {
+			commit('SET_USER_REPORTS', response.data.data);
 		});
 	},
 	getSingleUser({ commit }, userId) {
@@ -42,7 +57,7 @@ const actions = {
 						id: response.data.data.id,
 						image: userData.image
 					}
-					dispatch('uploadImage', parsedData);
+					dispatch('uploadImageUser', parsedData);
 				}
 				return 'Admin has been successfully created.';
 			})
@@ -51,10 +66,10 @@ const actions = {
 			});
 	},
 	// Upload profile picture
-	uploadImage: (context, payload) => {
+	uploadImageUser: (context, payload) => {
 		let formData = new FormData();
 		formData.append('avatar', payload.image);
-		axios.post('users/avatar/' + payload.id, formData, {
+		axios.post('users/avatar/' + payload.id, payload.image, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			}
@@ -71,7 +86,7 @@ const actions = {
 		})
 			.then(response => {
 				if (userData.image != null && response.status == 200) {
-					dispatch('uploadImage', userData);
+					dispatch('uploadImageUser', userData);
 				}
 				return 'User successfully updated.';
 			})
@@ -115,6 +130,9 @@ const mutations = {
 	},
 	SET_SINGLE_USER: (state, response) => {
 		state.singleUser = response;
+	},
+	SET_USER_REPORTS: (state, response) => {
+		state.userReports = response;
 	}
 };
 
@@ -124,7 +142,10 @@ const getters = {
 	},
 	getSingleUser(state) {
 		return state.singleUser;
-	}
+	},
+	getUserReports(state) {
+		return state.userReports;
+	},
 };
 
 export default {

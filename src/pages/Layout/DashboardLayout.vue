@@ -24,7 +24,19 @@
         <md-icon>assignment</md-icon>
         <p>Policy</p>
       </sidebar-link>
-      <sidebar-link to="/#" v-if="checkAuthorization('/reports')">
+      <!-- Agent Login To Create-->
+      <sidebar-link
+        to="/customer-policies-create"
+        v-if="checkAuthorization('/customer-policies-create')"
+      >
+        <md-icon>create</md-icon>
+        <p>Create Policy</p>
+      </sidebar-link>
+      <sidebar-link to="/customer-policies" v-if="checkAuthorization('/customer-policies')">
+        <md-icon>assignment</md-icon>
+        <p>Policies</p>
+      </sidebar-link>
+      <sidebar-link to="/reports" v-if="checkAuthorization('/reports')">
         <md-icon>assessment</md-icon>
         <p>Reports</p>
       </sidebar-link>

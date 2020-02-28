@@ -31,7 +31,7 @@ const rules = [
     {
         path: '/agents',
         roles: {
-            read: [1, 2, 3],
+            read: [1, 2],
             write: [1, 2],
             delete: [1, 2]
         }
@@ -39,7 +39,7 @@ const rules = [
     {
         path: '/customers',
         roles: {
-            read: [1, 2, 3],
+            read: [1, 2],
             write: [1, 2],
             delete: [1, 2]
         }
@@ -47,9 +47,33 @@ const rules = [
     {
         path: '/policies',
         roles: {
-            read: [1, 2, 3],
+            read: [1, 2],
             write: [1, 2],
             delete: [1, 2]
+        }
+    },
+    {
+        path: '/reports',
+        roles: {
+            read: [1, 2],
+            write: [1, 2],
+            delete: [1, 2]
+        }
+    },
+    {
+        path: '/customer-policies',
+        roles: {
+            read: [3],
+            write: [3],
+            delete: [3]
+        }
+    },
+    {
+        path: '/customer-policies-create',
+        roles: {
+            read: [3],
+            write: [3],
+            delete: []
         }
     },
     {

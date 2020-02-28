@@ -107,7 +107,9 @@
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 text-center">
-                  <img :src="form.imagePreview" width="100" height="100" alt="profile-image" />
+                  <md-avatar class="md-large">
+                    <img :src="form.imagePreview" alt="profile-image" />
+                  </md-avatar>
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
                     <md-file id="image" @change="onFileSelected" accept="image/x-png, image/jpeg" />
@@ -127,7 +129,6 @@
                       :disabled="sending"
                     />
                     <span class="md-error" v-if="!$v.form.address.required">The address is required</span>
-                    <span class="md-error" v-else-if="!$v.form.address.email">Invalid Address</span>
                   </md-field>
                 </div>
               </div>

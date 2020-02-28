@@ -111,6 +111,20 @@ Insurance
 
 ## Change logs:
 
+## [1.50.3] 2020-02-28
+### What's new
+-   Image display compatibility added. now can support safari 12.*
+-   Reports component added for admins and agents.
+-   Policy component created for agents.
+-   Agent RBAC rules added for create policy and policy history component.
+-   Agent's Policy history component added for agents.
+-   Admin's policy comment have now separate table.
+
+### Bugs/Fixes
+-   Administrator stuck(Looping) screen during google authorization.
+-   Profile image display problem fixed.
+-   Agent login bug fixed.
+
 ## [1.44.26] 2020-02-25
 ### What's new
 -   Edit profile page has been updated for agents.

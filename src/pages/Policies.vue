@@ -3,6 +3,38 @@
     <div class="md-layout">
       <!-- dialog with button -->
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+        <!-- Policy History Modal -->
+        <md-dialog :md-active.sync="showHistoryModal" class="modal-large">
+          <md-dialog-title>{{historyModalTitle}}'s History</md-dialog-title>
+          <md-dialog-content>
+            <md-list
+              class="md-double-line"
+              v-for="history in getPolicyHistory"
+              v-bind:key="history.id"
+            >
+              <md-list-item>
+                <div class="md-list-item-text">
+                  <span>{{history.comment}}</span>
+                  <p>{{history.createdAt}}</p>
+                </div>
+              </md-list-item>
+              <md-divider />
+            </md-list>
+            <md-list class="md-double-line" v-if="getPolicyHistory.length == 0">
+              <md-list-item>
+                <div class="md-list-item-text">
+                  <span>History not found</span>
+                  <span>NOT_FOUND</span>
+                </div>
+              </md-list-item>
+              <md-divider />
+            </md-list>
+          </md-dialog-content>
+          <md-dialog-actions>
+            <md-button class="md-danger" @click="showHistoryModal = false">CLOSE</md-button>
+          </md-dialog-actions>
+        </md-dialog>
+
         <!-- CREATE POLICY MODAL -->
         <md-dialog :md-active.sync="showDialog" class="modal-large">
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
@@ -123,7 +155,7 @@
                     @md-opened="getAgents"
                     @md-selected="onSelectAgent"
                   >
-                    <label>Assign the agent</label>
+                    <label>Assign the Agent</label>
                     <template slot="md-autocomplete-item" slot-scope="{ item, term }">
                       <md-highlight-text :md-term="term">{{ item.name }}</md-highlight-text>
                     </template>
@@ -171,10 +203,144 @@
                   </md-field>
                 </div>
               </div>
+
+              <!-- VEHICLE DETAILS -->
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('vehicleType')">
+                    <label for="vehicle-type">Vehicle Type</label>
+                    <md-select
+                      name="vehicle-type"
+                      id="vehicle-type"
+                      v-model="form.vehicleType"
+                      md-dense
+                      :disabled="sending"
+                    >
+                      <md-option>Select Vehicle Type</md-option>
+                      <md-option value="Motorcycle">Motorcycle</md-option>
+                      <md-option value="Touk-Touk">Touk-Touk</md-option>
+                      <md-option value="Car">Car</md-option>
+                      <md-option value="Truck">Truck</md-option>
+                      <md-option value="Inflammable Trans Truck">Inflammable Trans Truck</md-option>
+                      <md-option value="Mini Van">Mini Van</md-option>
+                      <md-option value="Bus">Bus</md-option>
+                      <md-option value="Trailer">Trailer</md-option>
+                      <md-option value="Truck Construction Machine">Truck Construction Machine</md-option>
+                    </md-select>
+                    <span class="md-error">Vehicle Type is required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('make')">
+                    <label for="make">Make</label>
+                    <md-input name="make" id="make" v-model="form.make" :disabled="sending" />
+                    <span class="md-error" v-if="!$v.form.make.required">Make is required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('plateNo')">
+                    <label for="plateNo">Plate No.</label>
+                    <md-input
+                      name="plateNo"
+                      id="plateNo"
+                      v-model="form.plateNo"
+                      :disabled="sending"
+                    />
+                    <span class="md-error" v-if="!$v.form.plateNo.required">Plate No. is required</span>
+                  </md-field>
+                </div>
+              </div>
+
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('vehicleColor')">
+                    <label for="vehicleColor">Vehicle Color</label>
+                    <md-input
+                      name="vehicleColor"
+                      id="vehicleColor"
+                      v-model="form.vehicleColor"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.vehicleColor.required"
+                    >Vehicle Color is required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('powerInCC')">
+                    <label for="powerInCC">Power In CC</label>
+                    <md-input
+                      name="powerInCC"
+                      id="powerInCC"
+                      v-model="form.powerInCC"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.powerInCC.required"
+                    >Power In CC is required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('engineNo')">
+                    <label for="engineNo">Engine No.</label>
+                    <md-input
+                      name="engineNo"
+                      id="engineNo"
+                      v-model="form.engineNo"
+                      :disabled="sending"
+                    />
+                    <span class="md-error" v-if="!$v.form.engineNo.required">Engine No. is required</span>
+                  </md-field>
+                </div>
+              </div>
+
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('chassisNo')">
+                    <label for="chassisNo">Chassis No.</label>
+                    <md-input
+                      name="chassisNo"
+                      id="chassisNo"
+                      v-model="form.chassisNo"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.chassisNo.required"
+                    >Chassis No. is required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('grossWeightInTon')">
+                    <label for="grossWeightInTon">Gross Weight In Ton</label>
+                    <md-input
+                      name="grossWeightInTon"
+                      id="grossWeightInTon"
+                      v-model="form.grossWeightInTon"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.grossWeightInTon.required"
+                    >Gross Weight In Ton is required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('seats')">
+                    <label for="seats">Seats</label>
+                    <md-input name="seats" id="seats" v-model="form.seats" :disabled="sending" />
+                    <span class="md-error" v-if="!$v.form.seats.required">Seats is required</span>
+                  </md-field>
+                </div>
+              </div>
+
+              <!-- WHEN SOOMEONE UPDATE THE FORM THEY NEED TO COMMENT SOMETHING -->
               <div class="md-layout md-gutter" v-if="formModal.isEdit">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('comment')">
-                    <label for="address">Why are you here?</label>
+                    <label for="comment">Why are you here?</label>
                     <md-textarea
                       name="comment"
                       id="comment"
@@ -215,75 +381,11 @@
       </div>
 
       <!-- SINGLE USER DIALOG BOX -->
-      <md-dialog :md-active.sync="showSingleUserDialog">
-        <md-dialog-title>{{ singleUserForm.name }}'s Detail</md-dialog-title>
-        <md-dialog-content>
-          <md-list class="md-double-line">
-            <div class="md-layout md-gutter">
-              <div class="md-layout-item">
-                <md-list-item>
-                  <md-icon class="md-primary">face</md-icon>
-                  <div class="md-list-item-text">
-                    <span>{{ singleUserForm.name }}</span>
-                    <span>Full Name</span>
-                  </div>
-                </md-list-item>
-                <md-list-item>
-                  <md-icon class="md-primary fas fa-gender">email</md-icon>
-                  <i class="fas fa-gender"></i>
-                  <div class="md-list-item-text">
-                    <span>{{ singleUserForm.email }}</span>
-                    <span>Personal</span>
-                  </div>
-                </md-list-item>
-                <md-list-item>
-                  <md-icon class="md-primary">supervised_user_circle</md-icon>
-                  <div class="md-list-item-text">
-                    <span v-if="singleUserForm.gender == 1">Male</span>
-                    <span v-if="singleUserForm.gender == 2">Female</span>
-                    <span v-if="singleUserForm.gender == 3">Other</span>
-                    <span>Gender</span>
-                  </div>
-                </md-list-item>
-                <md-list-item>
-                  <md-icon class="md-primary">home</md-icon>
-                  <div class="md-list-item-text">
-                    <span>{{ singleUserForm.address }}</span>
-                    <span>Address</span>
-                  </div>
-                </md-list-item>
-              </div>
-              <div class="md-layout-item">
-                <md-list-item>
-                  <md-icon class="md-primary">phone</md-icon>
-                  <div class="md-list-item-text">
-                    <span>{{ singleUserForm.phone }}</span>
-                    <span>Phone</span>
-                  </div>
-                </md-list-item>
-                <md-list-item>
-                  <md-icon class="md-primary">fiber_manual_record</md-icon>
-                  <div class="md-list-item-text">
-                    <span v-if="singleUserForm.status == 1">Active</span>
-                    <span v-else>Deactive</span>
-                    <span>Status</span>
-                  </div>
-                </md-list-item>
-                <md-list-item>
-                  <md-icon class="md-primary">watch_later</md-icon>
-                  <div class="md-list-item-text">
-                    <span>{{ singleUserForm.createdAt }}</span>
-                    <span>Created At</span>
-                  </div>
-                </md-list-item>
-              </div>
-            </div>
-          </md-list>
-        </md-dialog-content>
-        <md-dialog-actions>
-          <md-button class="md-primary" @click="showSingleUserDialog = false">Close</md-button>
-        </md-dialog-actions>
-      </md-dialog>
+      <single-customer-component
+        :showSingleCustomerDialog="showSingleCustomerDialog"
+        :singleUserForm="singleCustomerForm"
+        @onDialogClose="showSingleCustomerDialog=false"
+      ></single-customer-component>
       <!-- DIALOG BOX OVER -->
 
       <!-- vuetable -->
@@ -355,7 +457,7 @@
                     <a
                       class="md-primary"
                       href="javascript:void(0)"
-                      @click="onSelectSingleUser(props.rowData.customer.id)"
+                      @click="onSelectSingleCustomer(props.rowData.customer.id)"
                     >{{ props.rowData.customer.fullName }}</a>
                   </template>
                   <template slot="policyType" slot-scope="props">
@@ -368,6 +470,13 @@
                   </template>
                   <template slot="actions" slot-scope="props">
                     <div class="custom-actions">
+                      <md-button
+                        class="md-primary md-just-icon"
+                        @click="onAction('history', props.rowData, props.rowIndex)"
+                        v-if="props.rowData.updatedBy.name != null"
+                      >
+                        <md-icon>history</md-icon>
+                      </md-button>
                       <md-button
                         class="md-primary md-just-icon"
                         @click="onAction('edit', props.rowData, props.rowIndex)"
@@ -411,10 +520,12 @@ import {
 import { validationMixin } from "vuelidate";
 import { VuetableMixin } from "../mixins/VuetableMixin";
 import { PoliciesMixin } from "../mixins/PoliciesMixin";
+import SingleCustomerComponent from "@/components/SingleCustomerView";
 
 export default {
   name: "PolicyComponent",
   mixins: [validationMixin, VuetableMixin, PoliciesMixin],
+  components: { SingleCustomerComponent },
   validations: {
     form: {
       policyName: {
@@ -461,6 +572,33 @@ export default {
         }
       },
       comment: {
+        required
+      },
+      vehicleType: {
+        required
+      },
+      make: {
+        required
+      },
+      plateNo: {
+        required
+      },
+      vehicleColor: {
+        required
+      },
+      powerInCC: {
+        required
+      },
+      engineNo: {
+        required
+      },
+      chassisNo: {
+        required
+      },
+      grossWeightInTon: {
+        required
+      },
+      seats: {
         required
       }
     }

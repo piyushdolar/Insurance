@@ -2,7 +2,8 @@ import axios from '../../api/config';
 import moment from 'moment';
 
 const state = {
-	policies: []
+	policies: [],
+	policyHistory: []
 };
 
 const actions = {
@@ -15,6 +16,14 @@ const actions = {
 			.catch(error => {
 				throw error.response.data.error;
 			});
+	},
+	createPolicyByAgent({ commit }, payload) {
+		console.log(payload);
+		return axios.post('/policy', payload).then(response => {
+			console.log('okay', response);
+		}).catch(error => {
+			console.log('error', error);
+		})
 	},
 	addPolicy: ({ commit }, payload) => {
 		let rowData = {
@@ -83,19 +92,33 @@ const actions = {
 			.catch(error => {
 				throw error.response.data.error;
 			});
+	},
+	getPolicyHistory: ({ commit }, policyId) => {
+		return axios
+			.get('/policyHistory/' + policyId)
+			.then(response => {
+				commit('SET_POLICY_HISTORY', response.data.data);
+			})
+			.catch(error => {
+				throw error.response.data.error;
+			});
 	}
 };
 
 const mutations = {
 	SET_POLICY_DATA: (state, response) => {
 		state.policies = response;
+	},
+	SET_POLICY_HISTORY: (state, response) => {
+		state.policyHistory = response;
 	}
 };
 
 const getters = {
 	getAllPolicies: state => {
-		return state;
-	}
+		return state.policies;
+	},
+	getPolicyHistory: state => { return state.policyHistory }
 };
 
 export default {

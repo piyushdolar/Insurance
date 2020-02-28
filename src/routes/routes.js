@@ -6,6 +6,9 @@ import Admins from '@/pages/Admins.vue';
 import Agents from '@/pages/Agents.vue';
 import Customers from '@/pages/Customers.vue';
 import Policies from '@/pages/Policies.vue';
+import CustomerPolicies from '@/pages/CustomerPolicies.vue';
+import CustomerPoliciesCreate from '@/pages/CustomerPoliciesCreate.vue';
+import Reports from '@/pages/Reports.vue';
 import Maps from '@/pages/Maps.vue';
 import Changelogs from '@/pages/Changelogs.vue';
 import Login from '@/pages/Login.vue';
@@ -18,12 +21,13 @@ const routes = [
 		component: DashboardLayout,
 		redirect: '/dashboard',
 		children: [
+
+			// ADMIN/AGENT LOGIN
 			{
 				path: 'dashboard',
 				name: 'Dashboard',
 				meta: {
 					requiresAuth: true,
-					role: ['admin', 'user', 'agent']
 				},
 				component: Dashboard
 			},
@@ -68,6 +72,30 @@ const routes = [
 				component: Policies
 			},
 			{
+				path: 'customer-policies',
+				name: "Customer's Policies",
+				meta: {
+					requiresAuth: true
+				},
+				component: CustomerPolicies,
+			},
+			{
+				path: 'customer-policies-create',
+				name: "Customer's Policies Create",
+				meta: {
+					requiresAuth: true
+				},
+				component: CustomerPoliciesCreate,
+			},
+			{
+				path: 'reports',
+				name: "Reports",
+				meta: {
+					requiresAuth: true
+				},
+				component: Reports,
+			},
+			{
 				path: 'maps',
 				name: 'Maps',
 				meta: {
@@ -76,26 +104,8 @@ const routes = [
 				},
 				component: Maps
 			},
-			{
-				path: '/changelogs',
-				name: 'Change logs',
-				meta: {
-					requiresAuth: true
-				},
-				component: Changelogs
-			},
 
 			// LOGIN / LOGOUT SECTION
-			{
-				path: '/administrator',
-				name: 'Administrator Login',
-				component: LoginMaster,
-				meta: {
-					hideNavigation: true,
-					hideSidebar: true,
-					hideFooter: true
-				}
-			},
 			{
 				path: '/login',
 				name: 'Login',
@@ -115,7 +125,29 @@ const routes = [
 					hideSidebar: true,
 					hideFooter: true
 				}
-			}
+			},
+
+			// ADMINISTRATOR LOGIN ONLY
+			{
+				path: '/administrator',
+				name: 'Administrator Login',
+				component: LoginMaster,
+				meta: {
+					hideNavigation: true,
+					hideSidebar: true,
+					hideFooter: true
+				}
+			},
+
+			// CHANGE LOGS ABOUT PROJECT
+			{
+				path: '/changelogs',
+				name: 'Change logs',
+				meta: {
+					requiresAuth: true
+				},
+				component: Changelogs
+			},
 		]
 	}
 ];

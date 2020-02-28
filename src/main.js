@@ -39,15 +39,14 @@ router.beforeEach((to, from, next) => {
 				let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
 				if (timeDiff > router.app.$session.get('_timeout').limit) {
 					router.app.$session.clear();
-					router.app.$session.flash.set('error', 'Session expired please login again.');
+					router.app.$session.flash.set('error', 'Session was expired.');
 					next({ path: '/login' });
 				} else { next(); }
 			} else {
 				router.app.$session.flash.set('error', "You are not authorized to access requested page.");
-				next({ path: '/login' });
+				next({ path: '/dashboard' });
 			}
 		} else {
-			router.app.$session.flash.set('error', "Session timed out.");
 			next({ path: '/login' });
 		}
 	} else {

@@ -67,11 +67,6 @@ export const AdminMixin = {
                     sortField: "userStatus"
                 },
                 {
-                    name: "email",
-                    sortField: "email",
-                    title: "Email"
-                },
-                {
                     name: "createdAt",
                     title: "Created Date",
                     sortField: "createdAt",

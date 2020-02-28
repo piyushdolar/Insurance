@@ -286,8 +286,6 @@ export const AgentMixin = {
                     .then(response => {
                         this.$alert("success", response);
                         this.showDialog = false;
-                        this.clearForm();
-                        this.onFilterReset();
                     })
                     .catch(error => {
                         this.$alert("danger", error);
@@ -299,13 +297,12 @@ export const AgentMixin = {
                     .then(response => {
                         this.$alert("success", response);
                         this.showDialog = false;
-                        this.onFilterReset();
-                        this.clearForm();
                     })
                     .catch(error => {
                         this.$alert("danger", error);
                     });
             }
+            this.onFilterReset();
             this.sending = false;
         }
     },

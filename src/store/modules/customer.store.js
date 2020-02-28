@@ -32,7 +32,7 @@ const actions = {
 						id: response.data.data.id,
 						image: userData.image
 					}
-					dispatch('uploadImage', parsedData);
+					dispatch('uploadImageCustomer', parsedData);
 				}
 				return 'Policy Holder has been successfully created.';
 			})
@@ -41,10 +41,10 @@ const actions = {
 			});
 	},
 	// Upload profile picture
-	uploadImage: (context, payload) => {
+	uploadImageCustomer: (context, payload) => {
 		let formData = new FormData();
 		formData.append('avatar', payload.image);
-		axios.post('customers/avatar/' + payload.id, formData, {
+		axios.post('customers/avatar/' + payload.id, payload.image, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
 			}
@@ -61,7 +61,7 @@ const actions = {
 		})
 			.then(response => {
 				if (userData.image != null && response.status == 200) {
-					dispatch('uploadImage', userData);
+					dispatch('uploadImageCustomer', userData);
 				}
 				return 'Policy Holder successfully updated to database.';
 			})

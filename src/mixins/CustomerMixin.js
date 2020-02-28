@@ -182,7 +182,6 @@ export const CustomerMixin = {
                     .then(response => {
                         this.$alert("success", response);
                         this.showDialog = false;
-                        this.clearForm();
                     })
                     .catch(error => {
                         this.$alert("danger", error);
@@ -193,7 +192,6 @@ export const CustomerMixin = {
                     .then(response => {
                         this.$alert("success", response);
                         this.showDialog = false;
-                        this.clearForm();
                     })
                     .catch(error => {
                         this.$alert("danger", error);
