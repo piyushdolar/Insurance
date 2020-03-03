@@ -347,7 +347,7 @@
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.status" class="md-primary">Active This Agent</md-switch>
+                  <md-switch v-model="form.loginStatus" class="md-primary">Active This Agent</md-switch>
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
@@ -389,6 +389,16 @@
               </div>
               <div class="md-layout-item">
                 <md-field>
+                  <v-md-date-range-picker
+                    v-bind:start-date="filterItem.startDate"
+                    v-bind:end-date="filterItem.endDate"
+                    opens="right"
+                    @change="handleDateChange"
+                  ></v-md-date-range-picker>
+                </md-field>
+              </div>
+              <div class="md-layout-item">
+                <md-field>
                   <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
                     <md-option :value="10">10</md-option>
                     <md-option :value="15">15</md-option>
@@ -398,16 +408,6 @@
                     <md-option :value="150">150</md-option>
                     <md-option :value="200">200</md-option>
                   </md-select>
-                </md-field>
-              </div>
-              <div class="md-layout-item">
-                <md-field>
-                  <v-md-date-range-picker
-                    v-bind:start-date="filterItem.startDate"
-                    v-bind:end-date="filterItem.endDate"
-                    opens="right"
-                    @change="handleDateChange"
-                  ></v-md-date-range-picker>
                 </md-field>
               </div>
               <div class="md-layout-item text-center">
@@ -447,7 +447,7 @@
                   </template>
 
                   <template slot="status" slot-scope="props">
-                    <md-chip class="md-primary" v-if="props.rowData.status == 1">Active</md-chip>
+                    <md-chip class="md-primary" v-if="props.rowData.userStatus == 1">Active</md-chip>
                     <md-chip class="md-accent" v-else>Deactive</md-chip>
                   </template>
 

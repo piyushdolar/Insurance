@@ -44,9 +44,12 @@ const actions = {
 	uploadImageCustomer: (context, payload) => {
 		let formData = new FormData();
 		formData.append('avatar', payload.image);
-		axios.post('customers/avatar/' + payload.id, payload.image, {
+		axios.post('customers/avatar/' + payload.id, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
+			},
+			onUploadProgress: progressEvent => {
+				let completeProgress = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
 			}
 		})
 	},
@@ -54,6 +57,7 @@ const actions = {
 	editCustomer: ({ dispatch }, userData) => {
 		userData.status = userData.status ? 1 : 2;
 		userData.updatedBy = userData.sessionId;
+		(!userData.email) ? delete userData.email : '';
 		return axios({
 			method: 'put',
 			url: 'customers/' + userData.id,
@@ -66,7 +70,6 @@ const actions = {
 				return 'Policy Holder successfully updated to database.';
 			})
 			.catch(error => {
-				console.log(error);
 				throw error.response.data.error;
 			});
 	},

@@ -1,17 +1,15 @@
 <template>
   <div>
-    <md-table
-      v-model="getDashboardRecent"
-      :table-header-color="tableHeaderColor"
-    >
+    <md-table v-model="getDashboardRecent" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="Name">{{
+        <md-table-cell md-label="Name">
+          {{
           item.firstName + " " + item.lastName
-        }}</md-table-cell>
+          }}
+        </md-table-cell>
         <md-table-cell md-label="Phone">{{ item.phone }}</md-table-cell>
-        <md-table-cell md-label="Last Login">{{
-          item.lastLogin
-        }}</md-table-cell>
+        <md-table-cell md-label="Last Login" v-if="item.lastLogin != null">{{item.lastLogin}}</md-table-cell>
+        <md-table-cell md-label="Last Login" v-else>-</md-table-cell>
       </md-table-row>
     </md-table>
   </div>

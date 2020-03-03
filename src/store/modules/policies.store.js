@@ -18,11 +18,34 @@ const actions = {
 			});
 	},
 	createPolicyByAgent({ commit }, payload) {
-		console.log(payload);
-		return axios.post('/policy', payload).then(response => {
-			console.log('okay', response);
+		let formData = new FormData();
+		formData.append('picture', payload.picture);
+		formData.append('firstName', payload.firstName);
+		formData.append('lastName', payload.lastName);
+		formData.append('policyNumber', payload.policyNo);
+		formData.append('phone', payload.phone);
+		formData.append('address', payload.address);
+		formData.append('make', payload.make);
+		formData.append('plateNo', payload.plateNoe);
+		formData.append('powerInCC', payload.powerInCC);
+		formData.append('engineNo', payload.engineNo);
+		formData.append('chassisNumber', payload.chassisNumber);
+		formData.append('grossWeightInTon', payload.grossWeightInTon);
+		formData.append('vehicleType', payload.vehicleType);
+		formData.append('seats', payload.seats);
+		formData.append('agentId', payload.agentId);
+
+		return axios.post('/policy', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			},
+			onUploadProgress: progressEvent => {
+				let completeProgress = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+			}
+		}).then(response => {
+			return "Policy has been created successfully.";
 		}).catch(error => {
-			console.log('error', error);
+			throw error.response.data.error;
 		})
 	},
 	addPolicy: ({ commit }, payload) => {

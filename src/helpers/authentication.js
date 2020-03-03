@@ -24,8 +24,8 @@ const rules = [
         path: '/admins',
         roles: {
             read: [1, 2],
-            write: [1, 2],
-            delete: [1, 2]
+            write: [1],
+            delete: [1]
         }
     },
     {
@@ -39,16 +39,16 @@ const rules = [
     {
         path: '/customers',
         roles: {
-            read: [1, 2],
-            write: [1, 2],
-            delete: [1, 2]
+            read: [1, 2, 3],
+            write: [3],
+            delete: [1]
         }
     },
     {
         path: '/policies',
         roles: {
-            read: [1, 2],
-            write: [1, 2],
+            read: [1, 2, 3],
+            write: [3],
             delete: [1, 2]
         }
     },

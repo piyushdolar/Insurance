@@ -51,7 +51,7 @@ export const VuetableMixin = {
 		},
 		onFilterSet(filter) {
 			this.moreParams = {
-				filter: filter.searchText,
+				filter: filter.searchText.trim(),
 				filter_date: filter.searchDate
 			};
 			Vue.nextTick(() => this.$refs.vuetable.refresh());

@@ -21,7 +21,7 @@ export const ReportMixin = {
                 {
                     name: '__slot:fullName',
                     sortField: "firstName",
-                    title: 'Actions'
+                    title: 'Full Name'
                 },
                 {
                     name: "email",
@@ -31,7 +31,10 @@ export const ReportMixin = {
                 {
                     name: "lastLogin",
                     sortField: "lastLogin",
-                    title: "Last Login"
+                    title: "Last Login",
+                    callback: value => {
+                        return (value == null) ? '-' : moment(String(value)).format("MM/DD/YYYY hh:mm a");
+                    }
                 },
                 {
                     name: "createdAt",

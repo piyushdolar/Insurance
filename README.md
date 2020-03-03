@@ -111,6 +111,18 @@ Insurance
 
 ## Change logs:
 
+## [1.51.9] 2020-03-03
+### What's new
+-   Reports added for agents.
+-   Authentication updated for administrator.
+
+### Bugs/Fixes
+-   All detailed table list added - when no values are shown up.
+-   Image upload problem fixed on agents, customers, and policy components.
+-   UI Design improved for tables.
+-   Admin reports filter functionality fixed.
+-   Unit testing done.
+
 ## [1.50.3] 2020-02-28
 ### What's new
 -   Image display compatibility added. now can support safari 12.*

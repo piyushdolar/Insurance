@@ -20,7 +20,9 @@ import VMdDateRangePicker from 'v-md-date-range-picker';
 
 import Chartist from 'chartist';
 import moment from 'moment';
-import checkAuth from './helpers/authentication'
+
+// Authorization
+import checkAuth from './helpers/authentication';
 
 // configure router
 const router = new VueRouter({
@@ -64,6 +66,15 @@ Vue.prototype.$alert = (type, message) => {
 		type: type
 	});
 };
+Vue.prototype.$checkAuth = (rule) => {
+	return checkAuth(
+		rule,
+		router.path,
+		router.app.$session.get("userProfile").userType
+	);
+};
+
+
 
 Vue.use(VueRouter);
 Vue.use(MaterialDashboard);

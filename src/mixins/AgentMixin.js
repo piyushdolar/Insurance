@@ -1,5 +1,4 @@
 import moment from "moment";
-import checkAuth from "../helpers/authentication";
 import { mapGetters } from "vuex";
 
 export const AgentMixin = {
@@ -16,7 +15,7 @@ export const AgentMixin = {
                 password: null,
                 repeatPassword: null,
                 address: null,
-                status: false,
+                loginStatus: false,
                 image: null,
                 imagePreview: null,
                 dob: null,
@@ -156,11 +155,7 @@ export const AgentMixin = {
             this.$store.dispatch("getLocation", provinceId);
         },
         checkAuthorization(rule) {
-            return checkAuth(
-                rule,
-                this.$route.path,
-                this.$session.get("userProfile").userType
-            );
+            this.$checkAuth(rule)
         },
         onFileSelected(event) {
             this.form.image = event.target.files[0];
@@ -186,7 +181,7 @@ export const AgentMixin = {
                 this.form.personalIdNumber = data.personalIdNumber;
                 this.form.personalIdDOI = data.personalIdDOI;
                 this.form.address = data.address;
-                this.form.status = data.status == 1 ? true : false;
+                this.form.loginStatus = data.userStatus == 1 ? true : false;
                 if (data.picture != null) {
                     this.form.imagePreview = `/images/avatars/agents/${data.picture}`;
                 }
@@ -237,7 +232,7 @@ export const AgentMixin = {
             this.form.repeatPassword = null;
             this.form.address = null;
             this.form.image = null;
-            this.form.status = false;
+            this.form.loginStatus = false;
             this.form.provinceId = null;
             this.form.districtId = null;
             this.form.villageName = null;

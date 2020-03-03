@@ -1,5 +1,4 @@
 import moment from "moment";
-
 export const CustomerMixin = {
     data() {
         return {
@@ -85,6 +84,11 @@ export const CustomerMixin = {
         }
     },
     methods: {
+        checkAuthorization(rule) {
+            return this.$checkAuth(
+                rule
+            );
+        },
         onFileSelected(event) {
             this.form.image = event.target.files[0];
             this.form.imagePreview = URL.createObjectURL(this.form.image);
@@ -177,6 +181,7 @@ export const CustomerMixin = {
             this.sending = true;
             this.form.sessionId = this.$session.get("userProfile").id;
             if (type == "add") {
+                delete this.form.imagePreview;
                 await this.$store
                     .dispatch("addCustomers", this.form)
                     .then(response => {

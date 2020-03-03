@@ -1,9 +1,6 @@
 <template>
   <div>
-    <md-table
-      v-model="getDashboardRecentAgents"
-      :table-header-color="tableHeaderColor"
-    >
+    <md-table v-model="getDashboardRecentAgents" :table-header-color="tableHeaderColor">
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Name">{{ item.firstName }}</md-table-cell>
         <md-table-cell md-label="Phone">{{ item.phone }}</md-table-cell>

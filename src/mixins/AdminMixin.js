@@ -90,6 +90,9 @@ export const AdminMixin = {
         }
     },
     methods: {
+        checkAuthorization(rule) {
+            this.$checkAuth(rule);
+        },
         onFileSelected(event) {
             this.form.image = event.target.files[0];
             this.form.imagePreview = URL.createObjectURL(this.form.image);

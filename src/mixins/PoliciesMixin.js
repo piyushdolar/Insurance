@@ -78,7 +78,10 @@ export const PoliciesMixin = {
 				{
 					name: 'policyName',
 					sortField: 'policyName',
-					title: 'Policy Name'
+					title: 'Policy Name',
+					callback: value => {
+						return (value == null) ? '-' : value;
+					}
 				},
 				{
 					name: '__slot:customer',
@@ -88,12 +91,18 @@ export const PoliciesMixin = {
 				{
 					name: 'sumInsured',
 					sortField: 'sumInsured',
-					title: 'Sum Insured'
+					title: 'Sum Insured',
+					callback: value => {
+						return (value == null) ? '-' : value;
+					}
 				},
 				{
 					name: 'currencyType',
 					sortField: 'currencyType',
-					title: 'Currency Type'
+					title: 'Currency Type',
+					callback: value => {
+						return (value == null) ? '-' : value;
+					}
 				},
 				{
 					name: 'renew',
@@ -112,7 +121,7 @@ export const PoliciesMixin = {
 					sortField: 'startDate',
 					title: 'Start Date',
 					callback: function (value) {
-						return moment(String(value)).format('MM/DD/YYYY');
+						return (value) ? moment(String(value)).format('MM/DD/YYYY') : '-';
 					}
 				},
 				{
@@ -120,7 +129,7 @@ export const PoliciesMixin = {
 					sortField: 'endDate',
 					title: 'End Date',
 					callback: function (value) {
-						return moment(String(value)).format('MM/DD/YYYY');
+						return (value) ? moment(String(value)).format('MM/DD/YYYY') : '-';
 					}
 				},
 				{
@@ -153,8 +162,8 @@ export const PoliciesMixin = {
 					name: 'createdBy',
 					sortField: 'createdBy.id',
 					title: 'Created By',
-					callback: function (value) {
-						return value.name;
+					callback: value => {
+						return (value.id == null) ? '-' : value.name;
 					}
 				},
 				{
@@ -169,8 +178,8 @@ export const PoliciesMixin = {
 					name: 'updatedBy',
 					sortField: 'updatedBy.id',
 					title: 'Updated By',
-					callback: function (value) {
-						return value.name;
+					callback: value => {
+						return (value.id == null) ? '-' : value.name;
 					}
 				},
 				{
@@ -181,6 +190,11 @@ export const PoliciesMixin = {
 		};
 	},
 	methods: {
+		checkAuthorization(rule) {
+			return this.$checkAuth(
+				rule
+			);
+		},
 		// md select over...
 		onAction(action, data, index) {
 			if (action == "edit") {

@@ -69,14 +69,18 @@ const actions = {
 	uploadImageUser: (context, payload) => {
 		let formData = new FormData();
 		formData.append('avatar', payload.image);
-		axios.post('users/avatar/' + payload.id, payload.image, {
+		axios.post('users/avatar/' + payload.id, formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data'
+			},
+			onUploadProgress: progressEvent => {
+				let completeProgress = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
 			}
-		})
+		});
 	},
 	// Edit admin/agent user
 	editUser: ({ dispatch }, userData) => {
+		console.log('Store: ', userData);
 		userData.userStatus = (userData.loginStatus) ? 1 : 2;
 		userData.updatedBy = userData.sessionId;
 		return axios({

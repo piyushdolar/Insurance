@@ -374,7 +374,11 @@
           <md-button class="md-primary md-layout-item" @click="downloadCSV({url: 'policy'})">
             <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
-          <md-button class="md-info md-layout-item" @click="openDialog">
+          <md-button
+            class="md-info md-layout-item"
+            @click="openDialog"
+            v-if="checkAuthorization('write')"
+          >
             <md-icon>add</md-icon>Create Policy
           </md-button>
         </div>
@@ -405,6 +409,16 @@
               </div>
               <div class="md-layout-item">
                 <md-field>
+                  <v-md-date-range-picker
+                    v-bind:start-date="filterItem.startDate"
+                    v-bind:end-date="filterItem.endDate"
+                    opens="right"
+                    @change="handleDateChange"
+                  ></v-md-date-range-picker>
+                </md-field>
+              </div>
+              <div class="md-layout-item">
+                <md-field>
                   <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
                     <md-option :value="10">10</md-option>
                     <md-option :value="15">15</md-option>
@@ -414,16 +428,6 @@
                     <md-option :value="150">150</md-option>
                     <md-option :value="200">200</md-option>
                   </md-select>
-                </md-field>
-              </div>
-              <div class="md-layout-item">
-                <md-field>
-                  <v-md-date-range-picker
-                    v-bind:start-date="filterItem.startDate"
-                    v-bind:end-date="filterItem.endDate"
-                    opens="right"
-                    @change="handleDateChange"
-                  ></v-md-date-range-picker>
                 </md-field>
               </div>
               <div class="md-layout-item text-center">
