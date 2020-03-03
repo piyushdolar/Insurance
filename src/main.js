@@ -69,7 +69,7 @@ Vue.prototype.$alert = (type, message) => {
 Vue.prototype.$checkAuth = (rule) => {
 	return checkAuth(
 		rule,
-		router.path,
+		router.app._route.path,
 		router.app.$session.get("userProfile").userType
 	);
 };
