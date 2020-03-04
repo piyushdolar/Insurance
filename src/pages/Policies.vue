@@ -14,7 +14,7 @@
             >
               <md-list-item>
                 <div class="md-list-item-text">
-                  <span>{{history.comment}}</span>
+                  <span v-html="history.comment"></span>
                   <p>{{history.createdAt}}</p>
                 </div>
               </md-list-item>
@@ -238,15 +238,18 @@
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('plateNo')">
-                    <label for="plateNo">Plate No.</label>
+                  <md-field :class="getValidationClass('plateNumber')">
+                    <label for="plateNumber">Plate No.</label>
                     <md-input
-                      name="plateNo"
-                      id="plateNo"
-                      v-model="form.plateNo"
+                      name="plateNumber"
+                      id="plateNumber"
+                      v-model="form.plateNumber"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.plateNo.required">Plate No. is required</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.plateNumber.required"
+                    >Plate No. is required</span>
                   </md-field>
                 </div>
               </div>
@@ -283,32 +286,35 @@
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('engineNo')">
-                    <label for="engineNo">Engine No.</label>
+                  <md-field :class="getValidationClass('engineNumber')">
+                    <label for="engineNumber">Engine No.</label>
                     <md-input
-                      name="engineNo"
-                      id="engineNo"
-                      v-model="form.engineNo"
+                      name="engineNumber"
+                      id="engineNumber"
+                      v-model="form.engineNumber"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.engineNo.required">Engine No. is required</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.engineNumber.required"
+                    >Engine No. is required</span>
                   </md-field>
                 </div>
               </div>
 
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('chassisNo')">
-                    <label for="chassisNo">Chassis No.</label>
+                  <md-field :class="getValidationClass('chassisNumber')">
+                    <label for="chassisNumber">Chassis No.</label>
                     <md-input
-                      name="chassisNo"
-                      id="chassisNo"
-                      v-model="form.chassisNo"
+                      name="chassisNumber"
+                      id="chassisNumber"
+                      v-model="form.chassisNumber"
                       :disabled="sending"
                     />
                     <span
                       class="md-error"
-                      v-if="!$v.form.chassisNo.required"
+                      v-if="!$v.form.chassisNumber.required"
                     >Chassis No. is required</span>
                   </md-field>
                 </div>
@@ -358,7 +364,7 @@
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.status" class="md-primary">UnApproved/Approved Status</md-switch>
+                  <md-switch v-model="form.status" class="md-primary">Un-Approved/Approved Status</md-switch>
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
@@ -584,7 +590,7 @@ export default {
       make: {
         required
       },
-      plateNo: {
+      plateNumber: {
         required
       },
       vehicleColor: {
@@ -593,10 +599,10 @@ export default {
       powerInCC: {
         required
       },
-      engineNo: {
+      engineNumber: {
         required
       },
-      chassisNo: {
+      chassisNumber: {
         required
       },
       grossWeightInTon: {

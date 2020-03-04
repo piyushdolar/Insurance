@@ -8,7 +8,11 @@ import Customers from '@/pages/Customers.vue';
 import Policies from '@/pages/Policies.vue';
 import CustomerPolicies from '@/pages/CustomerPolicies.vue';
 import CustomerPoliciesCreate from '@/pages/CustomerPoliciesCreate.vue';
+
 import Reports from '@/pages/Reports.vue';
+import ReportAdmin from '@/components/ReportAdmin.vue';
+import ReportAgent from '@/components/ReportAgent.vue';
+
 import Maps from '@/pages/Maps.vue';
 import Changelogs from '@/pages/Changelogs.vue';
 import Login from '@/pages/Login.vue';
@@ -94,6 +98,16 @@ const routes = [
 					requiresAuth: true
 				},
 				component: Reports,
+				children: [
+					{
+						path: 'admin',
+						component: ReportAdmin
+					},
+					{
+						path: 'agent',
+						component: ReportAgent
+					}
+				]
 			},
 			{
 				path: 'maps',

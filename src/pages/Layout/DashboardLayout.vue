@@ -16,14 +16,7 @@
         <md-icon>accessibility_new</md-icon>
         <p>Agents</p>
       </sidebar-link>
-      <sidebar-link to="/customers" v-if="checkAuthorization('/customers')">
-        <md-icon>emoji_people</md-icon>
-        <p>Customers</p>
-      </sidebar-link>
-      <sidebar-link to="/policies" v-if="checkAuthorization('/policies')">
-        <md-icon>assignment</md-icon>
-        <p>Policy</p>
-      </sidebar-link>
+
       <!-- Agent Login To Create-->
       <sidebar-link
         to="/customer-policies-create"
@@ -36,10 +29,21 @@
         <md-icon>assignment</md-icon>
         <p>Policies</p>
       </sidebar-link>
+      <!-- Agent Login To Create Over-->
+
+      <sidebar-link to="/customers" v-if="checkAuthorization('/customers')">
+        <md-icon>emoji_people</md-icon>
+        <p>Customers</p>
+      </sidebar-link>
+      <sidebar-link to="/policies" v-if="checkAuthorization('/policies')">
+        <md-icon>assignment</md-icon>
+        <p>Policy</p>
+      </sidebar-link>
       <sidebar-link to="/reports" v-if="checkAuthorization('/reports')">
         <md-icon>assessment</md-icon>
         <p>Reports</p>
       </sidebar-link>
+
       <!-- <sidebar-link to="/maps">
         <md-icon>location_on</md-icon>
         <p>Maps</p>

@@ -40,15 +40,15 @@ const rules = [
         path: '/customers',
         roles: {
             read: [1, 2, 3],
-            write: [3],
+            write: [1],
             delete: [1]
         }
     },
     {
         path: '/policies',
         roles: {
-            read: [1, 2, 3],
-            write: [3],
+            read: [1, 2],
+            write: [1],
             delete: [1, 2]
         }
     },
@@ -82,6 +82,18 @@ const rules = [
             read: [1, 2],
             write: [1, 2],
             delete: [1, 2]
+        }
+    },
+    {
+        path: '/reports/admin',
+        roles: {
+            read: [1, 2]
+        }
+    },
+    {
+        path: '/reports/agent',
+        roles: {
+            read: [1, 2]
         }
     },
     {

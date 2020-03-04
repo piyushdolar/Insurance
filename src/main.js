@@ -34,23 +34,32 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
-		if (window.localStorage.getItem('refreshToken') != undefined && window.localStorage.getItem('refreshToken') != null && window.localStorage.getItem('refreshToken') != '' && router.app.$session.get('_timeout')) {
+
+		if (window.localStorage.getItem('refreshToken') && router.app.$session.get('_timeout') && router.app.$session.get('userProfile')) {
+
 			if (checkAuth('read', to.path, router.app.$session.get('userProfile').userType)) {
 				let timeBefore = moment(router.app.$session.get('_timeout').date);
 				let timeNow = moment(new Date());
 				let timeDiff = moment.duration(timeNow.diff(timeBefore)).asMinutes();
+
 				if (timeDiff > router.app.$session.get('_timeout').limit) {
 					router.app.$session.clear();
 					router.app.$session.flash.set('error', 'Session was expired.');
 					next({ path: '/login' });
 				} else { next(); }
+
 			} else {
 				router.app.$session.flash.set('error', "You are not authorized to access requested page.");
 				next({ path: '/dashboard' });
 			}
+
 		} else {
-			next({ path: '/login' });
+			window.localStorage.setItem('refreshToken', null);
+			router.app.$session.set('_timeout', null);
+			router.app.$session.set('userProfile', null);
+			next({ path: (from.path == '/login') ? '/login' : (from.path == '/administrator') ? '/administrator' : '/login' });
 		}
+
 	} else {
 		next();
 	}

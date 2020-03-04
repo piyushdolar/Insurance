@@ -111,6 +111,21 @@ Insurance
 
 ## Change logs:
 
+## [1.51.16] 2020-03-03
+### Bugs & Patches
+-   Agent authentication bug fixed.
+-   Report components agent's report component separated due to pagination error.
+-   Reports UI updated with separate URL for admins and agents.
+-   Policy History was not adding bug fixed.
+-   User profile not updating due to new changes of bank account number, bug fixed.
+-   Unit testing of whole software.
+-   Agent Login left bar UI updated.
+-   Administrator login bug fixed sometime it's redirect to /login route.
+-   Policy components fields was missing (vehicleColor) now it's updated in design and functionality as well.
+-   Database columns changed.
+-   Policy history HTML text was not displayed, fixed now.
+
+
 ## [1.51.9] 2020-03-03
 ### What's new
 -   Reports added for agents.

@@ -54,22 +54,22 @@
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('policyNo')">
+                  <md-field :class="getValidationClass('policyNumber')">
                     <label for="policy-number">Policy Number</label>
                     <md-input
                       name="policy-number"
                       id="policy-number"
                       autocomplete="policy-number"
-                      v-model="form.policyNo"
+                      v-model="form.policyNumber"
                       :disabled="sending"
                     />
                     <span
                       class="md-error"
-                      v-if="!$v.form.policyNo.required"
+                      v-if="!$v.form.policyNumber.required"
                     >The Policy number is required</span>
                     <span
                       class="md-error"
-                      v-else-if="!$v.form.policyNo.minlength"
+                      v-else-if="!$v.form.policyNumber.minlength"
                     >Invalid Policy number</span>
                   </md-field>
                 </div>
@@ -161,34 +161,34 @@
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('engineNo')">
+                  <md-field :class="getValidationClass('engineNumber')">
                     <label for="engine-number">Engine No.</label>
                     <md-input
                       name="engine-number"
                       id="engine-number"
                       autocomplete="engine-number"
-                      v-model="form.engineNo"
+                      v-model="form.engineNumber"
                       :disabled="sending"
                     />
                     <span
                       class="md-error"
-                      v-if="!$v.form.engineNo.required"
+                      v-if="!$v.form.engineNumber.required"
                     >Engine No. field is required</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
-                  <md-field :class="getValidationClass('chassisNo')">
+                  <md-field :class="getValidationClass('chassisNumber')">
                     <label for="chassis-number">Chassis No.</label>
                     <md-input
                       name="chassis-number"
                       id="chassis-number"
                       autocomplete="chassis-number"
-                      v-model="form.chassisNo"
+                      v-model="form.chassisNumber"
                       :disabled="sending"
                     />
                     <span
                       class="md-error"
-                      v-if="!$v.form.chassisNo.required"
+                      v-if="!$v.form.chassisNumber.required"
                     >Chassis No. field is required</span>
                   </md-field>
                 </div>
@@ -235,6 +235,26 @@
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
+                  <md-field :class="getValidationClass('vehicleColor')">
+                    <label for="vehicleColor">Vehicle Color</label>
+                    <md-input
+                      name="vehicleColor"
+                      id="vehicleColor"
+                      autocomplete="vehicleColor"
+                      v-model="form.vehicleColor"
+                      :disabled="sending"
+                    />
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.vehicleColor.required"
+                    >Gross Weight In Ton field is required</span>
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.vehicleColor.required"
+                    >Vehicle Color is required</span>
+                  </md-field>
+                </div>
+                <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('seats')">
                     <label for="seats">Seats</label>
                     <md-input
@@ -261,7 +281,7 @@
                     <img :src="form.picturePreview" alt="profile-picture" />
                   </md-avatar>
                   <md-field :class="getValidationClass('picture')">
-                    <label for="picture">Profile Picture</label>
+                    <label for="picture">Form Photo</label>
                     <md-file
                       :disabled="sending"
                       id="picture"
@@ -320,7 +340,7 @@ export default {
         minLength: minLength(11),
         maxLength: maxLength(11)
       },
-      policyNo: {
+      policyNumber: {
         required,
         numeric
       },
@@ -333,10 +353,10 @@ export default {
       powerInCC: {
         required
       },
-      engineNo: {
+      engineNumber: {
         required
       },
-      chassisNo: {
+      chassisNumber: {
         required
       },
       grossWeightInTon: {
@@ -347,6 +367,9 @@ export default {
         numeric
       },
       vehicleType: {
+        required
+      },
+      vehicleColor: {
         required
       },
       picture: {
@@ -363,15 +386,16 @@ export default {
         lastName: null,
         address: null,
         phone: null,
-        policyNo: null,
+        policyNumber: null,
         make: null,
         plateNumber: null,
         powerInCC: null,
-        engineNo: null,
-        chassisNo: null,
+        engineNumber: null,
+        chassisNumber: null,
         grossWeightInTon: null,
         seats: null,
         vehicleType: null,
+        vehicleColor: null,
         picture: null,
         picturePreview: null
       }
@@ -417,15 +441,16 @@ export default {
       this.form.lastName = null;
       this.form.address = null;
       this.form.phone = null;
-      this.form.policyNo = null;
+      this.form.policyNumber = null;
       this.form.make = null;
       this.form.plateNumber = null;
       this.form.powerInCC = null;
-      this.form.engineNo = null;
-      this.form.chassisNo = null;
+      this.form.engineNumber = null;
+      this.form.chassisNumber = null;
       this.form.grossWeightInTon = null;
       this.form.seats = null;
       this.form.vehicleType = null;
+      this.form.vehicleColor = null;
       this.form.picture = null;
       this.form.picturePreview = null;
     }

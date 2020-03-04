@@ -74,6 +74,7 @@
 
 <script>
 export default {
+  name: "SingleCustomerView",
   props: {
     showSingleCustomerDialog: {
       type: Boolean

@@ -155,7 +155,7 @@ export const AgentMixin = {
             this.$store.dispatch("getLocation", provinceId);
         },
         checkAuthorization(rule) {
-            this.$checkAuth(rule)
+            return this.$checkAuth(rule)
         },
         onFileSelected(event) {
             this.form.image = event.target.files[0];

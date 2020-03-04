@@ -22,16 +22,17 @@ const actions = {
 		formData.append('picture', payload.picture);
 		formData.append('firstName', payload.firstName);
 		formData.append('lastName', payload.lastName);
-		formData.append('policyNumber', payload.policyNo);
+		formData.append('policyNumber', payload.policyNumber);
 		formData.append('phone', payload.phone);
 		formData.append('address', payload.address);
 		formData.append('make', payload.make);
-		formData.append('plateNo', payload.plateNoe);
+		formData.append('plateNumber', payload.plateNumber);
 		formData.append('powerInCC', payload.powerInCC);
-		formData.append('engineNo', payload.engineNo);
+		formData.append('engineNumber', payload.engineNumber);
 		formData.append('chassisNumber', payload.chassisNumber);
 		formData.append('grossWeightInTon', payload.grossWeightInTon);
 		formData.append('vehicleType', payload.vehicleType);
+		formData.append('vehicleColor', payload.vehicleColor);
 		formData.append('seats', payload.seats);
 		formData.append('agentId', payload.agentId);
 

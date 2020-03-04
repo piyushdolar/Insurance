@@ -65,7 +65,7 @@
               <span
                 class="md-error"
                 v-if="!$v.form.password.minLength"
-              >The password minimum length is 4 character long.</span>
+              >The password minimum length is 6 character long.</span>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">

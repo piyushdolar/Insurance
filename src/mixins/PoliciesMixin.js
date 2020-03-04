@@ -56,11 +56,11 @@ export const PoliciesMixin = {
 				},
 				vehicleType: null,
 				make: null,
-				plateNo: null,
+				plateNumber: null,
 				vehicleColor: null,
 				powerInCC: null,
-				engineNo: null,
-				chassisNo: null,
+				engineNumber: null,
+				chassisNumber: null,
 				grossWeightInTon: null,
 				seats: null
 			},
@@ -209,9 +209,20 @@ export const PoliciesMixin = {
 				this.form.currencyType = data.currencyType;
 				this.form.sumInsured = data.sumInsured;
 				this.form.comment = data.comment;
-				this.form.startDate = new Date(data.startDate);
-				this.form.endDate = new Date(data.endDate);
+				this.form.startDate = data.startDate ? new Date(data.startDate) : null;
+				this.form.endDate = data.endDate ? new Date(data.endDate) : null;
 				this.form.status = data.status == 1 ? false : true;
+
+				this.form.vehicleType = data.vehicleType;
+				this.form.make = data.make;
+				this.form.plateNumber = data.plateNumber;
+				this.form.vehicleColor = data.vehicleColor;
+				this.form.powerInCC = data.powerInCC;
+				this.form.engineNumber = data.engineNumber;
+				this.form.chassisNumber = data.chassisNumber;
+				this.form.grossWeightInTon = data.grossWeightInTon;
+				this.form.seats = data.seats;
+
 				this.formModal.title = "EDIT POLICY";
 				this.formModal.btn = "UPDATE";
 				this.formModal.isEdit = true;

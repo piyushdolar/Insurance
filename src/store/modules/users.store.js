@@ -80,7 +80,6 @@ const actions = {
 	},
 	// Edit admin/agent user
 	editUser: ({ dispatch }, userData) => {
-		console.log('Store: ', userData);
 		userData.userStatus = (userData.loginStatus) ? 1 : 2;
 		userData.updatedBy = userData.sessionId;
 		return axios({
@@ -92,7 +91,7 @@ const actions = {
 				if (userData.image != null && response.status == 200) {
 					dispatch('uploadImageUser', userData);
 				}
-				return 'User successfully updated.';
+				return 'Details successfully updated.';
 			})
 			.catch(error => {
 				throw error.response.data.error;
@@ -133,7 +132,18 @@ const mutations = {
 		}
 	},
 	SET_SINGLE_USER: (state, response) => {
-		state.singleUser = response;
+		state.singleUser = {
+			id: response.id,
+			firstName: response.firstName,
+			lastName: response.lastName,
+			gender: response.gender,
+			email: response.email,
+			picture: response.picture,
+			phone: response.phone,
+			address: response.address,
+			userType: response.userType,
+			userStatus: response.userStatus
+		};
 	},
 	SET_USER_REPORTS: (state, response) => {
 		state.userReports = response;

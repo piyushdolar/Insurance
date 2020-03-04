@@ -359,14 +359,18 @@
           </md-dialog-content>
         </md-dialog>
 
-        <div class="pull-right md-layout" v-if="checkAuthorization('write')">
+        <div class="pull-right md-layout">
           <md-button
             class="md-primary md-layout-item"
             @click="downloadCSV({url: 'users',userType: 2})"
           >
             <md-icon>cloud_download</md-icon>Generate Excel
           </md-button>
-          <md-button class="md-info md-layout-item" @click="openDialog">
+          <md-button
+            class="md-info md-layout-item"
+            @click="openDialog"
+            v-if="checkAuthorization('write')"
+          >
             <md-icon>add</md-icon>Add Agent
           </md-button>
         </div>
