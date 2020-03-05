@@ -111,7 +111,11 @@ Insurance
 
 ## Change logs:
 
-## [1.51.16] 2020-03-03
+## [1.53.22] 2020-03-05
+### What's new
+-   Reports added for admins, agents, customer and policy.
+-   RBAC for these routes added for administrator and admin.
+
 ### Bugs & Patches
 -   Agent authentication bug fixed.
 -   Report components agent's report component separated due to pagination error.

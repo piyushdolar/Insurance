@@ -10,8 +10,10 @@ import CustomerPolicies from '@/pages/CustomerPolicies.vue';
 import CustomerPoliciesCreate from '@/pages/CustomerPoliciesCreate.vue';
 
 import Reports from '@/pages/Reports.vue';
-import ReportAdmin from '@/components/ReportAdmin.vue';
-import ReportAgent from '@/components/ReportAgent.vue';
+import ReportAdmin from '@/components/Reports/ReportAdmin.vue';
+import ReportAgent from '@/components/Reports/ReportAgent.vue';
+import ReportPolicy from '@/components/Reports/ReportPolicy.vue';
+import ReportCustomer from '@/components/Reports/ReportCustomer.vue';
 
 import Maps from '@/pages/Maps.vue';
 import Changelogs from '@/pages/Changelogs.vue';
@@ -106,6 +108,14 @@ const routes = [
 					{
 						path: 'agent',
 						component: ReportAgent
+					},
+					{
+						path: 'policy',
+						component: ReportPolicy
+					},
+					{
+						path: 'customer',
+						component: ReportCustomer
 					}
 				]
 			},

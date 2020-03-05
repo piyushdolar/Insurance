@@ -55,15 +55,4 @@ export const ReportMixin = {
             ]
         }
     },
-    methods: {
-    },
-    computed: {
-        ...mapGetters({
-            getUserReports: "getUserReports",
-
-        })
-    },
-    mounted() {
-        this.$store.dispatch("getUserReports", { user_type: 2, searchWord: "" });
-    }
 };

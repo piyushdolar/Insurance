@@ -73,7 +73,7 @@ import TopNavbar from "./TopNavbar.vue";
 import ContentFooter from "./ContentFooter.vue";
 import DashboardContent from "./Content.vue";
 import MobileMenu from "@/pages/Layout/MobileMenu.vue";
-import checkAuth from "../../helpers/authentication";
+import checkAuth from "@/helpers/authentication";
 
 export default {
   components: {

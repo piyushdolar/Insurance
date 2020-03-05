@@ -2,8 +2,8 @@
   <div>
     <md-card>
       <md-card-header data-background-color="purple">
-        <h4 class="title">Admin Reports</h4>
-        <p class="category">Here you can find and see every admin's report</p>
+        <h4 class="title">Customer Reports</h4>
+        <p class="category">Here you can find and see every customer's report</p>
       </md-card-header>
       <md-card-content>
         <div class="md-layout md-gutter">
@@ -50,7 +50,7 @@
           <div class="md-layout-item table-responsive">
             <vuetable
               ref="vuetable"
-              api-url="https://www.lcpi.la/api/reports?user_type=2"
+              api-url="https://www.lcpi.la/api/report/customers"
               :fields="fields"
               :http-options="{ headers: { Authorization: accessToken } }"
               pagination-path
@@ -61,12 +61,7 @@
               :append-params="moreParams"
               :per-page="perPage"
               @vuetable:load-error="handleLoadError"
-            >
-              <template
-                slot="fullName"
-                slot-scope="props"
-              >{{props.rowData.firstName}} {{props.rowData.lastName}}</template>
-            </vuetable>
+            ></vuetable>
             <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
             <vuetable-pagination
               id="vPage"
@@ -82,10 +77,10 @@
 
 <script>
 import { VuetableMixin } from "@/mixins/VuetableMixin";
-import { ReportMixin } from "@/mixins/ReportMixin";
+import { ReportCustomerMixin } from "@/mixins/ReportCustomerMixin";
 
 export default {
-  name: "ReportAdminComponent",
-  mixins: [VuetableMixin, ReportMixin]
+  name: "ReportPolicyComponent",
+  mixins: [VuetableMixin, ReportCustomerMixin]
 };
 </script>

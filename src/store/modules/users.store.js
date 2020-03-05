@@ -1,4 +1,4 @@
-import axios from '../../api/config';
+import axios from '@/api/config';
 import moment from 'moment';
 
 const state = {
@@ -31,7 +31,7 @@ const actions = {
 			filter: payload.searchWord,
 			user_type: payload.user_type
 		};
-		axios.get('/reports', {
+		axios.get('/report/users', {
 			params: params
 		}).then(response => {
 			commit('SET_USER_REPORTS', response.data.data);

@@ -497,8 +497,8 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { VuetableMixin } from "../mixins/VuetableMixin";
-import { AgentMixin } from "../mixins/AgentMixin";
+import { VuetableMixin } from "@/mixins/VuetableMixin";
+import { AgentMixin } from "@/mixins/AgentMixin";
 import {
   required,
   email,

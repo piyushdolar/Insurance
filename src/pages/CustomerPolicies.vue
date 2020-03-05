@@ -104,8 +104,8 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { VuetableMixin } from "../mixins/VuetableMixin";
-import { PoliciesMixin } from "../mixins/PoliciesMixin";
+import { VuetableMixin } from "@/mixins/VuetableMixin";
+import { PoliciesMixin } from "@/mixins/PoliciesMixin";
 import SingleCustomerComponent from "@/components/SingleCustomerView";
 
 export default {

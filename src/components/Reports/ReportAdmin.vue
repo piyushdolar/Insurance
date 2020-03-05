@@ -2,8 +2,8 @@
   <div>
     <md-card>
       <md-card-header data-background-color="purple">
-        <h4 class="title">Agent's Reports</h4>
-        <p class="category">Here you can find and see every agent's report</p>
+        <h4 class="title">Admin Reports</h4>
+        <p class="category">Here you can find and see every admin's report</p>
       </md-card-header>
       <md-card-content>
         <div class="md-layout md-gutter">
@@ -50,7 +50,7 @@
           <div class="md-layout-item table-responsive">
             <vuetable
               ref="vuetable"
-              api-url="https://www.lcpi.la/api/reports?user_type=3"
+              api-url="https://www.lcpi.la/api/report/users?user_type=2"
               :fields="fields"
               :http-options="{ headers: { Authorization: accessToken } }"
               pagination-path
@@ -81,31 +81,11 @@
 </template>
 
 <script>
-import { VuetableMixin } from "../mixins/VuetableMixin";
+import { VuetableMixin } from "@/mixins/VuetableMixin";
 import { ReportMixin } from "@/mixins/ReportMixin";
 
 export default {
-  name: "ReportAgentComponent",
+  name: "ReportAdminComponent",
   mixins: [VuetableMixin, ReportMixin]
 };
 </script>
-
-<style lang="scss" scoped>
-.md-progress-bar {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-}
-.vuetable-pagination-info {
-  float: left;
-  padding: 1rem;
-}
-.ui.right.floated.menu {
-  margin: 0.5rem;
-}
-.vuetable img {
-  height: 60px;
-  width: auto;
-}
-</style>

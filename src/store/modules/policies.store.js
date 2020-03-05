@@ -1,9 +1,10 @@
-import axios from '../../api/config';
+import axios from '@/api/config';
 import moment from 'moment';
 
 const state = {
 	policies: [],
-	policyHistory: []
+	policyHistory: [],
+	policyReports: []
 };
 
 const actions = {
@@ -16,6 +17,20 @@ const actions = {
 			.catch(error => {
 				throw error.response.data.error;
 			});
+	},
+	getPolicyReports: ({ commit }, payload) => {
+		const params = {
+			sort: 'id|desc',
+			page: 1,
+			per_page: 20,
+			filter: payload.searchWord,
+			user_type: payload.user_type
+		};
+		axios.get('/report/policy', {
+			params: params
+		}).then(response => {
+			commit('SET_USER_REPORTS', response.data.data);
+		});
 	},
 	createPolicyByAgent({ commit }, payload) {
 		let formData = new FormData();
@@ -135,6 +150,9 @@ const mutations = {
 	},
 	SET_POLICY_HISTORY: (state, response) => {
 		state.policyHistory = response;
+	},
+	SET_USER_REPORTS: (state, response) => {
+		state.policyReports = response;
 	}
 };
 
@@ -142,7 +160,8 @@ const getters = {
 	getAllPolicies: state => {
 		return state.policies;
 	},
-	getPolicyHistory: state => { return state.policyHistory }
+	getPolicyHistory: state => { return state.policyHistory },
+	getPolicyReports: state => { return state.policyReports }
 };
 
 export default {

@@ -76,6 +76,8 @@ const rules = [
             delete: []
         }
     },
+
+    // Reports Module
     {
         path: '/reports',
         roles: {
@@ -96,6 +98,19 @@ const rules = [
             read: [1, 2]
         }
     },
+    {
+        path: '/reports/policy',
+        roles: {
+            read: [1, 2]
+        }
+    },
+    {
+        path: '/reports/customer',
+        roles: {
+            read: [1, 2]
+        }
+    },
+    // Changelogs
     {
         path: '/changelogs',
         roles: {

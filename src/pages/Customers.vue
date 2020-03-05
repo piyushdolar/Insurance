@@ -287,8 +287,8 @@ import {
   sameAs
 } from "vuelidate/lib/validators";
 import { validationMixin } from "vuelidate";
-import { VuetableMixin } from "../mixins/VuetableMixin";
-import { CustomerMixin } from "../mixins/CustomerMixin";
+import { VuetableMixin } from "@/mixins/VuetableMixin";
+import { CustomerMixin } from "@/mixins/CustomerMixin";
 
 export default {
   name: "CustomerComponent",

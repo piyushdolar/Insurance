@@ -318,8 +318,8 @@
 
 <script>
 import { validationMixin } from "vuelidate";
-import { VuetableMixin } from "../mixins/VuetableMixin";
-import { AdminMixin } from "../mixins/AdminMixin";
+import { VuetableMixin } from "@/mixins/VuetableMixin";
+import { AdminMixin } from "@/mixins/AdminMixin";
 import {
   required,
   email,
