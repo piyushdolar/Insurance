@@ -183,7 +183,7 @@ export const AgentMixin = {
                 this.form.address = data.address;
                 this.form.loginStatus = data.userStatus == 1 ? true : false;
                 if (data.picture != null) {
-                    this.form.imagePreview = `/images/avatars/agents/${data.picture}`;
+                    this.form.imagePreview = `/images/avatars/users/${data.picture}`;
                 }
                 this.formModal.title = "EDIT AGENT DATA";
                 this.formModal.btn = "UPDATE";

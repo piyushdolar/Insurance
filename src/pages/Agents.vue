@@ -444,7 +444,7 @@
                   <template slot="picture" slot-scope="props">
                     <img
                       v-if="props.rowData.picture != null"
-                      :src="`/images/avatars/agents/${props.rowData.picture}`"
+                      :src="`/images/avatars/users/${props.rowData.picture}`"
                       alt="profile-image"
                     />
                     <img v-else :src="defaultImage" alt="profile-image" />

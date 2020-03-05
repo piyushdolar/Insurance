@@ -5,7 +5,7 @@
         <img
           class="img"
           v-if="form.picture != null"
-          :src="`/images/avatars/agents/${form.picture}`"
+          :src="`/images/avatars/users/${form.picture}`"
           alt="image-preview"
         />
         <img class="img" v-else :src="imagePreview" alt="image-preview" />
