@@ -112,6 +112,14 @@ Insurance
 ## Change logs:
 
 ## [1.53.22] 2020-03-05
+### Bugs & Patches
+-    Fetching root directory from separate files which code is improved.
+-   Policy Report backend api created.
+-    Policy Report frontend design created.
+-    Policy Report Component with api establishing done.
+-    User profile picture updated successfully, render display path not found.
+
+## [1.53.22] 2020-03-05
 ### What's new
 -   Reports added for admins, agents, customer and policy.
 -   RBAC for these routes added for administrator and admin.

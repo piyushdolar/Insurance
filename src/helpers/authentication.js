@@ -40,7 +40,7 @@ const rules = [
         path: '/customers',
         roles: {
             read: [1, 2, 3],
-            write: [1],
+            write: [1, 2],
             delete: [1]
         }
     },
@@ -48,7 +48,7 @@ const rules = [
         path: '/policies',
         roles: {
             read: [1, 2],
-            write: [1],
+            write: [1, 2],
             delete: [1, 2]
         }
     },
