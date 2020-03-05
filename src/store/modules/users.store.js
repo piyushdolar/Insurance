@@ -67,7 +67,6 @@ const actions = {
 	},
 	// Upload profile picture
 	uploadImageUser: (context, payload) => {
-		console.log(payload);
 		let formData = new FormData();
 		formData.append('avatar', payload.image);
 		axios.post('users/avatar/' + payload.id, formData, {

@@ -2,8 +2,13 @@
   <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
     <md-card class="md-card-profile">
       <div class="md-card-avatar">
-        <img class="img" v-if="form.picture != null" :src="form.picture" alt="image-preview" />
-        <img class="img" v-else src="/images/avatars/default.png" alt="image-preview" />
+        <img
+          class="img"
+          v-if="form.picture != null"
+          :src="`/images/avatars/agents/${form.picture}`"
+          alt="image-preview"
+        />
+        <img class="img" v-else :src="imagePreview" alt="image-preview" />
       </div>
       <md-card-content>
         <div class="md-layout">
