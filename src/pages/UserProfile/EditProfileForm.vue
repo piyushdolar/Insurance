@@ -2,7 +2,7 @@
   <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
     <md-card class="md-card-profile">
       <div class="md-card-avatar">
-        <img class="img" v-if="form.picture != null" :src="picturePreview" alt="image-preview" />
+        <img class="img" v-if="form.picture != null" :src="form.picture" alt="image-preview" />
         <img class="img" v-else src="/images/avatars/default.png" alt="image-preview" />
       </div>
       <md-card-content>
@@ -42,8 +42,8 @@
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
             <md-field>
-              <label>Profile Picture</label>
-              <md-file v-model="form.picture" />
+              <label>Profile image</label>
+              <md-file @change="onFileSelected" accept="image/x-png, image/jpeg" />
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-50">
@@ -115,7 +115,8 @@ export default {
   name: "edit-profile-form",
   data() {
     return {
-      picturePreview: "/images/avatars/default.png",
+      image: null,
+      imagePreview: "/images/avatars/default.png",
       sending: false
     };
   },
@@ -155,6 +156,10 @@ export default {
     }
   },
   methods: {
+    onFileSelected(event) {
+      this.form.image = event.target.files[0];
+      this.imagePreview = URL.createObjectURL(this.form.image);
+    },
     getValidationClass(fieldName) {
       const field = this.$v.form[fieldName];
       if (field) {
@@ -166,10 +171,10 @@ export default {
     validateUser(e) {
       this.$v.$touch();
       if (!this.$v.form.$invalid) {
-        this.saveUser("edit");
+        this.saveUser();
       }
     },
-    async saveUser(type) {
+    async saveUser() {
       this.sending = true;
       await this.$store
         .dispatch("editUser", this.form)
