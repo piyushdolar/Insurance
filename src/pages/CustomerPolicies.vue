@@ -48,9 +48,11 @@
             <div class="md-layout-item text-center">
               <md-button class="md-info md-just-icon" @click="doFilter">
                 <md-icon>search</md-icon>
+                <md-tooltip md-direction="top">Search</md-tooltip>
               </md-button>
               <md-button class="md-primary md-just-icon" @click="resetFilter">
                 <md-icon>undo</md-icon>
+                <md-tooltip md-direction="top">Reset</md-tooltip>
               </md-button>
             </div>
           </div>

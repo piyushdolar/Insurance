@@ -149,13 +149,15 @@
         <div class="pull-right md-layout">
           <md-button class="md-primary md-layout-item" @click="downloadCSV({url: 'customers'})">
             <md-icon>cloud_download</md-icon>Generate Excel
+            <md-tooltip md-direction="top">Generate Excel & Download it.</md-tooltip>
           </md-button>
           <md-button
             class="md-info md-layout-item"
             @click="openDialog"
             v-if="checkAuthorization('write')"
           >
-            <md-icon>add</md-icon>Add Policy Holder
+            <md-icon>add</md-icon>Add Customer
+            <md-tooltip md-direction="top">Create Customer</md-tooltip>
           </md-button>
         </div>
       </div>
@@ -200,9 +202,11 @@
               </div>
               <div class="md-layout-item text-center">
                 <md-button class="md-info md-just-icon" @click="doFilter">
+                  <md-tooltip md-direction="top">Search</md-tooltip>
                   <md-icon>search</md-icon>
                 </md-button>
                 <md-button class="md-primary md-just-icon" @click="resetFilter">
+                  <md-tooltip md-direction="top">Reset</md-tooltip>
                   <md-icon>undo</md-icon>
                 </md-button>
               </div>
@@ -251,6 +255,7 @@
                         @click="onAction('edit', props.rowData, props.rowIndex)"
                       >
                         <md-icon>edit</md-icon>
+                        <md-tooltip md-direction="top">Edit</md-tooltip>
                       </md-button>
                       <md-button
                         class="md-danger md-just-icon"
@@ -259,6 +264,7 @@
                         "
                       >
                         <md-icon>delete</md-icon>
+                        <md-tooltip md-direction="top">Delete</md-tooltip>
                       </md-button>
                     </div>
                   </template>

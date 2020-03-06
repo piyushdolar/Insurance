@@ -111,6 +111,11 @@ Insurance
 
 ## Change logs:
 
+## [1.55.0] 2020-03-06
+### What's new
+-   Tooltips added for easy use.
+-   System flowchart created.
+
 ## [1.53.22] 2020-03-05
 ### What's new
 -   Reports added for admins, agents, customer and policy.

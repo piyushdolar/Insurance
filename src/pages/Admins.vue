@@ -195,6 +195,7 @@
             @click="downloadCSV({url: 'users',userType: 2})"
           >
             <md-icon>cloud_download</md-icon>Generate Excel
+            <md-tooltip md-direction="top">Generate Excel & Download it.</md-tooltip>
           </md-button>
           <md-button
             class="md-info md-layout-item"
@@ -202,6 +203,7 @@
             v-if="checkAuthorization('write')"
           >
             <md-icon>add</md-icon>Add Admin
+            <md-tooltip md-direction="top">Create Admin for your employees</md-tooltip>
           </md-button>
         </div>
       </div>
@@ -248,9 +250,11 @@
               <div class="md-layout-item text-center">
                 <md-button class="md-info md-just-icon" @click="doFilter">
                   <md-icon>search</md-icon>
+                  <md-tooltip md-direction="top">Search</md-tooltip>
                 </md-button>
                 <md-button class="md-primary md-just-icon" @click="resetFilter">
                   <md-icon>undo</md-icon>
+                  <md-tooltip md-direction="top">Reset</md-tooltip>
                 </md-button>
               </div>
             </div>
@@ -289,6 +293,7 @@
                         @click="onAction('edit', props.rowData, props.rowIndex)"
                       >
                         <md-icon>edit</md-icon>
+                        <md-tooltip md-direction="top">Edit</md-tooltip>
                       </md-button>
                       <md-button
                         class="md-danger md-just-icon"
@@ -297,6 +302,7 @@
                         "
                       >
                         <md-icon>delete</md-icon>
+                        <md-tooltip md-direction="top">Delete</md-tooltip>
                       </md-button>
                     </div>
                   </template>
