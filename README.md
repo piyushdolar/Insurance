@@ -111,6 +111,16 @@ Insurance
 
 ## Change logs:
 
+## [1.56.5] 2020-03-07
+### Changes:
+-	grossWeightInTon fields needs to remove as mandatory.
+-	Administrator login page moved to /login route in same page where all user can login.
+
+### Bugs:
+-	Seats field showing multiple error at once bug fixed.
+-	Table image comparison on multiple fields bug fixed.
+-	Reports component title name was missing bug fixed.
+
 ## [1.55.0] 2020-03-06
 ### What's new
 -   Tooltips added for easy use.

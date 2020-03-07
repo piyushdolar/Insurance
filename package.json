@@ -1,6 +1,6 @@
 {
 	"name": "Insurance",
-	"version": "1.55.0",
+	"version": "1.56.5",
 	"description": "Live server at this domain www.lcpi.la",
 	"private": true,
 	"start": "HOST='0.0.0.0' PORT=3002 npm run dev",
