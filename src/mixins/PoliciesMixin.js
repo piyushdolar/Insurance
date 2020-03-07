@@ -65,7 +65,7 @@ export const PoliciesMixin = {
 				seats: null
 			},
 			formModal: {
-				title: 'CREATE NEW POLICY FOR POLICY HOLDER',
+				title: 'CREATE NEW POLICY FOR CUSTOMER',
 				btn: 'CREATE',
 				isEdit: false
 			},

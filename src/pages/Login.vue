@@ -10,7 +10,7 @@
 
           <md-card-content>
             <form novalidate class="md-layout" @submit.prevent="validateUser">
-              <div class="md-layout" v-if="form.step">
+              <div class="md-layout">
                 <div class="md-layout-item md-size-100 md-small-size-100">
                   <md-field :class="getValidationClass('email')">
                     <label for="email">Email</label>
@@ -44,40 +44,9 @@
                   </md-field>
                 </div>
                 <div class="md-layout-item md-size-100 md-small-size-100">
-                  <md-radio v-model="form.userType" value="2">I Am Admin</md-radio>
-                  <md-radio v-model="form.userType" value="3">I Am Agent</md-radio>
-                </div>
-              </div>
-              <div class="md-layout" v-else>
-                <div class="md-layout-item md-size-100 md-small-size-100" v-if="form.isShowQRCode">
-                  <img :src="form.otpImage" width="100" height="100" alt="otp-image" />
-                </div>
-
-                <div class="md-layout-item md-size-100 md-small-size-100">
-                  <md-field>
-                    <label for="otp">Google Authenticator Code</label>
-                    <md-input
-                      name="otp"
-                      id="otp"
-                      type="otp"
-                      v-model="form.otpCode"
-                      :disabled="sending"
-                    />
-                    <span class="md-error" v-if="!$v.form.otpCode.required">The OTP is required</span>
-                    <span
-                      class="md-error"
-                      v-else-if="!$v.form.otpCode.minlength"
-                    >OTP Code length must be 6 number long.</span>
-                  </md-field>
-                </div>
-
-                <div class="md-layout-item md-size-100 md-small-size-100">
-                  <ul v-if="errors && errors.length">
-                    <li v-for="error in errors" v-bind:key="error">{{ error }}</li>
-                  </ul>
-                </div>
-                <div class="md-layout-item md-size-100 md-small-size-100">
-                  <md-progress-bar md-mode="indeterminate" v-if="sending" />
+                  <md-radio v-model="form.userType" value="1">Master Admin</md-radio>
+                  <md-radio v-model="form.userType" value="2">Admin</md-radio>
+                  <md-radio v-model="form.userType" value="3">Agent</md-radio>
                 </div>
               </div>
 
@@ -132,15 +101,10 @@ export default {
       form: {
         password: null,
         email: null,
-        otpImage: null,
-        otpCode: null,
         btn: "Login",
-        step: true,
-        userType: "2",
-        isShowQRCode: true
+        userType: "2"
       },
       sending: false,
-      errors: [],
       returnUrl: "",
       showDialog: false
     };
@@ -154,11 +118,6 @@ export default {
       email: {
         required,
         email
-      },
-      otpCode: {
-        required,
-        minLength: minLength(6),
-        maxLength: maxLength(6)
       }
     }
   },
@@ -178,37 +137,13 @@ export default {
         };
       }
     },
-    async checkUser() {
-      this.sending = true;
-      await this.$store
-        .dispatch("checkLogin", {
-          userData: this.form
-        })
-        .then(response => {
-          if (response.isTwoFactorAuthEnabled == "true") {
-            this.form.isShowQRCode = false;
-          }
-          this.form.step = false;
-          this.form.btn = "Verify";
-          this.sending = false;
-          this.form.otpImage = response.QRCode;
-          this.$alert(
-            "info",
-            "Please check your Google Authenticator Apk for OTP."
-          );
-        })
-        .catch(error => {
-          this.sending = false;
-          this.$alert("danger", error);
-        });
-    },
     async finalCheck() {
       this.sending = true;
       await this.$store
-        .dispatch("checkLoginWithQRCode", this.form)
-        .then(responseQRCode => {
+        .dispatch("checkLogin", this.form)
+        .then(response => {
           this.$session.start();
-          this.$session.set("userProfile", responseQRCode.data);
+          this.$session.set("userProfile", response);
           this.$session.set("_timeout", {
             date: new Date(),
             limit: "60"
@@ -224,11 +159,7 @@ export default {
     validateUser() {
       this.$v.$touch();
       if (!this.$v.form.email.$invalid && !this.$v.form.password.$invalid) {
-        if (this.form.step) {
-          this.checkUser();
-        } else if (!this.$v.form.otpCode.$invalid) {
-          this.finalCheck();
-        }
+        this.finalCheck();
       }
     }
   }

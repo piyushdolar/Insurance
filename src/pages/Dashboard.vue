@@ -10,7 +10,7 @@
           data-background-color="red"
         >
           <template slot="content">
-            <h4 class="title">Number Of Policy Holders</h4>
+            <h4 class="title">Number Of Customers</h4>
             <p class="category">Last Campaign Performance</p>
           </template>
 
@@ -73,7 +73,7 @@
           </template>
 
           <template slot="content">
-            <p class="category">Total System Users</p>
+            <p class="category">Total System Admins</p>
             <h3 class="title">{{ getDashboard.users }}</h3>
           </template>
 

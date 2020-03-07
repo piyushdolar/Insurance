@@ -279,8 +279,9 @@
                       v-if="props.rowData.picture != null"
                       :src="`/images/avatars/users/${props.rowData.picture}`"
                       alt="profile-image"
+                      class="vuetable-image"
                     />
-                    <img v-else :src="defaultImage" alt="profile-image" />
+                    <img v-else :src="defaultImage" alt="profile-image" class="vuetable-image"/>
                   </template>
                   <template slot="userStatus" slot-scope="props">
                     <md-chip class="md-primary" v-if="props.rowData.userStatus == 1">Active</md-chip>
@@ -389,9 +390,5 @@ export default {
 }
 .ui.right.floated.menu {
   margin: 0.5rem;
-}
-.vuetable img {
-  height: 60px;
-  width: auto;
 }
 </style>

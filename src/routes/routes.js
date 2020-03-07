@@ -103,18 +103,22 @@ const routes = [
 				children: [
 					{
 						path: 'admin',
+						name: "Reports | Admins",
 						component: ReportAdmin
 					},
 					{
 						path: 'agent',
+						name: "Reports | Agents",
 						component: ReportAgent
 					},
 					{
 						path: 'policy',
+						name: "Reports | Policies",
 						component: ReportPolicy
 					},
 					{
 						path: 'customer',
+						name: "Reports | Customers",
 						component: ReportCustomer
 					}
 				]
@@ -152,16 +156,16 @@ const routes = [
 			},
 
 			// ADMINISTRATOR LOGIN ONLY
-			{
-				path: '/administrator',
-				name: 'Administrator Login',
-				component: LoginMaster,
-				meta: {
-					hideNavigation: true,
-					hideSidebar: true,
-					hideFooter: true
-				}
-			},
+			// {
+			// 	path: '/administrator',
+			// 	name: 'Administrator Login',
+			// 	component: LoginMaster,
+			// 	meta: {
+			// 		hideNavigation: true,
+			// 		hideSidebar: true,
+			// 		hideFooter: true
+			// 	}
+			// },
 
 			// CHANGE LOGS ABOUT PROJECT
 			{

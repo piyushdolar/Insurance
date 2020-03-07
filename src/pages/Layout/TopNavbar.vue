@@ -59,11 +59,13 @@
             <md-list-item to="/dashboard">
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
+              <md-tooltip md-direction="bottom">Dashboard</md-tooltip>
             </md-list-item>
 
             <md-list-item to="/my-profile">
               <i class="material-icons">person</i>
               <p class="hidden-lg hidden-md">Profile</p>
+              <md-tooltip md-direction="left">My Profile</md-tooltip>
             </md-list-item>
           </md-list>
         </div>

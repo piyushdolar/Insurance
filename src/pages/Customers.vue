@@ -236,8 +236,9 @@
                         `/images/avatars/customers/${props.rowData.picture}`
                       "
                       alt="profile-image"
+                      class="vuetable-image"
                     />
-                    <img v-else :src="defaultImage" alt="profile-image" />
+                    <img v-else :src="defaultImage" alt="profile-image" class="vuetable-image"/>
                   </template>
                   <template slot="gender" slot-scope="props">
                     <md-chip class="md-primary" v-if="props.rowData.gender == 1">Male</md-chip>
@@ -342,9 +343,5 @@ export default {
 }
 .ui.right.floated.menu {
   margin: 0.5rem;
-}
-.vuetable img {
-  height: 60px;
-  width: auto;
 }
 </style>

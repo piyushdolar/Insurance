@@ -10,7 +10,7 @@ const state = {
 };
 
 const actions = {
-	checkLogin: ({ commit }, { userData }) => {
+	checkLogin: ({ commit }, userData) => {
 		return axios
 			.post(`/users/login`, {
 				email: userData.email,
@@ -18,29 +18,13 @@ const actions = {
 				user_type: userData.userType
 			})
 			.then(response => {
-				commit("LOGIN_CHECK", response);
+				commit("SET_LOGIN", response);
 				return response.data.data;
 			})
 			.catch(error => {
 				throw error.response.data.error;
 			});
-	},
-	checkLoginWithQRCode: ({ commit, state }, payload) => {
-		return axios
-			.get(`users2fa`, {
-				params: {
-					authCode: payload.otpCode
-				},
-				headers: { 'Authorization': `Bearer ${state.token}` },
-			})
-			.then(function (response) {
-				commit("SET_LOGIN", response);
-				return response.data;
-			})
-			.catch(function (error) {
-				throw error.response.data.error;
-			})
-	},
+	}
 }
 const mutations = {
 	SET_LOGIN: (state, userData) => {
@@ -49,9 +33,6 @@ const mutations = {
 		state.user.data = userData.data.data;
 		state.user.loggedIn = true;
 	},
-	LOGIN_CHECK: (state, payload) => {
-		state.token = payload.headers.token;
-	}
 };
 
 const getters = {

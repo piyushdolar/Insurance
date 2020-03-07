@@ -6,14 +6,14 @@
       <mobile-menu slot="content"></mobile-menu>
       <sidebar-link to="/dashboard" v-if="checkAuthorization('/dashboard')">
         <md-icon>dashboard</md-icon>
-        <p>Home</p>
+        <p>Dashboard</p>
       </sidebar-link>
       <sidebar-link to="/admins" v-if="checkAuthorization('/admins')">
         <md-icon>verified_user</md-icon>
         <p>Admins</p>
       </sidebar-link>
       <sidebar-link to="/agents" v-if="checkAuthorization('/agents')">
-        <md-icon>accessibility_new</md-icon>
+        <md-icon>work</md-icon>
         <p>Agents</p>
       </sidebar-link>
 
@@ -26,7 +26,7 @@
         <p>Create Policy</p>
       </sidebar-link>
       <sidebar-link to="/customer-policies" v-if="checkAuthorization('/customer-policies')">
-        <md-icon>assignment</md-icon>
+        <md-icon>assignment_ind</md-icon>
         <p>Policies</p>
       </sidebar-link>
       <!-- Agent Login To Create Over-->
@@ -36,7 +36,7 @@
         <p>Customers</p>
       </sidebar-link>
       <sidebar-link to="/policies" v-if="checkAuthorization('/policies')">
-        <md-icon>assignment</md-icon>
+        <md-icon>assignment_ind</md-icon>
         <p>Policy</p>
       </sidebar-link>
       <sidebar-link to="/reports" v-if="checkAuthorization('/reports')">
