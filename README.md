@@ -112,13 +112,10 @@ Insurance
 ## Change logs:
 
 ## [1.57.0] 2020-03-10
-### Bugs:
--   Logout page re-designed due to more loading time which need to be optimized.
-
-## [1.57.0] 2020-03-10
 ### Changes:
 -   Dashboard Icons updated.
 -   Dashboard UI changed according to UX rules.
+-   Logout page re-designed due to more loading time which need to be optimized.
 
 ## [1.56.5] 2020-03-07
 ### Changes:
