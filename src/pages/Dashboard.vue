@@ -2,26 +2,7 @@
   <div class="content">
     <div class="md-layout">
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-        <chart-card
-          :chart-data="getDashboardCharts.policy_holders"
-          :chart-options="charts.options"
-          :chart-responsive-options="charts.responsiveOptions"
-          :chart-type="'Bar'"
-          data-background-color="red"
-        >
-          <template slot="content">
-            <h4 class="title">Number Of Customers</h4>
-            <p class="category">Last Campaign Performance</p>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>access_time</md-icon>Last updated recently
-            </div>
-          </template>
-        </chart-card>
-      </div>
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
+        <h2>Daily Report Charts</h2>
         <chart-card
           :chart-data="getDashboardCharts.daily_sales"
           :chart-options="charts.options"
@@ -30,13 +11,8 @@
           :chart-responsive-options="charts.responsiveOptions"
         >
           <template slot="content">
-            <h4 class="title">Daily Sales Performance</h4>
-            <p class="category">
-              <span class="text-success">
-                <i class="fas fa-long-arrow-alt-up"></i> Updated
-              </span>
-              increase in today sales.
-            </p>
+            <h4 class="title">Policy Sales</h4>
+            <p class="category">Live data to check how many policy sold on specific day.</p>
           </template>
 
           <template slot="footer">
@@ -46,7 +22,7 @@
           </template>
         </chart-card>
       </div>
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <chart-card
           :chart-data="getDashboardCharts.agents"
           :chart-options="charts.options"
@@ -55,8 +31,8 @@
           :chart-responsive-options="charts.responsiveOptions"
         >
           <template slot="content">
-            <h4 class="title">Number Of Agents</h4>
-            <p class="category">Last Campaign Performance</p>
+            <h4 class="title">Registered Agents</h4>
+            <p class="category">Live data to check registered agent on specific day.</p>
           </template>
 
           <template slot="footer">
@@ -66,6 +42,33 @@
           </template>
         </chart-card>
       </div>
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+        <h2>Yearly Report Chart</h2>
+        <chart-card
+          :chart-data="getDashboardCharts.policy_holders"
+          :chart-options="charts.options"
+          :chart-responsive-options="charts.responsiveOptions"
+          :chart-type="'Bar'"
+          data-background-color="red"
+        >
+          <template slot="content">
+            <h4 class="title">Registered Customers</h4>
+            <p class="category">Live data to check how many custoemre were registered on specific month.</p>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>access_time</md-icon>Last updated recently
+            </div>
+          </template>
+        </chart-card>
+      </div>
+
+      <!-- Counters -->
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+        <h2>Counters</h2>
+      </div>
+
       <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
         <stats-card data-background-color="green">
           <template slot="header">
@@ -73,13 +76,13 @@
           </template>
 
           <template slot="content">
-            <p class="category">Total System Admins</p>
+            <p class="category">System Admins</p>
             <h3 class="title">{{ getDashboard.users }}</h3>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>date_range</md-icon>Last updated recently
+              <md-icon>date_range</md-icon>Updated recently
             </div>
           </template>
         </stats-card>
@@ -87,17 +90,17 @@
       <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
         <stats-card data-background-color="orange">
           <template slot="header">
-            <md-icon>supervised_user_circle</md-icon>
+            <md-icon>work</md-icon>
           </template>
 
           <template slot="content">
-            <p class="category">Total Agents</p>
+            <p class="category">Agents</p>
             <h3 class="title">{{ getDashboard.agents }}</h3>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>date_range</md-icon>Last updated recently
+              <md-icon>date_range</md-icon>Updated recently
             </div>
           </template>
         </stats-card>
@@ -105,17 +108,17 @@
       <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
         <stats-card data-background-color="red">
           <template slot="header">
-            <i class="fa fa-users"></i>
+            <md-icon>emoji_people</md-icon>
           </template>
 
           <template slot="content">
-            <p class="category">Total Customers</p>
+            <p class="category">Customers</p>
             <h3 class="title">{{ getDashboard.policy_holders }}</h3>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>local_offer</md-icon>Tracked from live server
+              <md-icon>local_offer</md-icon>Updated recently
             </div>
           </template>
         </stats-card>
@@ -123,22 +126,23 @@
       <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
         <stats-card data-background-color="blue">
           <template slot="header">
-            <md-icon>assignment</md-icon>
+            <md-icon>assignment_ind</md-icon>
           </template>
 
           <template slot="content">
-            <p class="category">Total Policies</p>
+            <p class="category">Policies</p>
             <h3 class="title">{{ getDashboard.policies }}</h3>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>update</md-icon>Just Updated
+              <md-icon>update</md-icon>Updated recently
             </div>
           </template>
         </stats-card>
       </div>
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
+        <h2>Recent Logins</h2>
         <md-card>
           <md-card-header data-background-color="orange">
             <h4 class="title">Recent User Logged In</h4>
@@ -150,6 +154,7 @@
         </md-card>
       </div>
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
+        <h2>Recently Added</h2>        
         <nav-tabs-card>
           <template slot="content">
             <span class="md-nav-tabs-title">

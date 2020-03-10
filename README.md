@@ -111,6 +111,11 @@ Insurance
 
 ## Change logs:
 
+## [1.57.0] 2020-03-10
+### Changes:
+-   Dashboard Icons updated.
+-   Dashboard UI changed according to UX rules.
+
 ## [1.56.5] 2020-03-07
 ### Changes:
 -	grossWeightInTon fields needs to remove as mandatory.
