@@ -19,6 +19,7 @@
                     Every system updates and patches information you can found on our git repository
                     <a
                       href="https://github.com/tnklaos/Insurance#change-logs"
+                      target="_blank"
                     >Click here</a> to visit.
                   </p>
                 </section>

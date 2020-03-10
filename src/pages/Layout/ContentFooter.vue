@@ -2,13 +2,7 @@
   <footer class="footer">
     <div class="container">
       <nav>
-        <ul>
-          <li>
-            <a href="#">About Us</a>
-          </li>
-          <li>
-            <a href="#">Blog</a>
-          </li>
+        <ul>          
           <li>
             <a href="#">Licenses</a>
           </li>
