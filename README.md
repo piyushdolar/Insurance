@@ -16,7 +16,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 
 ## Documentation
 
-The documentation for the Vue Material Dashboard is hosted at our [Creative-Tim](https://demos.creative-tim.com/vue-material-dashboard/documentation).
+The documentation for the Vue Material Dashboard is hosted at [Creative-Tim](https://demos.creative-tim.com/vue-material-dashboard/documentation) website.
 
 ## File Structure
 
@@ -110,6 +110,10 @@ Insurance
 ```
 
 ## Change logs:
+
+## [1.57.0] 2020-03-10
+### Bugs:
+-   Logout page re-designed due to more loading time which need to be optimized.
 
 ## [1.57.0] 2020-03-10
 ### Changes:
