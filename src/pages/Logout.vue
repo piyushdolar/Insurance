@@ -2,22 +2,13 @@
   <div class="content">
     <div class="md-layout">
       <div class="md-layout-item md-size-50 mx-auto md-small-size-100">
-        <md-card class="md-card-profile">
-          <div class="md-card-avatar">
-            <img class="img" src="logout.png" alt="image-preview" />
-          </div>
-          <md-card-content>
-            <h3>
-              <md-icon class="material-icons md-size-2x">done</md-icon>
-              {{ logoutText }}
-            </h3>
-            <a href="/login">
-              <h4>
-                <md-icon class="material-icons md-size-2x">rotate_left</md-icon>Go To Login
-              </h4>
-            </a>
-          </md-card-content>
-        </md-card>
+          <md-empty-state
+            md-icon="rowing"
+            md-label="Successfully Logged out!"
+            md-description="Your session has been terminated, Login to access again the Insurance portal.">
+            <router-link to="login"><h4><md-icon class="md-primary">rotate_left</md-icon>Login Now</h4></router-link>
+            <!-- <md-button class="md-primary md-raised" to="/login"><md-icon>rotate_left</md-icon>Login</md-button> -->
+          </md-empty-state>
       </div>
     </div>
   </div>
@@ -26,18 +17,12 @@
 <script>
 export default {
   name: "Logout",
-  data() {
-    return {
-      logoutText: "Logging out..."
-    };
-  },
   mounted() {
     this.logout();
   },
   methods: {
     logout() {
       localStorage.removeItem("refreshToken");
-      this.logoutText = "Successfully logged out.";
     }
   }
 };
