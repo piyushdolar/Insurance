@@ -48,9 +48,9 @@
         <md-icon>location_on</md-icon>
         <p>Maps</p>
       </sidebar-link>-->
-      <sidebar-link to="/changelogs" v-if="checkAuthorization('/changelogs')">
+      <sidebar-link to="/logs" v-if="checkAuthorization('/logs')">
         <md-icon>notifications</md-icon>
-        <p>Changelogs</p>
+        <p>Logs</p>
       </sidebar-link>
       <sidebar-link to="/logout" class="active-pro">
         <md-icon>unarchive</md-icon>

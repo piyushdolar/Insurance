@@ -302,7 +302,7 @@ export const PoliciesMixin = {
 			this.form.sessionId = this.$session.get("userProfile").id;
 			if (type == "add") {
 				await this.$store
-					.dispatch("addPolicy", this.form)
+					.dispatch("createPolicyByAdmin", this.form)
 					.then(response => {
 						this.$alert("success", response);
 						this.showDialog = false;

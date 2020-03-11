@@ -22,7 +22,7 @@
             </md-autocomplete>
           </div>-->
           <md-list>
-            <!-- <li class="md-list-item">
+            <li class="md-list-item">
               <a
                 href="#/notifications"
                 class="md-list-item-router md-list-item-container md-button-clean dropdown"
@@ -55,7 +55,7 @@
                   </drop-down>
                 </div>
               </a>
-            </li>-->
+            </li>
             <md-list-item to="/dashboard">
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>

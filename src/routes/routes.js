@@ -17,8 +17,8 @@ import ReportCustomer from '@/components/Reports/ReportCustomer.vue';
 
 import Maps from '@/pages/Maps.vue';
 import Changelogs from '@/pages/Changelogs.vue';
+import Logs from '@/pages/Logs.vue';
 import Login from '@/pages/Login.vue';
-import LoginMaster from '@/pages/LoginMaster.vue';
 import Logout from '@/pages/Logout.vue';
 
 const routes = [
@@ -175,6 +175,14 @@ const routes = [
 					requiresAuth: true
 				},
 				component: Changelogs
+			},
+			{
+				path: '/logs',
+				name: 'Logs',
+				meta: {
+					requiresAuth: true
+				},
+				component: Logs
 			},
 		]
 	}

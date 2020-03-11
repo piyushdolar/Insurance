@@ -118,6 +118,14 @@ const rules = [
             write: [1, 2],
             delete: [1, 2]
         }
+    },
+    {
+        path: '/logs',
+        roles: {
+            read: [1],
+            write: [1],
+            delete: [1]
+        }
     }
 ];
 

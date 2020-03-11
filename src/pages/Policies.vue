@@ -56,15 +56,15 @@
             </div>
             <div class="md-layout md-gutter">
               <div class="md-layout-item md-small-size-100">
-                <md-autocomplete v-model="form.customerSearched.name" :md-options="form.searchedList" md-autoselect="true" @md-changed="getCustomers" @md-opened="getCustomers" @md-selected="onSelectCustomer">
+                <md-autocomplete v-model="form.customerSearched.name" :md-options="form.searchedList" md-autoselect="true" @md-changed="getCustomers" @md-opened="getCustomers" @md-selected="onSelectCustomer" :class="getValidationClass('customerSearched')">
                   <label>Select Customer *</label>
                   <template slot="md-autocomplete-item" slot-scope="{ item, term }">
                     <md-highlight-text :md-term="term">{{ item.name }}</md-highlight-text>
                   </template>
 
                   <template slot="md-autocomplete-empty" slot-scope="{ term }">No customer matching "{{ term }}" were found.</template>
-                </md-autocomplete>
                 <span class="md-error text-danger" v-if="!$v.form.customerSearched.name.required">Select the customer to proceed further</span>
+                </md-autocomplete>
               </div>
 
               <div class="md-layout-item md-small-size-100">
@@ -82,13 +82,15 @@
 
             <div class="md-layout md-gutter">
               <div class="md-layout-item md-small-size-100">
-                <md-datepicker v-model="form.startDate" md-immediately :md-disabled-dates="form.startDateConfig">
+                <md-datepicker v-model="form.startDate" md-immediately :md-disabled-dates="form.startDateConfig" :class="getValidationClass('startDate')">
                   <label>Policy Start Date</label>
+                  <span class="md-error">The Policy Start date is required</span>
                 </md-datepicker>
               </div>
               <div class="md-layout-item md-small-size-100">
-                <md-datepicker v-model="form.endDate" md-immediately :md-disabled-dates="form.endDateConfig">
+                <md-datepicker v-model="form.endDate" md-immediately :md-disabled-dates="form.endDateConfig" :class="getValidationClass('endDate')">
                   <label>Policy End Date</label>
+                  <span class="md-error">The Policy End date is required</span>
                 </md-datepicker>
               </div>
             </div>
@@ -103,7 +105,6 @@
 
                   <template slot="md-autocomplete-empty" slot-scope="{ term }">No agent matching "{{ term }}" were found.</template>
                 </md-autocomplete>
-                <span class="md-error text-danger" v-if="!$v.form.agentSearched.name.required">You must have to assign the agent to this customer.</span>
               </div>
               <div class="md-layout-item md-small-size-100">
                 <md-field :class="getValidationClass('sumInsured')">
@@ -399,11 +400,6 @@ export default {
         numeric
       },
       customerSearched: {
-        name: {
-          required
-        }
-      },
-      agentSearched: {
         name: {
           required
         }

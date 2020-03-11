@@ -18,6 +18,7 @@ const actions = {
 				throw error.response.data.error;
 			});
 	},
+
 	getPolicyReports: ({ commit }, payload) => {
 		const params = {
 			sort: 'id|desc',
@@ -32,6 +33,7 @@ const actions = {
 			commit('SET_USER_REPORTS', response.data.data);
 		});
 	},
+
 	createPolicyByAgent({ commit }, payload) {
 		let formData = new FormData();
 		formData.append('picture', payload.picture);
@@ -64,21 +66,32 @@ const actions = {
 			throw error.response.data.error;
 		})
 	},
-	addPolicy: ({ commit }, payload) => {
+
+	createPolicyByAdmin: ({ commit }, payload) => {
 		let rowData = {
-			customerId: payload.customerSearched.id,
-			policyName: payload.policyName,
-			startDate: moment(String(payload.startDate)).format('YYYY/MM/DD HH:mm:ss'),
-			endDate: moment(String(payload.endDate)).format('YYYY/MM/DD HH:mm:ss'),
-			policyType: payload.policyType,
-			agentId: payload.agentSearched.id,
-			sumInsured: payload.sumInsured,
-			currencyType: payload.currencyType,
-			policyNumber: payload.policyNumber,
-			comment: payload.comment,
-			status: 1,
-			createdBy: payload.sessionId,
-			updatedBy: payload.sessionId
+			policy:{
+				policyName: payload.policyName,
+				policyNumber: payload.policyNumber,
+				policyType: payload.policyType,
+				startDate: moment(String(payload.startDate)).format('YYYY/MM/DD HH:mm:ss'),
+				endDate: moment(String(payload.endDate)).format('YYYY/MM/DD HH:mm:ss'),
+				customerId: payload.customerSearched.id,
+				agentId: payload.agentSearched.id,
+				sumInsured: payload.sumInsured,
+				currencyType: payload.currencyType,
+				status: 1
+			},
+			vehicle:{
+				vehicleType: payload.vehicleType,
+				make: payload.make,
+				plateNumber: payload.plateNumber,
+				vehicleColor: payload.vehicleColor,
+				powerInCC: payload.powerInCC,
+				engineNumber: payload.engineNumber,
+				chassisNumber: payload.chassisNumber,
+				grossWeightInTon: payload.grossWeightInTon,
+				seats: payload.grossWeightInTon
+			}
 		};
 		return axios({
 			method: 'post',
@@ -93,6 +106,7 @@ const actions = {
 				throw error.response.data.error;
 			});
 	},
+
 	editPolicy: ({ commit }, payload) => {
 		let rowData = {
 			customerId: payload.customerSearched.id,
@@ -120,6 +134,7 @@ const actions = {
 				throw error.response.data.error;
 			});
 	},
+
 	deletePolicy: ({ commit }, { policyId }) => {
 		return axios({
 			method: 'delete',
@@ -132,6 +147,7 @@ const actions = {
 				throw error.response.data.error;
 			});
 	},
+
 	getPolicyHistory: ({ commit }, policyId) => {
 		return axios
 			.get('/policyHistory/' + policyId)
