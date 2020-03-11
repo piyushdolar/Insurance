@@ -33,7 +33,7 @@ export default {
     },
     timeout: {
       type: Number,
-      default: 3000
+      default: 6000
     },
     timestamp: {
       type: Date,

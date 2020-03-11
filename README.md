@@ -111,6 +111,13 @@ Insurance
 
 ## Change logs:
 
+## [1.57.2] 2020-03-11
+### Changes:
+-   Dashboard extra counter design added.
+-   Dashboard notification counter design added.
+-   Changelogs moved to bottom footer of page, replacing with logs.
+-   Logs component design added.
+
 ## [1.57.0] 2020-03-10
 ### Changes:
 -   Dashboard Icons updated.

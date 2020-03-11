@@ -150,7 +150,7 @@ export default {
           this.$alert("success", "Successfully Logged In.");
           this.$router.go("/dashboard");
         })
-        .catch(error => {
+        .catch(error => {          
           this.sending = false;
           this.$alert("danger", error);
         });

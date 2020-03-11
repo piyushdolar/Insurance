@@ -53,7 +53,9 @@
         >
           <template slot="content">
             <h4 class="title">Registered Customers</h4>
-            <p class="category">Live data to check how many custoemre were registered on specific month.</p>
+            <p
+              class="category"
+            >Live data to check how many custoemre were registered on specific month.</p>
           </template>
 
           <template slot="footer">
@@ -64,83 +66,224 @@
         </chart-card>
       </div>
 
-      <!-- Counters -->
+      <!-- Counters Stats -->
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
-        <h2>Counters</h2>
+        <h2>Counter's Stats</h2>
       </div>
 
-      <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
-        <stats-card data-background-color="green">
-          <template slot="header">
-            <md-icon>verified_user</md-icon>
-          </template>
+      <!-- Admin -->
+      <div class="md-layout-item md-layout md-size-100">
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="blue">
+            <template slot="header">
+              <md-icon>verified_user</md-icon>
+            </template>
 
-          <template slot="content">
-            <p class="category">System Admins</p>
-            <h3 class="title">{{ getDashboard.users }}</h3>
-          </template>
+            <template slot="content">
+              <p class="category">Total Admins</p>
+              <h3 class="title">{{ getDashboard.users }}</h3>
+            </template>
 
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>date_range</md-icon>Updated recently
-            </div>
-          </template>
-        </stats-card>
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>date_range</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="blue">
+            <template slot="header">
+              <md-icon>verified_user</md-icon>
+            </template>
+
+            <template slot="content">
+              <p class="category">Logged In</p>
+              <h3 class="title">{{ getDashboard.users }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>date_range</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
+      </div>      
+
+      <!-- Agents -->
+      <div class="md-layout-item md-layout md-size-100">
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="orange">
+            <template slot="header">
+              <md-icon>work</md-icon>
+            </template>
+
+            <template slot="content">
+              <p class="category">Total Agents</p>
+              <h3 class="title">{{ getDashboard.agents }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>date_range</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="orange">
+            <template slot="header">
+              <md-icon>work</md-icon>
+            </template>
+
+            <template slot="content">
+              <p class="category">Logged In</p>
+              <h3 class="title">{{ getDashboard.agents }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>date_range</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
       </div>
-      <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
-        <stats-card data-background-color="orange">
-          <template slot="header">
-            <md-icon>work</md-icon>
-          </template>
 
-          <template slot="content">
-            <p class="category">Agents</p>
-            <h3 class="title">{{ getDashboard.agents }}</h3>
-          </template>
+      <div class="md-layout-item md-layout md-size-100">
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="purple">
+            <template slot="header">
+              <md-icon>emoji_people</md-icon>
+            </template>
 
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>date_range</md-icon>Updated recently
-            </div>
-          </template>
-        </stats-card>
+            <template slot="content">
+              <p class="category">Total Customers</p>
+              <h3 class="title">{{ getDashboard.policy_holders }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>local_offer</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="purple">
+            <template slot="header">
+              <md-icon>emoji_people</md-icon>
+            </template>
+
+            <template slot="content">
+              <p class="category">Active</p>
+              <h3 class="title">{{ getDashboard.policy_holders }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>local_offer</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="purple">
+            <template slot="header">
+              <md-icon>emoji_people</md-icon>
+            </template>
+
+            <template slot="content">
+              <p class="category">In-Active</p>
+              <h3 class="title">{{ getDashboard.policy_holders }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>local_offer</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
       </div>
-      <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
-        <stats-card data-background-color="red">
-          <template slot="header">
-            <md-icon>emoji_people</md-icon>
-          </template>
 
-          <template slot="content">
-            <p class="category">Customers</p>
-            <h3 class="title">{{ getDashboard.policy_holders }}</h3>
-          </template>
+      <div class="md-layout-item md-layout md-size-100">
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="green">
+            <template slot="header">
+              <md-icon>assignment_ind</md-icon>
+            </template>
 
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>local_offer</md-icon>Updated recently
-            </div>
-          </template>
-        </stats-card>
+            <template slot="content">
+              <p class="category">Total Policies</p>
+              <h3 class="title">{{ getDashboard.policies }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>update</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="green">
+            <template slot="header">
+              <md-icon>assignment_ind</md-icon>
+            </template>
+
+            <template slot="content">
+              <p class="category">Active</p>
+              <h3 class="title">{{ getDashboard.policies }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>update</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="green">
+            <template slot="header">
+              <md-icon>assignment_ind</md-icon>
+            </template>
+
+            <template slot="content">
+              <p class="category">Pending</p>
+              <h3 class="title">{{ getDashboard.policies }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>update</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
+        <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
+          <stats-card data-background-color="green">
+            <template slot="header">
+              <md-icon>assignment_ind</md-icon>
+            </template>
+
+            <template slot="content">
+              <p class="category">Rejected</p>
+              <h3 class="title">{{ getDashboard.policies }}</h3>
+            </template>
+
+            <template slot="footer">
+              <div class="stats">
+                <md-icon>update</md-icon>Updated recently
+              </div>
+            </template>
+          </stats-card>
+        </div>
       </div>
-      <div class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25">
-        <stats-card data-background-color="blue">
-          <template slot="header">
-            <md-icon>assignment_ind</md-icon>
-          </template>
 
-          <template slot="content">
-            <p class="category">Policies</p>
-            <h3 class="title">{{ getDashboard.policies }}</h3>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>update</md-icon>Updated recently
-            </div>
-          </template>
-        </stats-card>
-      </div>
+      <!-- Recent tables -->
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
         <h2>Recent Logins</h2>
         <md-card>
@@ -154,7 +297,7 @@
         </md-card>
       </div>
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50">
-        <h2>Recently Added</h2>        
+        <h2>Recently Added</h2>
         <nav-tabs-card>
           <template slot="content">
             <span class="md-nav-tabs-title">

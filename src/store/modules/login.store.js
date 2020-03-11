@@ -21,7 +21,7 @@ const actions = {
 				commit("SET_LOGIN", response);
 				return response.data.data;
 			})
-			.catch(error => {
+			.catch(error => {				
 				throw error.response.data.error;
 			});
 	}

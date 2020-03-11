@@ -27,13 +27,7 @@ export const VuetableMixin = {
 	methods: {
 		// Events
 		handleLoadError(response) {
-			this.$notify({
-				message: response,
-				icon: 'add_alert',
-				verticalAlign: 'top',
-				horizontalAlign: 'right',
-				type: 'danger'
-			});
+			this.$alert("danger", response);
 		},
 		handleDateChange(date) {
 			this.filterItem.searchDate = moment(date[0]._d).format('YYYY/MM/DD') + '|' + moment(date[1]._d).format('YYYY/MM/DD');
