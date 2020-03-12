@@ -1,5 +1,5 @@
-import moment from 'moment';
-import { mapGetters } from 'vuex';
+import moment from "moment";
+import { mapGetters } from "vuex";
 
 export const PoliciesMixin = {
 	data() {
@@ -43,13 +43,13 @@ export const PoliciesMixin = {
 				policyNumber: null,
 				status: false,
 				searchedList: [],
-				comment: '-',
-				startDateConfig: (date) => {
+				comment: "-",
+				startDateConfig: date => {
 					if (this.form.endDate != null && date > this.form.endDate) {
 						return true;
 					}
 				},
-				endDateConfig: (date) => {
+				endDateConfig: date => {
 					if (this.form.startDate != null && this.form.startDate > date) {
 						return true;
 					}
@@ -65,50 +65,50 @@ export const PoliciesMixin = {
 				seats: null
 			},
 			formModal: {
-				title: 'CREATE NEW POLICY FOR CUSTOMER',
-				btn: 'CREATE',
+				title: "CREATE NEW POLICY FOR CUSTOMER",
+				btn: "CREATE",
 				isEdit: false
 			},
 			historyModalTitle: null,
 			fields: [
 				{
-					name: 'policyNumber',
-					title: 'Policy Number'
+					name: "policyNumber",
+					title: "Policy Number"
 				},
 				{
-					name: 'policyName',
-					sortField: 'policyName',
-					title: 'Policy Name',
+					name: "policyName",
+					sortField: "policyName",
+					title: "Policy Name",
 					callback: value => {
-						return (value == null) ? '-' : value;
+						return value == null ? "-" : value;
 					}
 				},
 				{
-					name: '__slot:customer',
-					sortField: 'firstName',
-					title: 'Customer Name'
+					name: "__slot:customer",
+					sortField: "firstName",
+					title: "Customer Name"
 				},
 				{
-					name: 'sumInsured',
-					sortField: 'sumInsured',
-					title: 'Sum Insured',
+					name: "sumInsured",
+					sortField: "sumInsured",
+					title: "Sum Insured",
 					callback: value => {
-						return (value == null) ? '-' : value;
+						return value == null ? "-" : value;
 					}
 				},
 				{
-					name: 'currencyType',
-					sortField: 'currencyType',
-					title: 'Currency Type',
+					name: "currencyType",
+					sortField: "currencyType",
+					title: "Currency Type",
 					callback: value => {
-						return (value == null) ? '-' : value;
+						return value == null ? "-" : value;
 					}
 				},
 				{
-					name: 'renew',
-					sortField: 'renew',
-					title: 'Contract',
-					callback: function (value) {
+					name: "renew",
+					sortField: "renew",
+					title: "Contract",
+					callback: function(value) {
 						if (value != null) {
 							return "Renewed";
 						} else {
@@ -117,83 +117,81 @@ export const PoliciesMixin = {
 					}
 				},
 				{
-					name: 'startDate',
-					sortField: 'startDate',
-					title: 'Start Date',
-					callback: function (value) {
-						return (value) ? moment(String(value)).format('MM/DD/YYYY') : '-';
+					name: "startDate",
+					sortField: "startDate",
+					title: "Start Date",
+					callback: function(value) {
+						return value ? moment(String(value)).format("MM/DD/YYYY") : "-";
 					}
 				},
 				{
-					name: 'endDate',
-					sortField: 'endDate',
-					title: 'End Date',
-					callback: function (value) {
-						return (value) ? moment(String(value)).format('MM/DD/YYYY') : '-';
+					name: "endDate",
+					sortField: "endDate",
+					title: "End Date",
+					callback: function(value) {
+						return value ? moment(String(value)).format("MM/DD/YYYY") : "-";
 					}
 				},
 				{
-					name: '__slot:policyType',
-					sortField: 'policyType',
-					title: 'Policy Type'
+					name: "__slot:policyType",
+					sortField: "policyType",
+					title: "Policy Type"
 				},
 				{
-					name: 'agent',
-					sortField: 'agent.id',
-					title: 'Agent Name',
-					callback: function (value) {
+					name: "agent",
+					sortField: "agent.id",
+					title: "Agent Name",
+					callback: function(value) {
 						return value.fullName;
 					}
 				},
 				{
-					name: '__slot:status',
-					sortField: 'status',
-					title: 'Approve Status'
+					name: "__slot:status",
+					sortField: "status",
+					title: "Approve Status"
 				},
 				{
-					name: 'createdAt',
-					sortField: 'createdAt',
-					title: 'Created Date',
-					callback: function (value) {
-						return moment(String(value)).format('MM/DD/YYYY hh:mm a');
+					name: "createdAt",
+					sortField: "createdAt",
+					title: "Created Date",
+					callback: function(value) {
+						return moment(String(value)).format("MM/DD/YYYY hh:mm a");
 					}
 				},
 				{
-					name: 'createdBy',
-					sortField: 'createdBy.id',
-					title: 'Created By',
+					name: "createdBy",
+					sortField: "createdBy.id",
+					title: "Created By",
 					callback: value => {
-						return (value.id == null) ? '-' : value.name;
+						return value.id == null ? "-" : value.name;
 					}
 				},
 				{
-					name: 'updatedAt',
-					sortField: 'updatedAt',
-					title: 'Updated Date',
-					callback: function (value) {
-						return moment(String(value)).format('MM/DD/YYYY hh:mm a');
+					name: "updatedAt",
+					sortField: "updatedAt",
+					title: "Updated Date",
+					callback: function(value) {
+						return moment(String(value)).format("MM/DD/YYYY hh:mm a");
 					}
 				},
 				{
-					name: 'updatedBy',
-					sortField: 'updatedBy.id',
-					title: 'Updated By',
+					name: "updatedBy",
+					sortField: "updatedBy.id",
+					title: "Updated By",
 					callback: value => {
-						return (value.id == null) ? '-' : value.name;
+						return value.id == null ? "-" : value.name;
 					}
 				},
 				{
-					name: '__slot:actions',
-					title: 'Actions'
+					name: "__slot:actions",
+					title: "Actions"
 				}
 			]
 		};
 	},
 	methods: {
 		checkAuthorization(rule) {
-			return this.$checkAuth(
-				rule
-			);
+			return this.$checkAuth(rule);
 		},
 		// md select over...
 		onAction(action, data, index) {
@@ -241,7 +239,7 @@ export const PoliciesMixin = {
 							this.$alert("danger", error);
 						});
 				}
-			} else if (action == 'history') {
+			} else if (action == "history") {
 				this.showHistoryModal = true;
 				this.historyModalTitle = data.updatedBy.name;
 				this.$store.dispatch("getPolicyHistory", data.id);
@@ -271,10 +269,20 @@ export const PoliciesMixin = {
 			this.form.agentSearched.name = null;
 			this.form.startDate = null;
 			this.form.endDate = null;
-			this.form.comment = '-';
+			this.form.comment = "-";
 			this.form.sumInsured = null;
 			this.form.currencyType = null;
 			this.form.status = false;
+
+			this.form.make = null;
+			this.form.vehicleType = null;
+			this.form.plateNumber = null;
+			this.form.vehicleColor = null;
+			this.form.powerInCC = null;
+			this.form.engineNumber = null;
+			this.form.chassisNumber = null;
+			this.form.grossWeightInTon = null;
+			this.form.seats = null;
 		},
 		validateUser(e) {
 			this.$v.$touch();
@@ -359,7 +367,7 @@ export const PoliciesMixin = {
 		onSelectSingleCustomer(id) {
 			this.showSingleCustomerDialog = true;
 			this.singleCustomerForm = this.getSingleCustomer(id);
-		},
+		}
 	},
 	computed: {
 		...mapGetters({
@@ -367,7 +375,6 @@ export const PoliciesMixin = {
 			agentsList: "getUsers",
 			getSingleCustomer: "getSingleCustomer",
 			getPolicyHistory: "getPolicyHistory"
-
 		})
 	},
 	mounted() {

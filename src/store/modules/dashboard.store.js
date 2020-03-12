@@ -1,11 +1,28 @@
-import axios from '@/api/config';
+import axios from "@/api/config";
+
+// All the constants-states are in the details because of the preventing console error of undefined.
 
 const state = {
   total: {
-    users: null,
-    agents: null,
-    policy_holders: null,
-    policies: null
+    admins: {
+      totalAdmin: null,
+      totalAdminsLoggedInToday: null
+    },
+    agents: {
+      totalAgents: null,
+      totalAgentsLoggedInToday: null
+    },
+    customers: {
+      totalCustomers: null,
+      totalActiveCustomers: null,
+      totalInactiveCustomers: null
+    },
+    policy: {
+      totalPolicy: null,
+      totalPendingPolicies: null,
+      totalActivePolicies: null,
+      totalRejectedPolicies: null
+    }
   },
   recent: {
     logged_in: [],
@@ -16,38 +33,30 @@ const state = {
   charts: {
     policy_holders: {
       labels: [],
-      series: [
-        []
-      ]
+      series: [[]]
     },
     daily_sales: {
       labels: [],
-      series: [
-        []
-      ]
+      series: [[]]
     },
     agents: {
       labels: [],
-      series: [
-        []
-      ]
+      series: [[]]
     }
   }
 };
 
 const actions = {
   // Get all users
-  fetchDashboard: ({
-    commit
-  }) => {
+  fetchDashboard: ({ commit }) => {
     return axios
-      .get('/dashboard', {
+      .get("/dashboard", {
         headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('refreshToken')}`
+          Authorization: `Bearer ${window.localStorage.getItem("refreshToken")}`
         }
       })
       .then(response => {
-        commit('SET_DASHBOARD_DATA', response.data.data);
+        commit("SET_DASHBOARD_DATA", response.data.data);
       })
       .catch(error => {
         throw error.response;
@@ -57,11 +66,7 @@ const actions = {
 
 const mutations = {
   SET_DASHBOARD_DATA: (state, response) => {
-    state.total.users = response.total.usersCount;
-    state.total.agents = response.total.agentsCount;
-    state.total.policy_holders = response.total.policy_holders_count;
-    state.total.policies = response.total.policyCount;
-
+    state.total = response.total;
     state.recent.logged_in = response.recent.logged_in;
     state.recent.agents = response.recent.agents;
     state.recent.policy_holders = response.recent.policy_holders;
@@ -69,15 +74,28 @@ const mutations = {
 
     state.charts = {
       policy_holders: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec"
+        ],
         series: [response.charts.policy_holders.data]
       },
       daily_sales: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         series: [response.charts.daily_sales.data]
       },
       agents: {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
         series: [response.charts.daily_sales.data]
       }
     };

@@ -2,12 +2,22 @@
   <div class="content">
     <div class="md-layout">
       <!-- dialog with button -->
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
+      >
         <!-- CREATE AGENT MODAL -->
-        <md-dialog :md-active.sync="showDialog" class="modal-large">
+        <md-dialog
+          :md-active.sync="showDialog"
+          class="modal-large"
+          :md-click-outside-to-close="false"
+        >
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
           <md-dialog-content>
-            <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
+            <form
+              novalidate
+              @submit.prevent="validateUser"
+              enctype="multipart/form-data"
+            >
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100 text-center">
                   <md-avatar class="md-large">
@@ -15,7 +25,11 @@
                   </md-avatar>
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
-                    <md-file id="image" @change="onFileSelected" accept="image/x-png, image/jpeg" />
+                    <md-file
+                      id="image"
+                      @change="onFileSelected"
+                      accept="image/x-png, image/jpeg"
+                    />
                   </md-field>
                 </div>
               </div>
@@ -30,14 +44,14 @@
                       v-model="form.firstName"
                       :disabled="sending"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.firstName.required"
-                    >The first name is required</span>
+                    <span class="md-error" v-if="!$v.form.firstName.required"
+                      >The first name is required</span
+                    >
                     <span
                       class="md-error"
                       v-else-if="!$v.form.firstName.minlength"
-                    >Invalid first name</span>
+                      >Invalid first name</span
+                    >
                   </md-field>
                 </div>
 
@@ -51,11 +65,14 @@
                       v-model="form.lastName"
                       :disabled="sending"
                     />
+                    <span class="md-error" v-if="!$v.form.lastName.required"
+                      >The last name is required</span
+                    >
                     <span
                       class="md-error"
-                      v-if="!$v.form.lastName.required"
-                    >The last name is required</span>
-                    <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
+                      v-else-if="!$v.form.lastName.minlength"
+                      >Invalid last name</span
+                    >
                   </md-field>
                 </div>
               </div>
@@ -90,14 +107,12 @@
                       v-model="form.phone"
                       :disabled="sending"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.phone.required"
-                    >The phone number is required</span>
-                    <span
-                      class="md-error"
-                      v-else-if="!$v.form.phone.minlength"
-                    >Invalid phone number, It must be 11 digits long.</span>
+                    <span class="md-error" v-if="!$v.form.phone.required"
+                      >The phone number is required</span
+                    >
+                    <span class="md-error" v-else-if="!$v.form.phone.minlength"
+                      >Invalid phone number, It must be 11 digits long.</span
+                    >
                   </md-field>
                 </div>
               </div>
@@ -114,7 +129,9 @@
                       v-model="form.email"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.email.email">Invalid email</span>
+                    <span class="md-error" v-if="!$v.form.email.email"
+                      >Invalid email</span
+                    >
                   </md-field>
                 </div>
               </div>
@@ -135,9 +152,12 @@
                         v-for="province in getLocationProvince"
                         :key="province.id"
                         :value="province.id"
-                      >{{province.nameEng}}</md-option>
+                        >{{ province.nameEng }}</md-option
+                      >
                     </md-select>
-                    <span class="md-error" v-if="!$v.form.provinceId.required">Province Required</span>
+                    <span class="md-error" v-if="!$v.form.provinceId.required"
+                      >Province Required</span
+                    >
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -154,9 +174,12 @@
                         v-for="district in getLocationDistrict"
                         :key="district.id"
                         :value="district.id"
-                      >{{district.nameEng}}</md-option>
+                        >{{ district.nameEng }}</md-option
+                      >
                     </md-select>
-                    <span class="md-error" v-if="!$v.form.districtId.required">District Required</span>
+                    <span class="md-error" v-if="!$v.form.districtId.required"
+                      >District Required</span
+                    >
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -169,10 +192,9 @@
                       v-model="form.villageName"
                       :disabled="sending"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.villageName.required"
-                    >The village name is required</span>
+                    <span class="md-error" v-if="!$v.form.villageName.required"
+                      >The village name is required</span
+                    >
                   </md-field>
                 </div>
               </div>
@@ -200,10 +222,9 @@
                       v-model="form.bankName"
                       :disabled="sending"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.bankName.required"
-                    >The bank account name is required</span>
+                    <span class="md-error" v-if="!$v.form.bankName.required"
+                      >The bank account name is required</span
+                    >
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -216,10 +237,9 @@
                       v-model="form.bankAcNumber"
                       :disabled="sending"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.bankAcNumber.required"
-                    >The bank account number is required</span>
+                    <span class="md-error" v-if="!$v.form.bankAcNumber.required"
+                      >The bank account number is required</span
+                    >
                   </md-field>
                 </div>
               </div>
@@ -238,7 +258,8 @@
                     <span
                       class="md-error"
                       v-if="!$v.form.familyBookNumber.required"
-                    >The family book number is required</span>
+                      >The family book number is required</span
+                    >
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -252,7 +273,8 @@
                     <span
                       class="md-error"
                       v-if="!$v.form.familyBookDOI.required"
-                    >The family book date of issue is required</span>
+                      >The family book date of issue is required</span
+                    >
                   </md-datepicker>
                 </div>
               </div>
@@ -271,7 +293,8 @@
                     <span
                       class="md-error"
                       v-if="!$v.form.personalIdNumber.required"
-                    >The Personal ID number is required</span>
+                      >The Personal ID number is required</span
+                    >
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -285,7 +308,8 @@
                     <span
                       class="md-error"
                       v-if="!$v.form.personalIdDOI.required"
-                    >The family book date of issue is required</span>
+                      >The family book date of issue is required</span
+                    >
                   </md-datepicker>
                 </div>
               </div>
@@ -301,14 +325,12 @@
                       v-model="form.password"
                       :disabled="sending"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.password.required"
-                    >The password field is required.</span>
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.password.minLength"
-                    >The password minimum length is 4 character long.</span>
+                    <span class="md-error" v-if="!$v.form.password.required"
+                      >The password field is required.</span
+                    >
+                    <span class="md-error" v-if="!$v.form.password.minLength"
+                      >The password minimum length is 4 character long.</span
+                    >
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -321,10 +343,9 @@
                       v-model="form.repeatPassword"
                       :disabled="sending"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.repeatPassword.sameAs"
-                    >The password dosen't match.</span>
+                    <span class="md-error" v-if="!$v.form.repeatPassword.sameAs"
+                      >The password dosen't match.</span
+                    >
                   </md-field>
                 </div>
               </div>
@@ -340,20 +361,34 @@
                       v-model="form.address"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.address.required">The address is required</span>
-                    <span class="md-error" v-else-if="!$v.form.address.email">Invalid Address</span>
+                    <md-icon>description</md-icon>
+                    <span class="md-error" v-if="!$v.form.address.required"
+                      >The address is required</span
+                    >
+                    <span class="md-error" v-else-if="!$v.form.address.email"
+                      >Invalid Address</span
+                    >
                   </md-field>
                 </div>
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.loginStatus" class="md-primary">Active This Agent</md-switch>
+                  <md-switch v-model="form.loginStatus" class="md-primary"
+                    >Active This Agent</md-switch
+                  >
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
               <md-dialog-actions>
-                <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
-                <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
+                <md-button class="md-danger" @click="showDialog = false"
+                  >CLOSE</md-button
+                >
+                <md-button
+                  type="submit"
+                  class="md-primary"
+                  :disabled="sending"
+                  >{{ formModal.btn }}</md-button
+                >
               </md-dialog-actions>
             </form>
           </md-dialog-content>
@@ -362,10 +397,12 @@
         <div class="pull-right md-layout">
           <md-button
             class="md-primary md-layout-item"
-            @click="downloadCSV({url: 'users',userType: 2})"
+            @click="downloadCSV({ url: 'users', userType: 2 })"
           >
             <md-icon>cloud_download</md-icon>Generate Excel
-            <md-tooltip md-direction="top">Generate Excel & Download it.</md-tooltip>
+            <md-tooltip md-direction="top"
+              >Generate Excel & Download it.</md-tooltip
+            >
           </md-button>
           <md-button
             class="md-info md-layout-item"
@@ -373,24 +410,42 @@
             v-if="checkAuthorization('write')"
           >
             <md-icon>add</md-icon>Add Agent
-            <md-tooltip md-direction="top">Create Agent for your system</md-tooltip>
+            <md-tooltip md-direction="top"
+              >Create Agent for your system</md-tooltip
+            >
           </md-button>
         </div>
       </div>
 
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
+      >
+        <ResetPassword
+          :ResetPasswordDialogBox="ResetPasswordDialogBox"
+          v-on:onResetPasswordDialogClose="ResetPasswordDialogBox = false"
+          v-on:onResetPasswordDialogData="onResetPasswordDialogData"
+        />
+      </div>
       <!-- vuetable -->
-      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable">
+      <div
+        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable"
+      >
         <md-card class>
           <md-card-header data-background-color="purple">
             <h4 class="title">Agent's Database</h4>
-            <p class="category">Here you can find and see every agent's details</p>
+            <p class="category">
+              Here you can find and see every agent's details
+            </p>
           </md-card-header>
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item">
                 <md-field>
                   <label for="address">Search in the table</label>
-                  <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
+                  <md-input
+                    v-model="filterItem.searchText"
+                    @keyup.enter="doFilter"
+                  ></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item">
@@ -405,7 +460,11 @@
               </div>
               <div class="md-layout-item">
                 <md-field>
-                  <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
+                  <md-select
+                    v-model="perPage"
+                    placeholder="Item per page"
+                    style="margin:auto"
+                  >
                     <md-option :value="10">10</md-option>
                     <md-option :value="15">15</md-option>
                     <md-option :value="20">20</md-option>
@@ -452,11 +511,20 @@
                       alt="profile-image"
                       class="vuetable-image"
                     />
-                    <img v-else :src="defaultImage" alt="profile-image" class='vuetable-image'/>
+                    <img
+                      v-else
+                      :src="defaultImage"
+                      alt="profile-image"
+                      class="vuetable-image"
+                    />
                   </template>
 
                   <template slot="status" slot-scope="props">
-                    <md-chip class="md-primary" v-if="props.rowData.userStatus == 1">Active</md-chip>
+                    <md-chip
+                      class="md-primary"
+                      v-if="props.rowData.userStatus == 1"
+                      >Active</md-chip
+                    >
                     <md-chip class="md-accent" v-else>Deactive</md-chip>
                   </template>
 
@@ -464,7 +532,10 @@
                     slot="location"
                     slot-scope="props"
                     v-if="props.rowData.locationId != null"
-                  >{{props.rowData.provinceNameEng}}, {{props.rowData.districtNameEng}}, {{props.rowData.villageName}}</template>
+                    >{{ props.rowData.provinceNameEng }},
+                    {{ props.rowData.districtNameEng }},
+                    {{ props.rowData.villageName }}</template
+                  >
 
                   <template slot="actions" slot-scope="props">
                     <div class="custom-actions">
@@ -474,6 +545,21 @@
                       >
                         <md-icon>edit</md-icon>
                         <md-tooltip md-direction="top">Edit</md-tooltip>
+                      </md-button>
+                      <md-button
+                        class="md-primary md-just-icon"
+                        @click="
+                          onAction(
+                            'reset-password',
+                            props.rowData,
+                            props.rowIndex
+                          )
+                        "
+                      >
+                        <md-icon>lock</md-icon>
+                        <md-tooltip md-direction="top"
+                          >Reset Password</md-tooltip
+                        >
                       </md-button>
                       <md-button
                         class="md-danger md-just-icon"
@@ -487,7 +573,10 @@
                     </div>
                   </template>
                 </vuetable>
-                <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
+                <vuetable-pagination-info
+                  id="vPageInfo"
+                  ref="paginationInfo"
+                ></vuetable-pagination-info>
                 <vuetable-pagination
                   id="vPage"
                   ref="pagination"
@@ -506,6 +595,7 @@
 import { validationMixin } from "vuelidate";
 import { VuetableMixin } from "@/mixins/VuetableMixin";
 import { AgentMixin } from "@/mixins/AgentMixin";
+import ResetPassword from "@/components/ResetPassword";
 import {
   required,
   email,
@@ -517,6 +607,7 @@ import {
 export default {
   name: "AgentComponent",
   mixins: [validationMixin, VuetableMixin, AgentMixin],
+  components: { ResetPassword },
   data: () => ({}),
   validations: {
     form: {
@@ -595,5 +686,5 @@ export default {
 }
 .ui.right.floated.menu {
   margin: 0.5rem;
-} 
+}
 </style>

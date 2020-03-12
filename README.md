@@ -111,6 +111,11 @@ Insurance
 
 ## Change logs:
 
+## [1.57.3] 2020-03-12
+### Bugs:
+-   Every dialog box was close when it was cliked outside dialog box error fixed.
+-   Reset password design added.
+
 ## [1.57.2] 2020-03-11
 ### Changes:
 -   Dashboard extra counter design added.
