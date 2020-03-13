@@ -35,21 +35,15 @@
                       data-toggle="dropdown"
                     >
                       <md-icon>notifications</md-icon>
-                      <span class="notification">5</span>
+                      <span class="notification">{{getNotifications.total}}</span>
                       <p class="hidden-lg hidden-md">Notifications</p>
                     </md-button>
                     <ul class="dropdown-menu dropdown-menu-right">
-                      <li>
-                        <a href="#">Server started.</a>
-                      </li>
-                      <li>
-                        <a href="#">Database initialized.</a>
-                      </li>
-                      <li>
-                        <a href="#">User connected.</a>
-                      </li>
-                      <li>
-                        <a href="#">Client & Server connection successfull.</a>
+                      <li
+                        v-for="notification in getNotifications.messages"
+                        v-bind:key="notification.message"
+                      >
+                        <a href="/policies">{{notification.message}}.</a>
                       </li>
                     </ul>
                   </drop-down>
@@ -75,6 +69,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -95,6 +90,15 @@ export default {
     toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
     }
+  },
+  mounted() {
+    this.$store.dispatch("fetchNotifications");
+  },
+  updated() {
+    this.$store.dispatch("fetchNotifications");
+  },
+  computed: {
+    ...mapGetters(["getNotifications"])
   }
 };
 </script>
