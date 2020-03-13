@@ -17,11 +17,13 @@ const actions = {
 			filter: payload.searchWord,
 			user_type: payload.user_type
 		};
-		axios.get('/users', {
-			params: params
-		}).then(response => {
-			commit('SET_USERS', response.data.data);
-		});
+		axios
+			.get('/users', {
+				params: params
+			})
+			.then(response => {
+				commit('SET_USERS', response.data.data);
+			});
 	},
 	getUserReports: ({ commit }, payload) => {
 		const params = {
@@ -31,11 +33,13 @@ const actions = {
 			filter: payload.searchWord,
 			user_type: payload.user_type
 		};
-		axios.get('/report/users', {
-			params: params
-		}).then(response => {
-			commit('SET_USER_REPORTS', response.data.data);
-		});
+		axios
+			.get('/report/users', {
+				params: params
+			})
+			.then(response => {
+				commit('SET_USER_REPORTS', response.data.data);
+			});
 	},
 	getSingleUser({ commit }, userId) {
 		axios.get('/users/' + userId).then(response => {
@@ -56,7 +60,7 @@ const actions = {
 					let parsedData = {
 						id: response.data.data.id,
 						image: userData.image
-					}
+					};
 					dispatch('uploadImageUser', parsedData);
 				}
 				return 'Admin has been successfully created.';
@@ -74,13 +78,13 @@ const actions = {
 				'Content-Type': 'multipart/form-data'
 			},
 			onUploadProgress: progressEvent => {
-				let completeProgress = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
+				let completeProgress = (((progressEvent.loaded / progressEvent.total) * 100) | 0) + '%';
 			}
 		});
 	},
 	// Edit admin/agent user
 	editUser: ({ dispatch }, userData) => {
-		userData.userStatus = (userData.loginStatus) ? 1 : 2;
+		userData.userStatus = userData.loginStatus ? 1 : 2;
 		userData.updatedBy = userData.sessionId;
 		return axios({
 			method: 'put',
@@ -109,6 +113,20 @@ const actions = {
 			})
 			.catch(error => {
 				throw error.response.data.error;
+			});
+	},
+
+	resetPassword: ({}, payload) => {
+		return axios({
+			method: 'put',
+			url: 'users/reset-password/' + payload.id,
+			data: { password: payload.resetPassword.password }
+		})
+			.then(response => {
+				return 'Password reset successfully.';
+			})
+			.catch(error => {
+				throw error.response ? error.response.data.error : error;
 			});
 	}
 };
@@ -151,7 +169,7 @@ const mutations = {
 };
 
 const getters = {
-	getUsers: (state) => {
+	getUsers: state => {
 		return state.users;
 	},
 	getSingleUser(state) {
@@ -159,7 +177,7 @@ const getters = {
 	},
 	getUserReports(state) {
 		return state.userReports;
-	},
+	}
 };
 
 export default {

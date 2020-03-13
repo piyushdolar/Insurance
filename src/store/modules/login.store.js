@@ -1,4 +1,4 @@
-import axios from "@/api/config";
+import axios from '@/api/config';
 // axios.defaults.headers.common.Authorization = `Bearer ${window.localStorage.getItem('refreshToken')}`;
 
 const state = {
@@ -18,21 +18,21 @@ const actions = {
 				user_type: userData.userType
 			})
 			.then(response => {
-				commit("SET_LOGIN", response);
+				commit('SET_LOGIN', response);
 				return response.data.data;
 			})
-			.catch(error => {				
-				throw error.response.data.error;
+			.catch(error => {
+				throw error.response ? error.response.data.error : error;
 			});
 	}
-}
+};
 const mutations = {
 	SET_LOGIN: (state, userData) => {
 		state.token = userData.headers.token;
-		window.localStorage.setItem("refreshToken", state.token);
+		window.localStorage.setItem('refreshToken', state.token);
 		state.user.data = userData.data.data;
 		state.user.loggedIn = true;
-	},
+	}
 };
 
 const getters = {

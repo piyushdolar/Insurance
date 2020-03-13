@@ -2,16 +2,14 @@
   <div class="content">
     <div class="md-layout">
       <!-- dialog with button -->
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
-      >
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <!-- Policy History Modal -->
         <md-dialog
           :md-active.sync="showHistoryModal"
           class="modal-large"
           :md-click-outside-to-close="false"
         >
-          <md-dialog-title>{{ historyModalTitle }}'s History</md-dialog-title>
+          <md-dialog-title>{{ historyModalTitle }}'s Comment History</md-dialog-title>
           <md-dialog-content>
             <md-list
               class="md-double-line"
@@ -37,9 +35,7 @@
             </md-list>
           </md-dialog-content>
           <md-dialog-actions>
-            <md-button class="md-danger" @click="showHistoryModal = false"
-              >CLOSE</md-button
-            >
+            <md-button class="md-danger" @click="showHistoryModal = false">CLOSE</md-button>
           </md-dialog-actions>
         </md-dialog>
 
@@ -62,14 +58,14 @@
                       v-model="form.policyName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.policyName.required"
-                      >The policy name is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.policyName.required"
+                    >The policy name is required</span>
                     <span
                       class="md-error"
                       v-else-if="!$v.form.policyName.minlength"
-                      >Invalid policy name</span
-                    >
+                    >Invalid policy name</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -81,14 +77,14 @@
                       v-model="form.policyNumber"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.policyNumber.required"
-                      >The policy number is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.policyNumber.required"
+                    >The policy number is required</span>
                     <span
                       class="md-error"
                       v-else-if="!$v.form.policyNumber.numeric"
-                      >Invalid policy number</span
-                    >
+                    >Invalid policy number</span>
                   </md-field>
                 </div>
               </div>
@@ -104,23 +100,22 @@
                     :class="getValidationClass('customerSearched')"
                   >
                     <label>Select Customer *</label>
-                    <template
-                      slot="md-autocomplete-item"
-                      slot-scope="{ item, term }"
-                    >
-                      <md-highlight-text :md-term="term">{{
+                    <template slot="md-autocomplete-item" slot-scope="{ item, term }">
+                      <md-highlight-text :md-term="term">
+                        {{
                         item.name
-                      }}</md-highlight-text>
+                        }}
+                      </md-highlight-text>
                     </template>
 
-                    <template slot="md-autocomplete-empty" slot-scope="{ term }"
-                      >No customer matching "{{ term }}" were found.</template
-                    >
+                    <template
+                      slot="md-autocomplete-empty"
+                      slot-scope="{ term }"
+                    >No customer matching "{{ term }}" were found.</template>
                     <span
                       class="md-error text-danger"
                       v-if="!$v.form.customerSearched.name.required"
-                      >Select the customer to proceed further</span
-                    >
+                    >Select the customer to proceed further</span>
                   </md-autocomplete>
                 </div>
 
@@ -152,9 +147,7 @@
                     :class="getValidationClass('startDate')"
                   >
                     <label>Policy Start Date</label>
-                    <span class="md-error"
-                      >The Policy Start date is required</span
-                    >
+                    <span class="md-error">The Policy Start date is required</span>
                   </md-datepicker>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -165,9 +158,7 @@
                     :class="getValidationClass('endDate')"
                   >
                     <label>Policy End Date</label>
-                    <span class="md-error"
-                      >The Policy End date is required</span
-                    >
+                    <span class="md-error">The Policy End date is required</span>
                   </md-datepicker>
                 </div>
               </div>
@@ -182,18 +173,18 @@
                     @md-selected="onSelectAgent"
                   >
                     <label>Assign the Agent</label>
-                    <template
-                      slot="md-autocomplete-item"
-                      slot-scope="{ item, term }"
-                    >
-                      <md-highlight-text :md-term="term">{{
+                    <template slot="md-autocomplete-item" slot-scope="{ item, term }">
+                      <md-highlight-text :md-term="term">
+                        {{
                         item.name
-                      }}</md-highlight-text>
+                        }}
+                      </md-highlight-text>
                     </template>
 
-                    <template slot="md-autocomplete-empty" slot-scope="{ term }"
-                      >No agent matching "{{ term }}" were found.</template
-                    >
+                    <template
+                      slot="md-autocomplete-empty"
+                      slot-scope="{ term }"
+                    >No agent matching "{{ term }}" were found.</template>
                   </md-autocomplete>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -205,27 +196,27 @@
                       v-model="form.sumInsured"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.sumInsured.required"
-                      >The Sum insured is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.sumInsured.required"
+                    >The Sum insured is required</span>
                   </md-field>
                 </div>
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('currencyType')">
-                    <label for="currency-type"
-                      >Currency Type (USD,LAK,BAHT or Other)</label
-                    >
+                    <label for="currency-type">Currency Type (USD,LAK,BAHT or Other)</label>
                     <md-input
                       name="currency-type"
                       id="currency-type"
                       v-model="form.currencyType"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.currencyType.required"
-                      >The Currency Type is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.currencyType.required"
+                    >The Currency Type is required</span>
                   </md-field>
                 </div>
               </div>
@@ -247,15 +238,11 @@
                       <md-option value="Touk-Touk">Touk-Touk</md-option>
                       <md-option value="Car">Car</md-option>
                       <md-option value="Truck">Truck</md-option>
-                      <md-option value="Inflammable Trans Truck"
-                        >Inflammable Trans Truck</md-option
-                      >
+                      <md-option value="Inflammable Trans Truck">Inflammable Trans Truck</md-option>
                       <md-option value="Mini Van">Mini Van</md-option>
                       <md-option value="Bus">Bus</md-option>
                       <md-option value="Trailer">Trailer</md-option>
-                      <md-option value="Truck Construction Machine"
-                        >Truck Construction Machine</md-option
-                      >
+                      <md-option value="Truck Construction Machine">Truck Construction Machine</md-option>
                     </md-select>
                     <span class="md-error">Vehicle Type is required</span>
                   </md-field>
@@ -263,15 +250,8 @@
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('make')">
                     <label for="make">Make</label>
-                    <md-input
-                      name="make"
-                      id="make"
-                      v-model="form.make"
-                      :disabled="sending"
-                    />
-                    <span class="md-error" v-if="!$v.form.make.required"
-                      >Make is required</span
-                    >
+                    <md-input name="make" id="make" v-model="form.make" :disabled="sending" />
+                    <span class="md-error" v-if="!$v.form.make.required">Make is required</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -283,9 +263,10 @@
                       v-model="form.plateNumber"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.plateNumber.required"
-                      >Plate No. is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.plateNumber.required"
+                    >Plate No. is required</span>
                   </md-field>
                 </div>
               </div>
@@ -300,9 +281,10 @@
                       v-model="form.vehicleColor"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.vehicleColor.required"
-                      >Vehicle Color is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.vehicleColor.required"
+                    >Vehicle Color is required</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -314,9 +296,10 @@
                       v-model="form.powerInCC"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.powerInCC.required"
-                      >Power In CC is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.powerInCC.required"
+                    >Power In CC is required</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -328,9 +311,10 @@
                       v-model="form.engineNumber"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.engineNumber.required"
-                      >Engine No. is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.engineNumber.required"
+                    >Engine No. is required</span>
                   </md-field>
                 </div>
               </div>
@@ -348,8 +332,7 @@
                     <span
                       class="md-error"
                       v-if="!$v.form.chassisNumber.required"
-                      >Chassis No. is required</span
-                    >
+                    >Chassis No. is required</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100">
@@ -366,15 +349,8 @@
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('seats')">
                     <label for="seats">Seats</label>
-                    <md-input
-                      name="seats"
-                      id="seats"
-                      v-model="form.seats"
-                      :disabled="sending"
-                    />
-                    <span class="md-error" v-if="!$v.form.seats.required"
-                      >Seats is required</span
-                    >
+                    <md-input name="seats" id="seats" v-model="form.seats" :disabled="sending" />
+                    <span class="md-error" v-if="!$v.form.seats.required">Seats is required</span>
                   </md-field>
                 </div>
               </div>
@@ -391,47 +367,32 @@
                       v-model="form.comment"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.comment.required"
-                      >The comment is required while updating policy.</span
-                    >
-                    <span class="md-error" v-else-if="!$v.form.comment.email"
-                      >Invalid comment</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.comment.required"
+                    >The comment is required while updating policy.</span>
+                    <span class="md-error" v-else-if="!$v.form.comment.email">Invalid comment</span>
                   </md-field>
                 </div>
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.status" class="md-primary"
-                    >Approve Status</md-switch
-                  >
+                  <md-switch v-model="form.status" class="md-primary">Approve Status</md-switch>
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
               <md-dialog-actions>
-                <md-button class="md-danger" @click="showDialog = false"
-                  >CLOSE</md-button
-                >
-                <md-button
-                  type="submit"
-                  class="md-primary"
-                  :disabled="sending"
-                  >{{ formModal.btn }}</md-button
-                >
+                <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
+                <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
               </md-dialog-actions>
             </form>
           </md-dialog-content>
         </md-dialog>
 
         <div class="pull-right md-layout">
-          <md-button
-            class="md-primary md-layout-item"
-            @click="downloadCSV({ url: 'policy' })"
-          >
+          <md-button class="md-primary md-layout-item" @click="downloadCSV({ url: 'policy' })">
             <md-icon>cloud_download</md-icon>Generate Excel
-            <md-tooltip md-direction="top"
-              >Generate Excel & Download it.</md-tooltip
-            >
+            <md-tooltip md-direction="top">Generate Excel & Download it.</md-tooltip>
           </md-button>
           <md-button
             class="md-info md-layout-item"
@@ -439,9 +400,7 @@
             v-if="checkAuthorization('write')"
           >
             <md-icon>add</md-icon>Create Policy
-            <md-tooltip md-direction="top"
-              >Create Policy for Customer</md-tooltip
-            >
+            <md-tooltip md-direction="top">Create Policy for Customer</md-tooltip>
           </md-button>
         </div>
       </div>
@@ -455,25 +414,18 @@
       <!-- DIALOG BOX OVER -->
 
       <!-- vuetable -->
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable"
-      >
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable">
         <md-card class>
           <md-card-header data-background-color="purple">
             <h4 class="title">Policy's Database</h4>
-            <p class="category">
-              Here you can find and see every policy's details
-            </p>
+            <p class="category">Here you can find and see every policy's details</p>
           </md-card-header>
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item">
                 <md-field>
                   <label for="table">Search in the table</label>
-                  <md-input
-                    v-model="filterItem.searchText"
-                    @keyup.enter="doFilter"
-                  ></md-input>
+                  <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item">
@@ -488,11 +440,7 @@
               </div>
               <div class="md-layout-item">
                 <md-field>
-                  <md-select
-                    v-model="perPage"
-                    placeholder="Item per page"
-                    style="margin:auto"
-                  >
+                  <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
                     <md-option :value="10">10</md-option>
                     <md-option :value="15">15</md-option>
                     <md-option :value="20">20</md-option>
@@ -537,21 +485,14 @@
                       class="md-primary"
                       href="javascript:void(0)"
                       @click="onSelectSingleCustomer(props.rowData.customer.id)"
-                      >{{ props.rowData.customer.fullName }}</a
-                    >
+                    >{{ props.rowData.customer.fullName }}</a>
                   </template>
                   <template slot="policyType" slot-scope="props">
-                    <md-chip
-                      class="md-primary"
-                      v-if="props.rowData.policyType == 1"
-                      >Motor</md-chip
-                    >
+                    <md-chip class="md-primary" v-if="props.rowData.policyType == 1">Motor</md-chip>
                     <md-chip class="md-accent" v-else>Non-Motor</md-chip>
                   </template>
                   <template slot="status" slot-scope="props">
-                    <md-chip class="md-accent" v-if="props.rowData.status == 1"
-                      >Pending</md-chip
-                    >
+                    <md-chip class="md-accent" v-if="props.rowData.status == 1">Pending</md-chip>
                     <md-chip class="md-primary" v-else>Approved</md-chip>
                   </template>
                   <template slot="actions" slot-scope="props">
@@ -564,9 +505,7 @@
                         v-if="props.rowData.updatedBy.name != null"
                       >
                         <md-icon>history</md-icon>
-                        <md-tooltip md-direction="top"
-                          >Comment's History</md-tooltip
-                        >
+                        <md-tooltip md-direction="top">Comment's History</md-tooltip>
                       </md-button>
                       <md-button
                         class="md-primary md-just-icon"
@@ -587,10 +526,7 @@
                     </div>
                   </template>
                 </vuetable>
-                <vuetable-pagination-info
-                  id="vPageInfo"
-                  ref="paginationInfo"
-                ></vuetable-pagination-info>
+                <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
                 <vuetable-pagination
                   id="vPage"
                   ref="pagination"

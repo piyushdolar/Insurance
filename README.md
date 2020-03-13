@@ -111,6 +111,15 @@ Insurance
 
 ## Change logs:
 
+## [1.59.0] 2020-03-13
+### What's new
+-   Password reset added for agents.
+-   Password reset added for admins.
+-   Notification for policy design & functionality added for admin.
+
+### Changes:
+-   Routes rules added for password reset.
+
 ## [1.57.3] 2020-03-12
 ### Bugs:
 -   Every dialog box was close when it was cliked outside dialog box error fixed.
