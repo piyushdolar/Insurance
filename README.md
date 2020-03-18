@@ -1,4 +1,4 @@
-## QUICK START - BETA Version
+## QUICK START
 
 ### Install dependencies
 
@@ -115,11 +115,11 @@ Insurance
 
 ## Change logs
 
-## [1.63.3] 2020-03-18
+## [2.0.0] 2020-03-18
 
-### Bugs
+### What's new:
 
-- Dialog box showing top of other because of escape bug now it's fixed.
+- Candidate release.
 
 ## [1.63.0] 2020-03-18
 
@@ -140,6 +140,7 @@ Insurance
 - Every table Male/Female/Other icon with background chip added.
 - Table filter buttons UI optimized.
 - Reports layout updated design.
+- Dialog box showing top of other because of escape bug now it's fixed.
 
 ### Bugs:
 
