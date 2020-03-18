@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<md-dialog :md-active.sync="showSingleCustomerDialog" :md-click-outside-to-close="false">
+		<md-dialog :md-active.sync="showSingleCustomerDialog" :md-click-outside-to-close="false" :md-close-on-esc="false">
 			<md-dialog-title>{{ singleUserForm.name }}'s Detail</md-dialog-title>
 			<md-dialog-content>
 				<md-list class="md-double-line">

@@ -111,15 +111,19 @@ Insurance
 
 ## Change logs:
 
+## [1.63.3] 2020-03-18
+### Bugs
+-   Dialog box showing top of other because of escape bug now it's fixed.
+
 ## [1.63.0] 2020-03-18
-What's new:
+### What's new:
 -   Policy notification added to agent.
 -   Policy now agent can do correction according admin needs.
 -   UI Updated according users needs.
 -   Color mode changed for functionality attraction.
 -   Administrator logs added.
 
-Changes:
+### Changes:
 -   Authentication route for policy editing by agent updated.
 -   Agent component UI updated.
 -   Admin Componentt UI updated.
@@ -128,7 +132,7 @@ Changes:
 -   Table filter buttons UI optimized.
 -   Reports layout updated design.
 
-Bugs:
+### Bugs:
 -   Notification erroneously check /dashboard route while pressing it bug fixed.
 -   Reports page multiple report loading bug fixed.
 -   Notification still showing when there are no messages bug fixed.
