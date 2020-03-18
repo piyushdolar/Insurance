@@ -1,23 +1,23 @@
 <template>
-<footer class="footer">
-  <div class="container">
-    <nav>
-      <ul>
-        <li>
-          <a href="#">Licenses</a>
-        </li>
-        <li>
-          <a href="/changelogs">Change logs</a>
-        </li>
-      </ul>
-    </nav>
-    <div class="copyright text-center">
-      &copy; {{ new Date().getFullYear() }}
-      <a href="#" target="_blank">TNK</a>, made with
-      <i class="fa fa-heart heart"></i> for a better web
+  <footer class="footer">
+    <div class="container">
+      <nav>
+        <ul>
+          <li>
+            <a href="#">Licenses</a>
+          </li>
+          <li>
+            <a href="/changelog">Change logs</a>
+          </li>
+        </ul>
+      </nav>
+      <div class="copyright text-center">
+        &copy; {{ new Date().getFullYear() }}
+        <a href="#" target="_blank">TNK</a>, made with
+        <i class="fa fa-heart heart"></i> for a better web
+      </div>
     </div>
-  </div>
-</footer>
+  </footer>
 </template>
 <script>
 export default {};

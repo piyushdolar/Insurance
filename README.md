@@ -111,8 +111,30 @@ Insurance
 
 ## Change logs:
 
+## [1.63.0] 2020-03-18
+What's new:
+-   Policy notification added to agent.
+-   Policy now agent can do correction according admin needs.
+-   UI Updated according users needs.
+-   Color mode changed for functionality attraction.
+-   Administrator logs added.
+
+Changes:
+-   Authentication route for policy editing by agent updated.
+-   Agent component UI updated.
+-   Admin Componentt UI updated.
+-   Master admin UI updated.
+-   Every table Male/Female/Other icon with background chip added.
+-   Table filter buttons UI optimized.
+-   Reports layout updated design.
+
+Bugs:
+-   Notification erroneously check /dashboard route while pressing it bug fixed.
+-   Reports page multiple report loading bug fixed.
+-   Notification still showing when there are no messages bug fixed.
+
 ## [1.59.0] 2020-03-13
-### What's new
+### What's new:
 -   Password reset added for agents.
 -   Password reset added for admins.
 -   Notification for policy design & functionality added for admin.

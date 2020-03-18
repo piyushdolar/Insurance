@@ -8,6 +8,7 @@ import Customers from '@/pages/Customers.vue';
 import Policies from '@/pages/Policies.vue';
 import CustomerPolicies from '@/pages/CustomerPolicies.vue';
 import CustomerPoliciesCreate from '@/pages/CustomerPoliciesCreate.vue';
+import CustomerPoliciesEdit from '@/pages/CustomerPoliciesEdit.vue';
 
 import Reports from '@/pages/Reports.vue';
 import ReportAdmin from '@/components/Reports/ReportAdmin.vue';
@@ -16,7 +17,7 @@ import ReportPolicy from '@/components/Reports/ReportPolicy.vue';
 import ReportCustomer from '@/components/Reports/ReportCustomer.vue';
 
 import Maps from '@/pages/Maps.vue';
-import Changelogs from '@/pages/Changelogs.vue';
+import Changelog from '@/pages/Changelog.vue';
 import Logs from '@/pages/Logs.vue';
 import Login from '@/pages/Login.vue';
 import Logout from '@/pages/Logout.vue';
@@ -27,18 +28,17 @@ const routes = [
 		component: DashboardLayout,
 		redirect: '/dashboard',
 		children: [
-
 			// ADMIN/AGENT LOGIN
 			{
-				path: 'dashboard',
+				path: '/dashboard',
 				name: 'Dashboard',
 				meta: {
-					requiresAuth: true,
+					requiresAuth: true
 				},
 				component: Dashboard
 			},
 			{
-				path: 'my-profile',
+				path: '/my-profile',
 				name: 'My Profile',
 				meta: {
 					requiresAuth: true
@@ -46,7 +46,7 @@ const routes = [
 				component: MyProfile
 			},
 			{
-				path: 'admins',
+				path: '/admins',
 				name: 'Admins',
 				meta: {
 					requiresAuth: true
@@ -54,7 +54,7 @@ const routes = [
 				component: Admins
 			},
 			{
-				path: 'agents',
+				path: '/agents',
 				name: 'Agents',
 				meta: {
 					requiresAuth: true
@@ -62,7 +62,7 @@ const routes = [
 				component: Agents
 			},
 			{
-				path: 'customers',
+				path: '/customers',
 				name: 'Customers',
 				meta: {
 					requiresAuth: true
@@ -70,7 +70,7 @@ const routes = [
 				component: Customers
 			},
 			{
-				path: 'policies',
+				path: '/policies',
 				name: 'Policies',
 				meta: {
 					requiresAuth: true
@@ -78,24 +78,32 @@ const routes = [
 				component: Policies
 			},
 			{
-				path: 'customer-policies',
+				path: '/customer-policies',
 				name: "Customer's Policies",
 				meta: {
 					requiresAuth: true
 				},
-				component: CustomerPolicies,
+				component: CustomerPolicies
 			},
 			{
-				path: 'customer-policies-create',
+				path: '/customer-policies-create',
 				name: "Customer's Policies Create",
 				meta: {
 					requiresAuth: true
 				},
-				component: CustomerPoliciesCreate,
+				component: CustomerPoliciesCreate
 			},
 			{
-				path: 'reports',
-				name: "Reports",
+				path: '/customer-policies-edit/:id',
+				name: "Customer's Policies edit",
+				meta: {
+					requiresAuth: true
+				},
+				component: CustomerPoliciesEdit
+			},
+			{
+				path: '/reports',
+				name: 'Reports',
 				meta: {
 					requiresAuth: true
 				},
@@ -103,28 +111,28 @@ const routes = [
 				children: [
 					{
 						path: 'admin',
-						name: "Reports | Admins",
+						name: 'Reports | Admins',
 						component: ReportAdmin
 					},
 					{
 						path: 'agent',
-						name: "Reports | Agents",
+						name: 'Reports | Agents',
 						component: ReportAgent
 					},
 					{
 						path: 'policy',
-						name: "Reports | Policies",
+						name: 'Reports | Policies',
 						component: ReportPolicy
 					},
 					{
 						path: 'customer',
-						name: "Reports | Customers",
+						name: 'Reports | Customers',
 						component: ReportCustomer
 					}
 				]
 			},
 			{
-				path: 'maps',
+				path: '/maps',
 				name: 'Maps',
 				meta: {
 					hideFooter: true,
@@ -169,12 +177,12 @@ const routes = [
 
 			// CHANGE LOGS ABOUT PROJECT
 			{
-				path: '/changelogs',
+				path: '/changelog',
 				name: 'Change logs',
 				meta: {
 					requiresAuth: true
 				},
-				component: Changelogs
+				component: Changelog
 			},
 			{
 				path: '/logs',
@@ -183,7 +191,7 @@ const routes = [
 					requiresAuth: true
 				},
 				component: Logs
-			},
+			}
 		]
 	}
 ];

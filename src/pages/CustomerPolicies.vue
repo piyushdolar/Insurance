@@ -46,11 +46,11 @@
               </md-field>
             </div>
             <div class="md-layout-item text-center">
-              <md-button class="md-info md-just-icon" @click="doFilter">
+              <md-button class="md-primary md-just-icon" @click="doFilter">
                 <md-icon>search</md-icon>
                 <md-tooltip md-direction="top">Search</md-tooltip>
               </md-button>
-              <md-button class="md-primary md-just-icon" @click="resetFilter">
+              <md-button data-background-color="orange" class="md-just-icon" @click="resetFilter">
                 <md-icon>undo</md-icon>
                 <md-tooltip md-direction="top">Reset</md-tooltip>
               </md-button>
@@ -86,8 +86,8 @@
                   <md-chip class="md-accent" v-else>Non-Motor</md-chip>
                 </template>
                 <template slot="status" slot-scope="props">
-                  <md-chip class="md-accent" v-if="props.rowData.status == 1">Pending</md-chip>
-                  <md-chip class="md-primary" v-else>Approved</md-chip>
+                  <md-chip data-background-color="red" v-if="props.rowData.status == 1">Pending</md-chip>
+                  <md-chip data-background-color="green" v-else>Approved</md-chip>
                 </template>
               </vuetable>
               <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>

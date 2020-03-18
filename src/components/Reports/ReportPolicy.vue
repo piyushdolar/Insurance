@@ -38,11 +38,11 @@
             </md-field>
           </div>
           <div class="md-layout-item text-center">
-            <md-button class="md-info md-just-icon" @click="doFilter">
+            <md-button class="md-primary md-just-icon mr-10" @click="doFilter">
               <md-icon>search</md-icon>
               <md-tooltip md-direction="top">Search</md-tooltip>
             </md-button>
-            <md-button class="md-primary md-just-icon" @click="resetFilter">
+            <md-button data-background-color="orange" class="md-just-icon" @click="resetFilter">
               <md-icon>undo</md-icon>
               <md-tooltip md-direction="top">Delete</md-tooltip>
             </md-button>
@@ -65,7 +65,12 @@
               @vuetable:load-error="handleLoadError"
             >
               <template slot="customerName" slot-scope="props">{{props.rowData.customer.fullName}}</template>
-              <template slot="agentName" slot-scope="props">{{props.rowData.agent.fullName}}</template>
+              <template slot="agentName" slot-scope="props">
+                <p v-if="props.rowData.agent.fullName">{{props.rowData.agent.fullName}}</p>
+                <p v-else>
+                  <i>Not Assigned</i>
+                </p>
+              </template>
             </vuetable>
             <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
             <vuetable-pagination

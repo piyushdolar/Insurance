@@ -2,9 +2,7 @@
   <div class="content">
     <div class="md-layout">
       <!-- dialog with button -->
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100"
-      >
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <!-- CREATE AGENT MODAL -->
         <md-dialog
           :md-active.sync="showDialog"
@@ -13,11 +11,7 @@
         >
           <md-dialog-title>{{ formModal.title }}</md-dialog-title>
           <md-dialog-content>
-            <form
-              novalidate
-              @submit.prevent="validateUser"
-              enctype="multipart/form-data"
-            >
+            <form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('firstName')">
@@ -29,14 +23,14 @@
                       v-model="form.firstName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.firstName.required"
-                      >The first name is required</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.firstName.required"
+                    >The first name is required</span>
                     <span
                       class="md-error"
                       v-else-if="!$v.form.firstName.minlength"
-                      >Invalid first name</span
-                    >
+                    >Invalid first name</span>
                   </md-field>
                 </div>
 
@@ -50,14 +44,11 @@
                       v-model="form.lastName"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.lastName.required"
-                      >The last name is required</span
-                    >
                     <span
                       class="md-error"
-                      v-else-if="!$v.form.lastName.minlength"
-                      >Invalid last name</span
-                    >
+                      v-if="!$v.form.lastName.required"
+                    >The last name is required</span>
+                    <span class="md-error" v-else-if="!$v.form.lastName.minlength">Invalid last name</span>
                   </md-field>
                 </div>
               </div>
@@ -92,12 +83,14 @@
                       v-model="form.phone"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.phone.required"
-                      >The phone number is required</span
-                    >
-                    <span class="md-error" v-else-if="!$v.form.phone.minlength"
-                      >Invalid phone number, It must be 11 digits long</span
-                    >
+                    <span
+                      class="md-error"
+                      v-if="!$v.form.phone.required"
+                    >The phone number is required</span>
+                    <span
+                      class="md-error"
+                      v-else-if="!$v.form.phone.minlength"
+                    >Invalid phone number, It must be 11 digits long</span>
                   </md-field>
                 </div>
               </div>
@@ -114,9 +107,7 @@
                       v-model="form.email"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.email.email"
-                      >Invalid email</span
-                    >
+                    <span class="md-error" v-if="!$v.form.email.email">Invalid email</span>
                   </md-field>
                 </div>
                 <div class="md-layout-item md-small-size-100 text-center">
@@ -125,11 +116,7 @@
                   </md-avatar>
                   <md-field :class="getValidationClass('image')">
                     <label for="image">Profile Picture</label>
-                    <md-file
-                      id="image"
-                      @change="onFileSelected"
-                      accept="image/x-png, image/jpeg"
-                    />
+                    <md-file id="image" @change="onFileSelected" accept="image/x-png, image/jpeg" />
                   </md-field>
                 </div>
               </div>
@@ -145,30 +132,19 @@
                       v-model="form.address"
                       :disabled="sending"
                     />
-                    <span class="md-error" v-if="!$v.form.address.required"
-                      >The address is required</span
-                    >
+                    <span class="md-error" v-if="!$v.form.address.required">The address is required</span>
                   </md-field>
                 </div>
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.status" class="md-primary"
-                    >Active/Deactive Status</md-switch
-                  >
+                  <md-switch v-model="form.status" class="md-primary">Active Status</md-switch>
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
               <md-dialog-actions>
-                <md-button class="md-danger" @click="showDialog = false"
-                  >CLOSE</md-button
-                >
-                <md-button
-                  type="submit"
-                  class="md-primary"
-                  :disabled="sending"
-                  >{{ formModal.btn }}</md-button
-                >
+                <md-button class="md-danger" @click="showDialog = false">CLOSE</md-button>
+                <md-button type="submit" class="md-primary" :disabled="sending">{{ formModal.btn }}</md-button>
               </md-dialog-actions>
             </form>
           </md-dialog-content>
@@ -176,18 +152,17 @@
 
         <div class="pull-right md-layout">
           <md-button
-            class="md-primary md-layout-item"
+            class="md-info md-round mr-10"
             @click="downloadCSV({ url: 'customers' })"
+            v-show="checkAuthorization('write')"
           >
             <md-icon>cloud_download</md-icon>Generate Excel
-            <md-tooltip md-direction="top"
-              >Generate Excel & Download it.</md-tooltip
-            >
+            <md-tooltip md-direction="top">Generate Excel & Download it.</md-tooltip>
           </md-button>
           <md-button
-            class="md-info md-layout-item"
+            class="md-info md-round"
             @click="openDialog"
-            v-if="checkAuthorization('write')"
+            v-show="checkAuthorization('write')"
           >
             <md-icon>add</md-icon>Add Customer
             <md-tooltip md-direction="top">Create Customer</md-tooltip>
@@ -196,25 +171,18 @@
       </div>
 
       <!-- vuetable -->
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable"
-      >
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100 vuetable">
         <md-card class>
           <md-card-header data-background-color="purple">
             <h4 class="title">Policy Holder's Database</h4>
-            <p class="category">
-              Here you can find and see every policy holder's details
-            </p>
+            <p class="category">Here you can find and see every policy holder's details</p>
           </md-card-header>
           <md-card-content>
             <div class="md-layout md-gutter">
               <div class="md-layout-item">
                 <md-field>
                   <label for="address">Search in the table</label>
-                  <md-input
-                    v-model="filterItem.searchText"
-                    @keyup.enter="doFilter"
-                  ></md-input>
+                  <md-input v-model="filterItem.searchText" @keyup.enter="doFilter"></md-input>
                 </md-field>
               </div>
               <div class="md-layout-item">
@@ -229,11 +197,7 @@
               </div>
               <div class="md-layout-item">
                 <md-field>
-                  <md-select
-                    v-model="perPage"
-                    placeholder="Item per page"
-                    style="margin:auto"
-                  >
+                  <md-select v-model="perPage" placeholder="Item per page" style="margin:auto">
                     <md-option :value="10">10</md-option>
                     <md-option :value="15">15</md-option>
                     <md-option :value="20">20</md-option>
@@ -245,11 +209,11 @@
                 </md-field>
               </div>
               <div class="md-layout-item text-center">
-                <md-button class="md-info md-just-icon" @click="doFilter">
+                <md-button class="md-primary md-just-icon mr-10" @click="doFilter">
                   <md-tooltip md-direction="top">Search</md-tooltip>
                   <md-icon>search</md-icon>
                 </md-button>
-                <md-button class="md-primary md-just-icon" @click="resetFilter">
+                <md-button class="md-just-icon" data-background-color="orange" @click="resetFilter">
                   <md-tooltip md-direction="top">Reset</md-tooltip>
                   <md-icon>undo</md-icon>
                 </md-button>
@@ -276,50 +240,41 @@
                   <template slot="picture" slot-scope="props">
                     <img
                       v-if="props.rowData.picture != null"
-                      :src="
-                        `/images/avatars/customers/${props.rowData.picture}`
-                      "
+                      :src="`/images/avatars/customers/${props.rowData.picture}`"
                       alt="profile-image"
                       class="vuetable-image"
                     />
-                    <img
-                      v-else
-                      :src="defaultImage"
-                      alt="profile-image"
-                      class="vuetable-image"
-                    />
+                    <img v-else :src="defaultImage" alt="profile-image" class="vuetable-image" />
                   </template>
                   <template slot="gender" slot-scope="props">
-                    <md-chip class="md-primary" v-if="props.rowData.gender == 1"
-                      >Male</md-chip
-                    >
-                    <md-chip
-                      class="md-accent"
-                      v-else-if="props.rowData.gender == 2"
-                      >Female</md-chip
-                    >
-                    <md-chip v-else>Other</md-chip>
+                    <md-chip data-background-color="purple" v-if="props.rowData.gender == 1">
+                      <i class="fas fa-male fa-lg"></i> Male
+                    </md-chip>
+                    <md-chip data-background-color="blue" v-else-if="props.rowData.gender == 2">
+                      <i class="fas fa-female fa-lg"></i> Female
+                    </md-chip>
+                    <md-chip data-background-color="orange" v-else>
+                      <i class="fas fa-transgender fa-lg"></i> Other
+                    </md-chip>
                   </template>
                   <template slot="status" slot-scope="props">
-                    <md-chip class="md-primary" v-if="props.rowData.status == 1"
-                      >Active</md-chip
-                    >
-                    <md-chip class="md-accent" v-else>Deactive</md-chip>
+                    <md-chip data-background-color="green" v-if="props.rowData.status == 1">Active</md-chip>
+                    <md-chip data-background-color="red" v-else>Deactivate</md-chip>
                   </template>
                   <template slot="actions" slot-scope="props">
                     <div class="custom-actions">
                       <md-button
                         class="md-primary md-just-icon"
                         @click="onAction('edit', props.rowData, props.rowIndex)"
+                        v-show="checkAuthorization('write')"
                       >
                         <md-icon>edit</md-icon>
                         <md-tooltip md-direction="top">Edit</md-tooltip>
                       </md-button>
                       <md-button
                         class="md-danger md-just-icon"
-                        @click="
-                          onAction('delete', props.rowData, props.rowIndex)
-                        "
+                        @click="onAction('delete', props.rowData, props.rowIndex)"
+                        v-show="checkAuthorization('delete')"
                       >
                         <md-icon>delete</md-icon>
                         <md-tooltip md-direction="top">Delete</md-tooltip>
@@ -327,10 +282,7 @@
                     </div>
                   </template>
                 </vuetable>
-                <vuetable-pagination-info
-                  id="vPageInfo"
-                  ref="paginationInfo"
-                ></vuetable-pagination-info>
+                <vuetable-pagination-info id="vPageInfo" ref="paginationInfo"></vuetable-pagination-info>
                 <vuetable-pagination
                   id="vPage"
                   ref="pagination"
