@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<md-dialog :md-active.sync="ResetPasswordDialogBox" :md-click-outside-to-close="false">
+		<md-dialog :md-active.sync="ResetPasswordDialogBox" :md-click-outside-to-close="false" :md-close-on-esc="false">
 			<md-dialog-title>Reset Password</md-dialog-title>
 			<md-dialog-content>
 				<div class="md-layout">
