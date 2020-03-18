@@ -3,10 +3,20 @@
     <div class="md-layout">
       <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
         <md-card>
+          <md-card-content data-background-color="red">
+            <span>
+              <strong>Admin's Message:</strong>
+              {{ form.comment }}
+            </span>
+          </md-card-content>
+        </md-card>
+      </div>
+      <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-100">
+        <md-card>
           <form novalidate @submit.prevent="validate" enctype="multipart/form-data">
-            <md-card-header data-background-color="purple">
-              <h4 class="title">Customer Create Policy Form</h4>
-              <p class="category">Fill the customer basic info, vehicle info and verify it.</p>
+            <md-card-header data-background-color="orange">
+              <h3 class="title">Customer Update Policy Form</h3>
+              <p class="category">Your submitted policy needs some correction from admin.</p>
             </md-card-header>
 
             <md-card-content>
@@ -105,7 +115,6 @@
                       v-model="form.address"
                       :disabled="sending"
                     />
-                    <md-icon>description</md-icon>
                     <span class="md-error" v-if="!$v.form.address.required">Address is required</span>
                   </md-field>
                 </div>
@@ -278,11 +287,14 @@
                       @change="onFileSelected"
                       accept="picture/x-png, picture/jpeg"
                     />
-                    <span
-                      class="md-error"
-                      v-if="!$v.form.picture.required"
-                    >Please upload the form photo.</span>
                   </md-field>
+                </div>
+              </div>
+
+              <h3>Last Uploaded Image:</h3>
+              <div class="md-layout md-gutter">
+                <div class="md-layout-item md-size-100">
+                  <img :src="'/images/avatars/policy/'+form.picture" class="vuetable-image" />
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
@@ -358,39 +370,17 @@ export default {
       },
       vehicleColor: {
         required
-      },
-      picture: {
-        required
       }
     }
   },
   data() {
     return {
-      sending: false,
-      form: {
-        picturePreview: null,
-        firstName: null,
-        lastName: null,
-        address: null,
-        phone: null,
-        policyNumber: null,
-        make: null,
-        plateNumber: null,
-        powerInCC: null,
-        engineNumber: null,
-        chassisNumber: null,
-        grossWeightInTon: null,
-        seats: null,
-        vehicleType: null,
-        vehicleColor: null,
-        picture: null,
-        picturePreview: null
-      }
+      sending: false
     };
   },
   methods: {
     onFileSelected() {
-      this.form.picture = event.target.files[0];
+      this.form.pictureNew = event.target.files[0];
       this.form.picturePreview = URL.createObjectURL(this.form.picture);
     },
     getValidationClass(fieldName) {
@@ -410,36 +400,25 @@ export default {
     async savePolicy() {
       this.sending = true;
       this.form.agentId = this.$session.get("userProfile").id;
+      this.form.policyId = this.$router.app._route.params.id;
       await this.$store
-        .dispatch("createPolicyByAgent", this.form)
+        .dispatch("editPolicyByAgent", this.form)
         .then(response => {
           this.$alert("success", response);
-          this.$router.push("customer-policies");
+          this.$router.push("/customer-policies");
         })
         .catch(error => {
           this.$alert("danger", error);
         });
       this.sending = false;
-    },
-    clearForm() {
-      this.$v.$reset();
-      this.form.picturePreview = null;
-      this.form.firstName = null;
-      this.form.lastName = null;
-      this.form.address = null;
-      this.form.phone = null;
-      this.form.policyNumber = null;
-      this.form.make = null;
-      this.form.plateNumber = null;
-      this.form.powerInCC = null;
-      this.form.engineNumber = null;
-      this.form.chassisNumber = null;
-      this.form.grossWeightInTon = null;
-      this.form.seats = null;
-      this.form.vehicleType = null;
-      this.form.vehicleColor = null;
-      this.form.picture = null;
-      this.form.picturePreview = null;
+    }
+  },
+  mounted() {
+    this.$store.dispatch("getPolicyById", this.$router.app._route.params.id);
+  },
+  computed: {
+    form() {
+      return this.$store.getters.getSinglePolicy;
     }
   }
 };

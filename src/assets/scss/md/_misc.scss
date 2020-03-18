@@ -159,6 +159,10 @@ input[type='file'] > input[type='button']::-moz-focus-inner {
 	outline: 0 !important;
 }
 
+// Text Formatting
+.text-white {
+	color: #ffffff;
+}
 .text-center {
 	text-align: center;
 }
@@ -175,10 +179,63 @@ input[type='file'] > input[type='button']::-moz-focus-inner {
 		margin-right: 10px;
 	}
 }
-.vuetable-image{
+.vuetable-image {
 	height: auto;
 	width: 100px !important;
 }
 .md-theme-default :not(input):not(textarea)::selection {
 	background-color: #c8c8c8 !important;
+}
+
+// Spacing
+.mr-5 {
+	margin-right: 5px;
+}
+.mr-10 {
+	margin-right: 10px;
+}
+.mr-15 {
+	margin-right: 15px;
+}
+.mr-20 {
+	margin-right: 15px;
+}
+
+.ml-5 {
+	margin-left: 5px;
+}
+.ml-10 {
+	margin-left: 10px;
+}
+.ml-15 {
+	margin-left: 15px;
+}
+.ml-20 {
+	margin-left: 15px;
+}
+
+.mt-5 {
+	margin-top: 5px;
+}
+.mt-10 {
+	margin-top: 10px;
+}
+.mt-15 {
+	margin-top: 15px;
+}
+.mt-20 {
+	margin-top: 15px;
+}
+
+.mb-5 {
+	margin-bottom: 5px;
+}
+.mb-10 {
+	margin-bottom: 10px;
+}
+.mb-15 {
+	margin-bottom: 15px;
+}
+.mb-20 {
+	margin-bottom: 15px;
 }

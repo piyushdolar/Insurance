@@ -1,5 +1,4 @@
 import axios from '@/api/config';
-
 // All the constants-states are in the details because of the preventing console error of undefined.
 
 const state = {

@@ -27,7 +27,7 @@ export const VuetableMixin = {
 	methods: {
 		// Events
 		handleLoadError(response) {
-			this.$alert("danger", response);
+			this.$alert('danger', response);
 		},
 		handleDateChange(date) {
 			this.filterItem.searchDate = moment(date[0]._d).format('YYYY/MM/DD') + '|' + moment(date[1]._d).format('YYYY/MM/DD');
@@ -43,11 +43,9 @@ export const VuetableMixin = {
 		doFilter() {
 			this.$events.fire('filter-set', this.filterItem);
 		},
-		onFilterSet(filter) {
-			this.moreParams = {
-				filter: filter.searchText.trim(),
-				filter_date: filter.searchDate
-			};
+		onFilterSet(filterItem) {
+			this.moreParams.filter = filterItem.searchText.trim();
+			this.moreParams.filter_date = filterItem.searchDate;
 			Vue.nextTick(() => this.$refs.vuetable.refresh());
 		},
 		// Filter reset
@@ -77,7 +75,7 @@ export const VuetableMixin = {
 	},
 	watch: {
 		perPage(val, oldVal) {
-			this.$nextTick(function () {
+			this.$nextTick(function() {
 				this.$refs.vuetable.refresh();
 			});
 		}

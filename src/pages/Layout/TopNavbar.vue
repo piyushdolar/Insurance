@@ -24,7 +24,7 @@
           <md-list>
             <li class="md-list-item">
               <a
-                href="#/notifications"
+                href="javascript:void(0)"
                 class="md-list-item-router md-list-item-container md-button-clean dropdown"
               >
                 <div class="md-list-item-content">
@@ -35,21 +35,33 @@
                       data-toggle="dropdown"
                     >
                       <md-icon>notifications</md-icon>
-                      <span class="notification">{{getNotifications.total}}</span>
+                      <span
+                        class="notification"
+                        v-show="getNotifications.total"
+                      >{{ getNotifications.total }}</span>
                       <p class="hidden-lg hidden-md">Notifications</p>
                     </md-button>
-                    <ul class="dropdown-menu dropdown-menu-right">
+                    <ul class="dropdown-menu dropdown-menu-right" v-if="getNotifications.total > 0">
                       <li
                         v-for="notification in getNotifications.messages"
                         v-bind:key="notification.message"
                       >
-                        <a href="/policies">{{notification.message}}.</a>
+                        <a
+                          :href="userType == 2 ? '/policies' : userType == 3 ? '/customer-policies-edit/' + notification.id : ''"
+                          v-html="notification.message"
+                        ></a>
+                      </li>
+                    </ul>
+                    <ul class="dropdown-menu dropdown-menu-right" v-else>
+                      <li>
+                        <a href="javascript:void(0)">No new notification available.</a>
                       </li>
                     </ul>
                   </drop-down>
                 </div>
               </a>
             </li>
+
             <md-list-item to="/dashboard">
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
@@ -83,22 +95,29 @@ export default {
         "Kelly Kapoor",
         "Ryan Howard",
         "Kevin Malone"
-      ]
+      ],
+      userType: null
     };
   },
   methods: {
     toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
+    },
+    initNotification() {
+      this.userType = this.$session.get("userProfile").userType;
+      this.$store.dispatch("fetchNotifications");
     }
   },
   mounted() {
-    this.$store.dispatch("fetchNotifications");
-  },
-  updated() {
-    this.$store.dispatch("fetchNotifications");
+    this.initNotification();
   },
   computed: {
     ...mapGetters(["getNotifications"])
+  },
+  watch: {
+    $route(to, from) {
+      this.initNotification();
+    }
   }
 };
 </script>

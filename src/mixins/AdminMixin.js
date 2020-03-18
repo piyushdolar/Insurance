@@ -51,12 +51,9 @@ export const AdminMixin = {
 					title: 'Full Name'
 				},
 				{
-					name: 'gender',
+					name: '__slot:gender',
 					sortField: 'gender',
-					title: 'Gender',
-					callback: function(value) {
-						return value == 1 ? 'Male' : value == 2 ? 'Female' : 'Other';
-					}
+					title: 'Gender'
 				},
 				{
 					name: 'email',
@@ -93,8 +90,6 @@ export const AdminMixin = {
 	},
 	methods: {
 		onResetPasswordDialogData(value) {
-			console.log(value);
-			console.log(this.tempData);
 			this.ResetPasswordDialogBox = false;
 		},
 		checkAuthorization(rule) {

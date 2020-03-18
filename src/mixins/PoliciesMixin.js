@@ -1,5 +1,5 @@
-import moment from "moment";
-import { mapGetters } from "vuex";
+import moment from 'moment';
+import { mapGetters } from 'vuex';
 
 export const PoliciesMixin = {
 	data() {
@@ -10,9 +10,9 @@ export const PoliciesMixin = {
 			fireEvent: null,
 			sortOrder: [
 				{
-					field: "id",
-					sortField: "id",
-					direction: "desc"
+					field: 'id',
+					sortField: 'id',
+					direction: 'desc'
 				}
 			],
 			showSingleCustomerDialog: false,
@@ -41,9 +41,9 @@ export const PoliciesMixin = {
 				sumInsured: null,
 				currencyType: null,
 				policyNumber: null,
-				status: false,
+				status: null,
 				searchedList: [],
-				comment: "-",
+				comment: '-',
 				startDateConfig: date => {
 					if (this.form.endDate != null && date > this.form.endDate) {
 						return true;
@@ -65,126 +65,119 @@ export const PoliciesMixin = {
 				seats: null
 			},
 			formModal: {
-				title: "CREATE NEW POLICY FOR CUSTOMER",
-				btn: "CREATE",
+				title: 'CREATE NEW POLICY FOR CUSTOMER',
+				btn: 'CREATE',
 				isEdit: false
 			},
 			historyModalTitle: null,
 			fields: [
 				{
-					name: "policyNumber",
-					title: "Policy Number"
+					name: 'policyNumber',
+					title: 'Policy Number'
 				},
 				{
-					name: "policyName",
-					sortField: "policyName",
-					title: "Policy Name",
+					name: 'policyName',
+					sortField: 'policyName',
+					title: 'Policy Name',
 					callback: value => {
-						return value == null ? "-" : value;
+						return value == null ? '-' : value;
 					}
 				},
 				{
-					name: "__slot:customer",
-					sortField: "firstName",
-					title: "Customer Name"
+					name: '__slot:customer',
+					sortField: 'firstName',
+					title: 'Customer Name'
 				},
 				{
-					name: "sumInsured",
-					sortField: "sumInsured",
-					title: "Sum Insured",
+					name: 'sumInsured',
+					sortField: 'sumInsured',
+					title: 'Sum Insured',
 					callback: value => {
-						return value == null ? "-" : value;
+						return value == null ? '-' : value;
 					}
 				},
 				{
-					name: "currencyType",
-					sortField: "currencyType",
-					title: "Currency Type",
+					name: 'currencyType',
+					sortField: 'currencyType',
+					title: 'Currency Type',
 					callback: value => {
-						return value == null ? "-" : value;
+						return value == null ? '-' : value;
 					}
 				},
 				{
-					name: "renew",
-					sortField: "renew",
-					title: "Contract",
+					name: '__slot:contract',
+					sortField: 'renew',
+					title: 'Contract'
+				},
+				{
+					name: 'startDate',
+					sortField: 'startDate',
+					title: 'Start Date',
 					callback: function(value) {
-						if (value != null) {
-							return "Renewed";
-						} else {
-							return "New";
-						}
+						return value ? moment(String(value)).format('MM/DD/YYYY') : '-';
 					}
 				},
 				{
-					name: "startDate",
-					sortField: "startDate",
-					title: "Start Date",
+					name: 'endDate',
+					sortField: 'endDate',
+					title: 'End Date',
 					callback: function(value) {
-						return value ? moment(String(value)).format("MM/DD/YYYY") : "-";
+						return value ? moment(String(value)).format('MM/DD/YYYY') : '-';
 					}
 				},
 				{
-					name: "endDate",
-					sortField: "endDate",
-					title: "End Date",
+					name: '__slot:policyType',
+					sortField: 'policyType',
+					title: 'Policy Type'
+				},
+				{
+					name: 'agent',
+					sortField: 'agent.id',
+					title: 'Agent Name',
 					callback: function(value) {
-						return value ? moment(String(value)).format("MM/DD/YYYY") : "-";
+						return value.id ? value.fullName : '<i>Not Assigned</i>';
 					}
 				},
 				{
-					name: "__slot:policyType",
-					sortField: "policyType",
-					title: "Policy Type"
+					name: '__slot:status',
+					sortField: 'status',
+					title: 'Approve Status'
 				},
 				{
-					name: "agent",
-					sortField: "agent.id",
-					title: "Agent Name",
+					name: 'createdAt',
+					sortField: 'createdAt',
+					title: 'Created Date',
 					callback: function(value) {
-						return value.fullName;
+						return moment(String(value)).format('MM/DD/YYYY hh:mm a');
 					}
 				},
 				{
-					name: "__slot:status",
-					sortField: "status",
-					title: "Approve Status"
-				},
-				{
-					name: "createdAt",
-					sortField: "createdAt",
-					title: "Created Date",
-					callback: function(value) {
-						return moment(String(value)).format("MM/DD/YYYY hh:mm a");
-					}
-				},
-				{
-					name: "createdBy",
-					sortField: "createdBy.id",
-					title: "Created By",
+					name: 'createdBy',
+					sortField: 'createdBy.id',
+					title: 'Created By',
 					callback: value => {
-						return value.id == null ? "-" : value.name;
+						return value.id == null ? '-' : value.name;
 					}
 				},
 				{
-					name: "updatedAt",
-					sortField: "updatedAt",
-					title: "Updated Date",
+					name: 'updatedAt',
+					sortField: 'updatedAt',
+					title: 'Updated Date',
 					callback: function(value) {
-						return moment(String(value)).format("MM/DD/YYYY hh:mm a");
+						return moment(String(value)).format('MM/DD/YYYY hh:mm a');
 					}
 				},
 				{
-					name: "updatedBy",
-					sortField: "updatedBy.id",
-					title: "Updated By",
+					name: 'updatedBy',
+					sortField: 'updatedBy.id',
+					title: 'Updated By',
 					callback: value => {
-						return value.id == null ? "-" : value.name;
+						return value.id == null ? '-' : value.name;
 					}
 				},
 				{
-					name: "__slot:actions",
-					title: "Actions"
+					name: '__slot:actions',
+					title: 'Actions'
 				}
 			]
 		};
@@ -195,7 +188,7 @@ export const PoliciesMixin = {
 		},
 		// md select over...
 		onAction(action, data, index) {
-			if (action == "edit") {
+			if (action == 'edit') {
 				this.form.id = data.id;
 				this.form.policyName = data.policyName;
 				this.form.policyType = data.policyType;
@@ -209,7 +202,7 @@ export const PoliciesMixin = {
 				this.form.comment = data.comment;
 				this.form.startDate = data.startDate ? new Date(data.startDate) : null;
 				this.form.endDate = data.endDate ? new Date(data.endDate) : null;
-				this.form.status = data.status == 1 ? false : true;
+				this.form.status = data.status;
 
 				this.form.vehicleType = data.vehicleType;
 				this.form.make = data.make;
@@ -221,28 +214,28 @@ export const PoliciesMixin = {
 				this.form.grossWeightInTon = data.grossWeightInTon;
 				this.form.seats = data.seats;
 
-				this.formModal.title = "EDIT POLICY";
-				this.formModal.btn = "UPDATE";
+				this.formModal.title = 'EDIT POLICY';
+				this.formModal.btn = 'UPDATE';
 				this.formModal.isEdit = true;
 				this.showDialog = true;
-			} else if (action == "delete") {
-				if (confirm("Are you sure?")) {
+			} else if (action == 'delete') {
+				if (confirm('Are you sure?')) {
 					this.$store
-						.dispatch("deletePolicy", {
+						.dispatch('deletePolicy', {
 							policyId: data.id
 						})
 						.then(response => {
-							this.$alert("success", response);
+							this.$alert('success', response);
 							this.onFilterReset();
 						})
 						.catch(error => {
-							this.$alert("danger", error);
+							this.$alert('danger', error);
 						});
 				}
-			} else if (action == "history") {
+			} else if (action == 'history') {
 				this.showHistoryModal = true;
 				this.historyModalTitle = data.updatedBy.name;
-				this.$store.dispatch("getPolicyHistory", data.id);
+				this.$store.dispatch('getPolicyHistory', data.id);
 			}
 		},
 		// validation only
@@ -250,13 +243,13 @@ export const PoliciesMixin = {
 			const field = this.$v.form[fieldName];
 			if (field) {
 				return {
-					"md-invalid": field.$invalid && field.$dirty
+					'md-invalid': field.$invalid && field.$dirty
 				};
 			}
 		},
 		openDialog() {
 			this.showDialog = true;
-			this.formModal.btn = "CREATE";
+			this.formModal.btn = 'CREATE';
 			this.formModal.isEdit = false;
 			this.clearForm();
 		},
@@ -269,10 +262,10 @@ export const PoliciesMixin = {
 			this.form.agentSearched.name = null;
 			this.form.startDate = null;
 			this.form.endDate = null;
-			this.form.comment = "-";
+			this.form.comment = '-';
 			this.form.sumInsured = null;
 			this.form.currencyType = null;
-			this.form.status = false;
+			this.form.status = null;
 
 			this.form.make = null;
 			this.form.vehicleType = null;
@@ -297,40 +290,40 @@ export const PoliciesMixin = {
 					!this.$v.form.comment.$invalid &&
 					!this.$v.form.currencyType.$invalid
 				) {
-					this.saveUser("edit");
+					this.saveUser('edit');
 				}
 			} else {
 				if (!this.$v.form.$invalid) {
-					this.saveUser("add");
+					this.saveUser('add');
 				}
 			}
 		},
 		async saveUser(type) {
 			this.sending = true;
-			this.form.sessionId = this.$session.get("userProfile").id;
-			if (type == "add") {
+			this.form.sessionId = this.$session.get('userProfile').id;
+			if (type == 'add') {
 				await this.$store
-					.dispatch("createPolicyByAdmin", this.form)
+					.dispatch('createPolicyByAdmin', this.form)
 					.then(response => {
-						this.$alert("success", response);
+						this.$alert('success', response);
 						this.showDialog = false;
 						this.clearForm();
 						this.onFilterReset();
 					})
 					.catch(error => {
-						this.$alert("danger", error);
+						this.$alert('danger', error);
 					});
-			} else if (type == "edit") {
+			} else if (type == 'edit') {
 				await this.$store
-					.dispatch("editPolicy", this.form)
+					.dispatch('editPolicy', this.form)
 					.then(response => {
-						this.$alert("success", response);
+						this.$alert('success', response);
 						this.showDialog = false;
 						this.onFilterReset();
 						this.clearForm();
 					})
 					.catch(error => {
-						this.$alert("danger", error);
+						this.$alert('danger', error);
 					});
 			}
 			this.sending = false;
@@ -371,14 +364,14 @@ export const PoliciesMixin = {
 	},
 	computed: {
 		...mapGetters({
-			customersList: "getCustomers",
-			agentsList: "getUsers",
-			getSingleCustomer: "getSingleCustomer",
-			getPolicyHistory: "getPolicyHistory"
+			customersList: 'getCustomers',
+			agentsList: 'getUsers',
+			getSingleCustomer: 'getSingleCustomer',
+			getPolicyHistory: 'getPolicyHistory'
 		})
 	},
 	mounted() {
-		this.$store.dispatch("getUsers", { user_type: 3, searchWord: "" });
-		this.$store.dispatch("getCustomers", "");
+		this.$store.dispatch('getUsers', { user_type: 3, searchWord: '' });
+		this.$store.dispatch('getCustomers', '');
 	}
 };

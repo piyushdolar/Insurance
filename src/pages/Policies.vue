@@ -101,11 +101,7 @@
                   >
                     <label>Select Customer *</label>
                     <template slot="md-autocomplete-item" slot-scope="{ item, term }">
-                      <md-highlight-text :md-term="term">
-                        {{
-                        item.name
-                        }}
-                      </md-highlight-text>
+                      <md-highlight-text :md-term="term">{{ item.name }}</md-highlight-text>
                     </template>
 
                     <template
@@ -174,11 +170,7 @@
                   >
                     <label>Assign the Agent</label>
                     <template slot="md-autocomplete-item" slot-scope="{ item, term }">
-                      <md-highlight-text :md-term="term">
-                        {{
-                        item.name
-                        }}
-                      </md-highlight-text>
+                      <md-highlight-text :md-term="term">{{ item.name }}</md-highlight-text>
                     </template>
 
                     <template
@@ -355,7 +347,7 @@
                 </div>
               </div>
 
-              <!-- WHEN SOOMEONE UPDATE THE FORM THEY NEED TO COMMENT SOMETHING -->
+              <!-- WHEN SOMEONE UPDATE THE FORM THEY NEED TO COMMENT SOMETHING -->
               <div class="md-layout md-gutter" v-if="formModal.isEdit">
                 <div class="md-layout-item md-small-size-100">
                   <md-field :class="getValidationClass('comment')">
@@ -377,7 +369,14 @@
               </div>
               <div class="md-layout md-gutter">
                 <div class="md-layout-item md-small-size-100">
-                  <md-switch v-model="form.status" class="md-primary">Approve Status</md-switch>
+                  <md-field>
+                    <label for="status">Form Status</label>
+                    <md-select v-model="form.status" name="status" id="status" md-dense>
+                      <md-option value="2">Return for correction (If Applicable)</md-option>
+                      <md-option value="3">Approve</md-option>
+                      <md-option value="4">Reject</md-option>
+                    </md-select>
+                  </md-field>
                 </div>
               </div>
               <md-progress-bar md-mode="indeterminate" v-if="sending" />
@@ -390,12 +389,12 @@
         </md-dialog>
 
         <div class="pull-right md-layout">
-          <md-button class="md-primary md-layout-item" @click="downloadCSV({ url: 'policy' })">
+          <md-button class="md-info md-round mr-10" @click="downloadCSV({ url: 'policy' })">
             <md-icon>cloud_download</md-icon>Generate Excel
             <md-tooltip md-direction="top">Generate Excel & Download it.</md-tooltip>
           </md-button>
           <md-button
-            class="md-info md-layout-item"
+            class="md-info md-round"
             @click="openDialog"
             v-if="checkAuthorization('write')"
           >
@@ -452,11 +451,11 @@
                 </md-field>
               </div>
               <div class="md-layout-item text-center">
-                <md-button class="md-info md-just-icon" @click="doFilter">
+                <md-button class="md-primary md-just-icon mr-10" @click="doFilter">
                   <md-icon>search</md-icon>
                   <md-tooltip md-direction="top">Search</md-tooltip>
                 </md-button>
-                <md-button class="md-primary md-just-icon" @click="resetFilter">
+                <md-button data-background-color="orange" class="md-just-icon" @click="resetFilter">
                   <md-icon>undo</md-icon>
                   <md-tooltip md-direction="top">Reset</md-tooltip>
                 </md-button>
@@ -485,23 +484,41 @@
                       class="md-primary"
                       href="javascript:void(0)"
                       @click="onSelectSingleCustomer(props.rowData.customer.id)"
-                    >{{ props.rowData.customer.fullName }}</a>
+                    >
+                      {{
+                      props.rowData.customer.fullName
+                      }}
+                    </a>
+                  </template>
+                  <template slot="contract" slot-scope="props">
+                    <md-chip
+                      data-background-color="orange"
+                      v-if="props.rowData.renew != null"
+                    >Renewed</md-chip>
+                    <md-chip data-background-color="green" v-else>New</md-chip>
                   </template>
                   <template slot="policyType" slot-scope="props">
-                    <md-chip class="md-primary" v-if="props.rowData.policyType == 1">Motor</md-chip>
-                    <md-chip class="md-accent" v-else>Non-Motor</md-chip>
+                    <md-chip
+                      data-background-color="purple"
+                      v-if="props.rowData.policyType == 1"
+                    >Motor</md-chip>
+                    <md-chip data-background-color="orange" v-else>Non-Motor</md-chip>
                   </template>
                   <template slot="status" slot-scope="props">
-                    <md-chip class="md-accent" v-if="props.rowData.status == 1">Pending</md-chip>
-                    <md-chip class="md-primary" v-else>Approved</md-chip>
+                    <md-chip data-background-color="orange" v-if="props.rowData.status == 1">Pending</md-chip>
+                    <md-chip
+                      data-background-color="blue"
+                      v-if="props.rowData.status == 2"
+                    >In-Correction</md-chip>
+                    <md-chip data-background-color="green" v-if="props.rowData.status == 3">Approved</md-chip>
+                    <md-chip data-background-color="red" v-if="props.rowData.status == 4">Rejected</md-chip>
                   </template>
                   <template slot="actions" slot-scope="props">
                     <div class="custom-actions">
                       <md-button
-                        class="md-primary md-just-icon"
-                        @click="
-                          onAction('history', props.rowData, props.rowIndex)
-                        "
+                        class="md-just-icon"
+                        data-background-color="orange"
+                        @click="onAction('history', props.rowData, props.rowIndex)"
                         v-if="props.rowData.updatedBy.name != null"
                       >
                         <md-icon>history</md-icon>
@@ -510,15 +527,14 @@
                       <md-button
                         class="md-primary md-just-icon"
                         @click="onAction('edit', props.rowData, props.rowIndex)"
+                        v-show="props.rowData.status != 4"
                       >
                         <md-icon>edit</md-icon>
                         <md-tooltip md-direction="top">Edit</md-tooltip>
                       </md-button>
                       <md-button
                         class="md-danger md-just-icon"
-                        @click="
-                          onAction('delete', props.rowData, props.rowIndex)
-                        "
+                        @click="onAction('delete', props.rowData, props.rowIndex)"
                       >
                         <md-icon>delete</md-icon>
                         <md-tooltip md-direction="top">Delete</md-tooltip>
