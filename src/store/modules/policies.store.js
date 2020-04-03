@@ -113,8 +113,6 @@ const actions = {
 	},
 
 	createPolicyByAdmin: ({ commit, state }, payload) => {
-		commit('SET_FILTER_DATA', payload);
-
 		let formData = new FormData();
 		formData.append('policyName', payload.policyName);
 		formData.append('policyType', payload.policyType);
@@ -154,8 +152,6 @@ const actions = {
 	},
 
 	editPolicy: ({ state, commit }, payload) => {
-		commit('SET_FILTER_DATA', payload);
-
 		let formData = new FormData();
 		formData.append('policyName', payload.policyName);
 		formData.append('policyType', payload.policyType);
@@ -242,31 +238,6 @@ const mutations = {
 	},
 	SET_USER_REPORTS: (state, response) => {
 		state.policyReports = response;
-	},
-	SET_FILTER_DATA: (state, payload) => {
-		let rowData = {
-			policyName: payload.policyName,
-			policyNumber: payload.policyNumber,
-			policyType: payload.policyType,
-			startDate: moment(String(payload.startDate)).format('YYYY/MM/DD HH:mm:ss'),
-			endDate: moment(String(payload.endDate)).format('YYYY/MM/DD HH:mm:ss'),
-			customerId: payload.customerSearched.id,
-			sumInsured: payload.sumInsured,
-			currencyType: payload.currencyType,
-			status: payload.status,
-			vehicleType: payload.vehicleType,
-			make: payload.make,
-			plateNumber: payload.plateNumber,
-			vehicleColor: payload.vehicleColor,
-			powerInCC: payload.powerInCC,
-			engineNumber: payload.engineNumber,
-			chassisNumber: payload.chassisNumber,
-			seats: payload.seats
-		};
-		payload.agentSearched.id ? (rowData.agentId = payload.agentSearched.id) : '';
-		payload.grossWeightInTon ? (rowData.grossWeightInTon = payload.grossWeightInTon) : '';
-		payload.comment ? (rowData.comment = payload.comment) : '';
-		state.tempData = rowData;
 	}
 };
 
