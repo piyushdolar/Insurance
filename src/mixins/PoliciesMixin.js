@@ -25,6 +25,7 @@ export const PoliciesMixin = {
 				status: null,
 				createdAt: null
 			},
+			defaultImage: '/images/avatars/default.png',
 			form: {
 				policyName: null,
 				policyType: null,
@@ -62,7 +63,9 @@ export const PoliciesMixin = {
 				engineNumber: null,
 				chassisNumber: null,
 				grossWeightInTon: null,
-				seats: null
+				seats: null,
+				picture: null,
+				picturePreview: null
 			},
 			formModal: {
 				title: 'CREATE NEW POLICY FOR CUSTOMER',
@@ -71,6 +74,10 @@ export const PoliciesMixin = {
 			},
 			historyModalTitle: null,
 			fields: [
+				{
+					name: '__slot:picture',
+					title: 'Image'
+				},
 				{
 					name: 'policyNumber',
 					title: 'Policy Number'
@@ -186,6 +193,10 @@ export const PoliciesMixin = {
 		checkAuthorization(rule) {
 			return this.$checkAuth(rule);
 		},
+		onFileSelected() {
+			this.form.picture = event.target.files[0];
+			this.form.picturePreview = URL.createObjectURL(this.form.picture);
+		},
 		// md select over...
 		onAction(action, data, index) {
 			if (action == 'edit') {
@@ -203,7 +214,9 @@ export const PoliciesMixin = {
 				this.form.startDate = data.startDate ? new Date(data.startDate) : null;
 				this.form.endDate = data.endDate ? new Date(data.endDate) : null;
 				this.form.status = data.status;
-
+				if (data.picture != null) {
+					this.form.imagePreview = `/images/avatars/${data.picture}`;
+				}
 				this.form.vehicleType = data.vehicleType;
 				this.form.make = data.make;
 				this.form.plateNumber = data.plateNumber;
@@ -276,6 +289,8 @@ export const PoliciesMixin = {
 			this.form.chassisNumber = null;
 			this.form.grossWeightInTon = null;
 			this.form.seats = null;
+			this.form.picture = null;
+			this.form.picturePreview = null;
 		},
 		validateUser(e) {
 			this.$v.$touch();

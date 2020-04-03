@@ -35,7 +35,7 @@
 				<md-dialog :md-active.sync="showDialog" class="modal-large" :md-click-outside-to-close="false" :md-close-on-esc="false">
 					<md-dialog-title>{{ formModal.title }}</md-dialog-title>
 					<md-dialog-content>
-						<form novalidate @submit.prevent="validateUser">
+						<form novalidate @submit.prevent="validateUser" enctype="multipart/form-data">
 							<div class="md-layout md-gutter">
 								<div class="md-layout-item md-small-size-100">
 									<md-field :class="getValidationClass('policyName')">
@@ -238,6 +238,20 @@
 								</div>
 							</div>
 							<div class="md-layout md-gutter">
+								<div class="md-layout-item md-size-10">
+									<md-avatar class="md-large">
+										<img :src="form.picturePreview" alt="profile-picture" />
+									</md-avatar>
+								</div>
+								<div class="md-layout-item md-size-90">
+									<md-field :class="getValidationClass('picture')">
+										<label for="picture">Form Photo</label>
+										<md-file :disabled="sending" id="picture" @change="onFileSelected" accept="picture/x-png, picture/jpeg" />
+										<span class="md-error" v-if="!$v.form.picture.required">Please upload the form photo.</span>
+									</md-field>
+								</div>
+							</div>
+							<div class="md-layout md-gutter">
 								<div class="md-layout-item md-small-size-100">
 									<md-field>
 										<label for="status">Form Status</label>
@@ -345,6 +359,15 @@
 									:per-page="perPage"
 									@vuetable:load-error="handleLoadError"
 								>
+									<template slot="picture" slot-scope="props">
+										<img
+											v-if="props.rowData.picture != null"
+											:src="`/images/avatars/policy/${props.rowData.picture}`"
+											alt="policy-image"
+											class="vuetable-image"
+										/>
+										<img v-else :src="defaultImage" alt="policy-image" class="vuetable-image" />
+									</template>
 									<template slot="customer" slot-scope="props">
 										<a class="md-primary" href="javascript:void(0)" @click="onSelectSingleCustomer(props.rowData.customer.id)">
 											{{ props.rowData.customer.fullName }}
@@ -474,6 +497,9 @@ export default {
 				required
 			},
 			seats: {
+				required
+			},
+			picture: {
 				required
 			}
 		}
