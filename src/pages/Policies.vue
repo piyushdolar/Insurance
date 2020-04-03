@@ -360,12 +360,9 @@
 									@vuetable:load-error="handleLoadError"
 								>
 									<template slot="picture" slot-scope="props">
-										<img
-											v-if="props.rowData.picture != null"
-											:src="`/images/avatars/policy/${props.rowData.picture}`"
-											alt="policy-image"
-											class="vuetable-image"
-										/>
+										<a v-if="props.rowData.picture != null" :href="`/images/avatars/policy/${props.rowData.picture}`" target="_blank">
+											<img :src="`/images/avatars/policy/${props.rowData.picture}`" alt="policy-image" class="vuetable-image" />
+										</a>
 										<img v-else :src="defaultImage" alt="policy-image" class="vuetable-image" />
 									</template>
 									<template slot="customer" slot-scope="props">
