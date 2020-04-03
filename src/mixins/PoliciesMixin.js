@@ -253,7 +253,7 @@ export const PoliciesMixin = {
 		},
 		// validation only
 		getValidationClass(fieldName) {
-			const field = this.$v.form[fieldName];
+			const field = this.formModal.isEdit ? (fieldName == 'picture' ? null : this.$v.form[fieldName]) : this.$v.form[fieldName];
 			if (field) {
 				return {
 					'md-invalid': field.$invalid && field.$dirty
