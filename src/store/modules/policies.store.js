@@ -175,6 +175,7 @@ const actions = {
 		formData.append('engineNumber', payload.engineNumber);
 		formData.append('chassisNumber', payload.chassisNumber);
 		formData.append('seats', payload.seats);
+		formData.append('comment', payload.comment);
 		formData.append('updatedBy', payload.sessionId);
 		payload.picture ? formData.append('picture', payload.picture) : '';
 		payload.grossWeightInTon ? formData.append('grossWeightInTon', payload.grossWeightInTon) : '';
