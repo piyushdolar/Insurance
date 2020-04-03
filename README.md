@@ -122,6 +122,11 @@ Insurance
 - Photo upload feature added to the "Create Policy" module for admin.
 - API backend updated.
 
+### Bugs:
+
+- Dates wasn't showing in safari fixed.
+- Image viewer in new tab.
+
 ## [2.0.0] 2020-03-18
 
 ### What's new:
