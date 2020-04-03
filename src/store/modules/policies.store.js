@@ -114,12 +114,36 @@ const actions = {
 
 	createPolicyByAdmin: ({ commit, state }, payload) => {
 		commit('SET_FILTER_DATA', payload);
-		let rowData = state.tempData;
-		return axios({
-			method: 'post',
-			url: 'policy',
-			data: rowData
-		})
+
+		let formData = new FormData();
+		formData.append('policyName', payload.policyName);
+		formData.append('policyType', payload.policyType);
+		formData.append('startDate', payload.startDate);
+		formData.append('endDate', payload.endDate);
+		formData.append('sumInsured', payload.sumInsured);
+		formData.append('customerId', payload.customerSearched.id);
+		formData.append('currencyType', payload.currencyType);
+		payload.agentId ? formData.append('agentId', payload.agentSearched.id) : '';
+		formData.append('policyNumber', payload.policyNumber);
+		formData.append('status', payload.status);
+		formData.append('vehicleType', payload.vehicleType);
+		formData.append('make', payload.make);
+		formData.append('plateNumber', payload.plateNumber);
+		formData.append('vehicleColor', payload.vehicleColor);
+		formData.append('powerInCC', payload.powerInCC);
+		formData.append('engineNumber', payload.engineNumber);
+		formData.append('chassisNumber', payload.chassisNumber);
+		formData.append('seats', payload.seats);
+		formData.append('createdBy', payload.sessionId);
+		formData.append('picture', payload.picture);
+		payload.grossWeightInTon ? formData.append('grossWeightInTon', payload.grossWeightInTon) : '';
+
+		return axios
+			.post('/policy', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+			})
 			.then(response => {
 				commit('SET_POLICY_DATA', response.data.data);
 				return `Policy for ${payload.customerSearched.name} has been successfully created.`;
@@ -131,14 +155,36 @@ const actions = {
 
 	editPolicy: ({ state, commit }, payload) => {
 		commit('SET_FILTER_DATA', payload);
-		let rowData = state.tempData;
-		rowData.updatedBy = payload.sessionId;
 
-		return axios({
-			method: 'put',
-			url: 'policy/' + payload.id,
-			data: rowData
-		})
+		let formData = new FormData();
+		formData.append('policyName', payload.policyName);
+		formData.append('policyType', payload.policyType);
+		formData.append('startDate', payload.startDate);
+		formData.append('endDate', payload.endDate);
+		formData.append('sumInsured', payload.sumInsured);
+		formData.append('customerId', payload.customerSearched.id);
+		formData.append('currencyType', payload.currencyType);
+		payload.agentSearched.id ? formData.append('agentId', payload.agentSearched.id) : '';
+		formData.append('policyNumber', payload.policyNumber);
+		formData.append('status', payload.status);
+		formData.append('vehicleType', payload.vehicleType);
+		formData.append('make', payload.make);
+		formData.append('plateNumber', payload.plateNumber);
+		formData.append('vehicleColor', payload.vehicleColor);
+		formData.append('powerInCC', payload.powerInCC);
+		formData.append('engineNumber', payload.engineNumber);
+		formData.append('chassisNumber', payload.chassisNumber);
+		formData.append('seats', payload.seats);
+		formData.append('updatedBy', payload.sessionId);
+		payload.picture ? formData.append('picture', payload.picture) : '';
+		payload.grossWeightInTon ? formData.append('grossWeightInTon', payload.grossWeightInTon) : '';
+
+		return axios
+			.put('/policy/' + payload.id, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+			})
 			.then(response => {
 				return 'Policy successfully updated.';
 			})

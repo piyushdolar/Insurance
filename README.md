@@ -115,6 +115,13 @@ Insurance
 
 ## Change logs
 
+## [2.1.0] 2020-03-18
+
+### What's new:
+
+- Photo upload feature added to the "Create Policy" module for admin.
+- API backend updated.
+
 ## [2.0.0] 2020-03-18
 
 ### What's new:
